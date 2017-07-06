@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:background="#FFFFFF"
+    android:padding="0dp"
+    android:orientation="vertical"
+    android:gravity="bottom">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:id="@+id/tipoMovimiento"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_toRightOf="@id/tipoMovimiento"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="2dp"
+        android:id="@+id/txt_tipoMovimiento"
+        android:paddingLeft="25dp"
+        android:textColor="#191919"
+        android:text="Tipo de movimiento" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_toRightOf="@id/txt_tipoMovimiento"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="2dp"
+        android:id="@+id/txt_fechaMovimiento"
+        android:paddingLeft="25dp"
+        android:textColor="#191919"
+        android:text="DD/MM/AAAA" />
+    <TextView
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_toRightOf="@id/tipoMovimiento"
+        android:layout_below="@id/txt_tipoMovimiento"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/txt_MontoMovimiento"
+        android:paddingLeft="25dp"
+        android:textColor="#191919"
+        android:text="$0000000.00000" />
+
+</RelativeLayout>
