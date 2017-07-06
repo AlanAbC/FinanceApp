@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
 public class Movimientos extends AppCompatActivity {
 
     // Declaracion de variables en el layout
@@ -82,8 +84,10 @@ public class Movimientos extends AppCompatActivity {
      * Funcion encargada de llenar el espiner de movimientos
      */
     private void llenarSpinerMovimiento() {
-        String[] movimientos = {"Ingreso", "Egreso"};
-        spinerMovimiento.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, movimientos));
+        ArrayList<String> movimientos = new ArrayList<String>();
+        movimientos.add("Ingreso");
+        movimientos.add("Egreso");
+        spinerMovimiento.setAdapter(new AdaptadorSpinnerMovimientos(getApplicationContext(), movimientos));
     }
 
     /**

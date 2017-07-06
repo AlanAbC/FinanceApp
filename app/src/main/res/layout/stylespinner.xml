@@ -15,7 +15,7 @@
         android:textColor="#949494"
         android:padding="15dp"
         android:background="#FAFAFA"
-        android:id="@+id/txt_categoria"
+        android:id="@+id/txt_elemento"
         android:textSize="19sp"/>
 
 </RelativeLayout>
