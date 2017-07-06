@@ -60,7 +60,6 @@ public class Registro extends AppCompatActivity {
         radioSexo = (RadioGroup)findViewById(R.id.rg_sex);
         progreso = (ProgressBar)findViewById(R.id.progress);
         registrar = (Button)findViewById(R.id.btn_registrar);
-
         // Asignacion de variables bandera
         flagSexo = "1";
 
