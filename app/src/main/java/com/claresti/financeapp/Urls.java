@@ -7,7 +7,7 @@ public class Urls {
 
     public Urls(){
         this.urlLogin = "http://cpmx.claresti.com/login.php?";
-        this.urlRegistro = "http://cpmx.claresti.com/registro_usuario.php";
+        this.urlRegistro = "http://cpmx.claresti.com/registro_usuario.php?";
     }
 
     public String getUrlLogin() {

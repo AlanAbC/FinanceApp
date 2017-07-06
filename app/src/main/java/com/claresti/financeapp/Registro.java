@@ -76,6 +76,7 @@ public class Registro extends AppCompatActivity {
         radioSexo = (RadioGroup)findViewById(R.id.rg_sex);
         progreso = (ProgressBar)findViewById(R.id.progress);
         registrar = (Button)findViewById(R.id.btn_registrar);
+
         // Asignacion de variables bandera
         flagSexo = "1";
 
@@ -128,39 +129,29 @@ public class Registro extends AppCompatActivity {
      * actvity siguiete
      */
     private void registrarUsuario() {
-        String nombre = inputNombre.getText().toString();
-        String correo = inputCorreo.getText().toString();
-        String nikname = inputUsuario.getText().toString();
-        String password = inputPassword.getText().toString();
-        String fechaNacimiento = dateFechaNacimiento.getYear() + "-" +
-                (dateFechaNacimiento.getMonth() + 1) + " - " +
-                dateFechaNacimiento.getDayOfMonth();
         progreso.setVisibility(View.VISIBLE);
+        Log.i("JSON", "Si entro");
         final Gson gson = new Gson();
         JsonObjectRequest request;
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("nom", nombre);
-        params.put("use", nikname);
-        params.put("pas", password);
-        params.put("cor", correo);
-        params.put("sex", flagSexo.toString());
-        params.put("fna", fechaNacimiento);
-        JSONObject jsonObj = new JSONObject(params);
         VolleySingleton.getInstance(Registro.this).
                 addToRequestQueue(
                         request = new JsonObjectRequest(
-                                Request.Method.POST,
-                                urls.getUrlRegistro(), jsonObj,
+                                Request.Method.GET,
+                                urls.getUrlRegistro() + "nom=" + inputNombre.getText() +
+                                        "&use=" + inputUsuario.getText() +
+                                        "&pas=" + inputPassword.getText() +
+                                        "&cor=" + inputCorreo.getText() +
+                                        "&sex=" + flagSexo +
+                                        "&fna=" + dateFechaNacimiento.getYear() + "-" + dateFechaNacimiento.getMonth() + "-" + dateFechaNacimiento.getDayOfMonth(),
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         try {
                                             String res = response.getString("estado");
-                                            Log.i("res1", res);
                                             switch(res){
                                                 case "1":
-                                                    Log.i("res2", res);
-                                                    Toast toast = Toast.makeText(getApplicationContext(), "Registro correcto", Toast.LENGTH_SHORT);
+                                                    Log.e("error", response.getString("mensaje"));
+                                                    Toast toast = Toast.makeText(getApplicationContext(), "Se hizo el registro correctamente", Toast.LENGTH_SHORT);
                                                     toast.setGravity(Gravity.CENTER, 0, 0);
                                                     toast.show();
                                                     Intent i = new Intent(Registro.this, Login.class);
@@ -169,13 +160,13 @@ public class Registro extends AppCompatActivity {
                                                     progreso.setVisibility(View.GONE);
                                                     break;
                                                 case "0":
-                                                    //Regresar mensaje del problema con el regisro
-                                                    progreso.setVisibility(View.GONE);
                                                     msg(response.getString("mensaje"));
+                                                    progreso.setVisibility(View.GONE);
                                                     break;
                                                 default:
+
                                                     progreso.setVisibility(View.GONE);
-                                                    msg("Ocurrio un problema al conectarse con el sertvidor");
+                                                    msg("El correo ya esta registrado, prueba con otro correo");
                                                     break;
                                             }
                                         }catch(JSONException json){
