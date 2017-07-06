@@ -8,8 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="MyApp.NumberPicker" parent="@android:style/Widget.DeviceDefault.DatePicker">
+    <!--<style name="MyApp.NumberPicker" parent="@android:style/Widget.DeviceDefault.DatePicker">
         <item name="selectionDivider">#fff</item>
-    </style>
+    </style>-->
 
 </resources>

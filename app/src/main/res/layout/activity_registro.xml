@@ -143,7 +143,6 @@
                 android:datePickerMode="spinner"
                 android:layout_below="@id/tv_date"
                 android:id="@+id/date"
-                style="@style/MyApp.NumberPicker"
                 android:calendarTextColor="#FFFFFF"
                 android:layout_marginTop="15dp"
                 android:calendarViewShown="false"
