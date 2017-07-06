@@ -5,14 +5,18 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static com.claresti.financeapp.R.id.txt_movimiento;
 
 public class Movimientos extends AppCompatActivity {
 
@@ -20,6 +24,9 @@ public class Movimientos extends AppCompatActivity {
     private Spinner spinerMovimiento;
     private Spinner spinerCategoria;
     private Spinner spinerCuenta;
+    private TextView txtMovimiento;
+    private TextView txtCategoria;
+    private TextView txtCuenta;
     private EditText inputMonto;
     private RelativeLayout ventana;
 
@@ -29,9 +36,9 @@ public class Movimientos extends AppCompatActivity {
     private Urls urls;
 
     //Declaracion de banderas de variables
-    private String flagMovimiento;
-    private String flagCategoria;
-    private String flagCuenta;
+    private int flagMovimiento;
+    private int flagCategoria;
+    private int flagCuenta;
 
     //Declaracion de variables para el control de bottom sheet
     private Button btnConBottomSheet;
@@ -49,6 +56,9 @@ public class Movimientos extends AppCompatActivity {
         spinerCuenta = (Spinner)findViewById(R.id.spin_cuenta);
         inputMonto = (EditText)findViewById(R.id.input_monto);
         ventana = (RelativeLayout)findViewById(R.id.l_ventana);
+        txtMovimiento = (TextView)findViewById(R.id.txt_movimiento);
+        txtCategoria = (TextView)findViewById(R.id.txt_categoria);
+        txtCuenta = (TextView)findViewById(R.id.txt_cuenta);
 
         //Asignacion variables clases
         bd = new BD(getApplicationContext());
@@ -84,10 +94,23 @@ public class Movimientos extends AppCompatActivity {
      * Funcion encargada de llenar el espiner de movimientos
      */
     private void llenarSpinerMovimiento() {
-        ArrayList<String> movimientos = new ArrayList<String>();
+        final ArrayList<String> movimientos = new ArrayList<String>();
         movimientos.add("Ingreso");
         movimientos.add("Egreso");
         spinerMovimiento.setAdapter(new AdaptadorSpinnerMovimientos(getApplicationContext(), movimientos));
+        spinerMovimiento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                txtMovimiento.setText(movimientos.get(position));
+                flagMovimiento = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     /**
