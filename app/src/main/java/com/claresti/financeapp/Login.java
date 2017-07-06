@@ -152,31 +152,15 @@ public class Login extends AppCompatActivity {
                                                             //crear base de datos local i guardar la informacion del objeto
                                                             if(bd.LoginUsuario(usuaro).equals("1")){
                                                                 progreso.setVisibility(View.GONE);
-
-                                                                msg("Login correcto :) :3");
-
-                                                                // Esto se quitara solo mostrara la informacion del usuario en el  log
-                                                                ObjUsuario usu = bd.slectUsuario();
-                                                                Log.i("Usuario id", usu.getIdUsuario());
-                                                                Log.i("Usuario usuario", usu.getUsuario());
-                                                                Log.i("Usuario nombre", usu.getNombre());
-                                                                Log.i("Usuario correo", usu.getCorreo());
-                                                                Log.i("Usuario sexo", usu.getSexo());
-                                                                Log.i("Usuario nacimiento", usu.getFecha_Nac());
-
-                                                                /* Aqui va el redireccionamiento a la ventana siguiente
-                                                                Intent i = new Intent(Login.this, agregarGasto.class);
+                                                                Intent i = new Intent(Login.this, Movimientos.class);
                                                                 startActivity(i);
                                                                 finish();
-                                                                */
                                                             }else {
                                                                 progreso.setVisibility(View.GONE);
                                                                 Toast.makeText(getApplicationContext(), "No se pudo guardar la sesion", Toast.LENGTH_SHORT).show();
-                                                                /* Aqui va el redireccionamiento a la ventana siguiente
-                                                                Intent i = new Intent(Login.this, agregarGasto.class);
+                                                                Intent i = new Intent(Login.this, Movimientos.class);
                                                                 startActivity(i);
                                                                 finish();
-                                                                */
                                                             }
                                                         }
                                                     }
