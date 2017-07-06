@@ -80,6 +80,21 @@
                         android:id="@+id/spin_tipomov" />
 
                     <TextView
+                        android:text="hola"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="90dp"
+                        android:layout_height="50dp"
+                        android:gravity="left"
+                        android:textColor="#949494"
+                        android:padding="15dp"
+                        android:background="#FAFAFA"
+                        android:id="@+id/txt_movimiento"
+                        android:textSize="15sp"
+                        android:layout_below="@id/tv_tipomov"/>
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -101,6 +116,21 @@
                         android:layout_below="@id/tv_categoria"/>
 
                     <TextView
+                        android:text="hola"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="90dp"
+                        android:layout_height="50dp"
+                        android:gravity="left"
+                        android:textColor="#949494"
+                        android:padding="15dp"
+                        android:background="#FAFAFA"
+                        android:id="@+id/txt_categoria"
+                        android:textSize="15sp"
+                        android:layout_below="@id/tv_categoria"/>
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -119,6 +149,21 @@
                         android:layout_marginLeft="50dp"
                         android:layout_marginRight="50dp"
                         android:id="@+id/spin_cuenta"
+                        android:layout_below="@id/tv_cuenta"/>
+
+                    <TextView
+                        android:text="hola"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="90dp"
+                        android:layout_height="50dp"
+                        android:gravity="left"
+                        android:textColor="#949494"
+                        android:padding="15dp"
+                        android:background="#FAFAFA"
+                        android:id="@+id/txt_cuenta"
+                        android:textSize="15sp"
                         android:layout_below="@id/tv_cuenta"/>
 
                     <android.support.design.widget.TextInputLayout
