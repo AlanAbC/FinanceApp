@@ -6,170 +6,171 @@
     android:id="@+id/dLayout"
     android:theme="@style/ThemePrincipal"
     android:layout_width="match_parent">
+
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="0dp">
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/l_ventana">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="8dp"
-                android:background= "#216c2a"
-                android:id="@+id/menu"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:padding="15dp"
-                    android:src="@drawable/menu"
-                    android:id="@+id/Btnmenu"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/Btnmenu"
-                    android:text="Movimientos"
-                    android:textColor="#FFFFFF"
-                    android:textSize="22dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="20dp"/>
-
-            </RelativeLayout>
+            android:padding="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/menu"
-                android:id="@+id/contenedor">
+                android:id="@+id/l_ventana">
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:text="Tipo de movimiento que realizaras"
-                    android:textColor="#949494"
-                    android:textSize="15sp"
-                    android:id="@+id/tv_tipomov"/>
-                <Spinner
-                    android:spinnerMode="dialog"
+                    android:layout_height="60dp"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="8dp"
+                    android:background= "#216c2a"
+                    android:id="@+id/menu"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:padding="15dp"
+                        android:src="@drawable/menu"
+                        android:id="@+id/Btnmenu"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/Btnmenu"
+                        android:text="Movimientos"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="20dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_below="@id/tv_tipomov"
-                    android:layout_marginRight="50dp"
-                    android:id="@+id/spin_tipomov" />
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/menu"
+                    android:id="@+id/contenedor">
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:layout_below="@id/spin_tipomov"
-                    android:text="Categoria"
-                    android:textColor="#949494"
-                    android:textSize="15sp"
-                    android:id="@+id/tv_categoria"/>
-
-                <Spinner
-                    android:spinnerMode="dialog"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:id="@+id/spin_categoria"
-                    android:layout_below="@id/tv_categoria"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:text="Cuenta"
-                    android:layout_below="@id/spin_categoria"
-                    android:textColor="#949494"
-                    android:textSize="15sp"
-                    android:id="@+id/tv_cuenta"/>
-
-                <Spinner
-                    android:spinnerMode="dialog"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:id="@+id/spin_cuenta"
-                    android:layout_below="@id/tv_cuenta"/>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_monto"
-                    android:layout_width="match_parent"
-                    android:layout_marginRight="50dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="15dp"
-                    android:hint="$Monto"
-                    android:layout_below="@id/spin_cuenta"
-                    android:textColorHint="#949494"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/input_monto"
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:text="Tipo de movimiento que realizaras"
                         android:textColor="#949494"
-                        android:inputType="numberSigned"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp"
+                        android:id="@+id/tv_tipomov"/>
 
-                </android.support.design.widget.TextInputLayout>
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_below="@id/tv_tipomov"
+                        android:layout_marginRight="50dp"
+                        android:id="@+id/spin_tipomov" />
 
-                <Button
-                    android:id="@+id/btn_registrar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Registrar"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:layout_marginTop="25dp"
-                    android:background="#216c2a"
-                    android:textColor="#fff"
-                    android:layout_marginBottom="20dp"
-                    android:layout_below="@id/input_layout_monto" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_below="@id/spin_tipomov"
+                        android:text="Categoria"
+                        android:textColor="#949494"
+                        android:textSize="15sp"
+                        android:id="@+id/tv_categoria"/>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:id="@+id/spin_categoria"
+                        android:layout_below="@id/tv_categoria"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:text="Cuenta"
+                        android:layout_below="@id/spin_categoria"
+                        android:textColor="#949494"
+                        android:textSize="15sp"
+                        android:id="@+id/tv_cuenta"/>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:id="@+id/spin_cuenta"
+                        android:layout_below="@id/tv_cuenta"/>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_monto"
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="15dp"
+                        android:hint="$Monto"
+                        android:layout_below="@id/spin_cuenta"
+                        android:textColorHint="#949494"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/input_monto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#949494"
+                            android:inputType="numberSigned"
+                            android:textSize="15sp"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btn_registrar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Registrar"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:layout_marginTop="25dp"
+                        android:background="#216c2a"
+                        android:textColor="#fff"
+                        android:layout_marginBottom="20dp"
+                        android:layout_below="@id/input_layout_monto" />
+
+                </RelativeLayout>
+
+                <ProgressBar
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="60dp"
+                    android:id="@+id/progress"
+                    android:visibility="gone"/>
+
             </RelativeLayout>
-            <ProgressBar
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="60dp"
-                android:id="@+id/progress"
-                android:visibility="gone"/>
 
-        </RelativeLayout>
-
-    </ScrollView>
+        </ScrollView>
 
         <!-- Bottom Sheet -->
-        <include layout="@layout/bottom_sheet_movimientos" />
+    <include layout="@layout/bottom_sheet_movimientos" />
 
     </android.support.design.widget.CoordinatorLayout>
     <android.support.design.widget.NavigationView

@@ -61,8 +61,9 @@ public class Login extends AppCompatActivity {
 
         // Comprobacion de que el usuario este logueado o no
         if(!usuario.getIdUsuario().equals("0")){
-            // Aqui se redirecciona a la ventana siguiente porque ya esta logueado el usuario
-            Log.i("Login", "Redireccionamiento del usuario");
+            Intent i = new Intent(Login.this, Movimientos.class);
+            startActivity(i);
+            finish();
         }
 
         // Asignacion de variables del layout
