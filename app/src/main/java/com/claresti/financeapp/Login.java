@@ -148,9 +148,7 @@ public class Login extends AppCompatActivity {
                                                     JSONArray jArrayMarcadores = response.getJSONArray("usuario");
                                                     ObjUsuario[] arrayUsuario = gson.fromJson(jArrayMarcadores.toString(), ObjUsuario[].class);
                                                     if(arrayUsuario.length == 1) {
-                                                        Log.i("JSON", arrayUsuario.length + "");
                                                         for (ObjUsuario usuaro : arrayUsuario) {
-                                                            Log.i("JSON - for", "Si entra");
                                                             //crear base de datos local i guardar la informacion del objeto
                                                             if(bd.LoginUsuario(usuaro).equals("1")){
                                                                 progreso.setVisibility(View.GONE);
