@@ -1,11 +1,13 @@
 package com.claresti.financeapp;
 
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -13,8 +15,22 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Registro extends AppCompatActivity {
 
@@ -88,17 +104,109 @@ public class Registro extends AppCompatActivity {
      * está vacio y en caso de que ningun campo esté vacio ejecuta la funcion registrar
      */
     private void validarFormulario() {
-        if(inputNombre.equals("")){
+        if(inputNombre.getText().toString().equals("")){
             msg("Ingrese su nombre");
-        }else if(inputCorreo.equals("")){
+        }else if(inputCorreo.getText().toString().equals("")){
             msg("Ingrese su correo");
-        }else if(inputUsuario.equals("")){
+        }else if(inputUsuario.getText().toString().equals("")){
             msg("Ingrese su nombre de usuario");
-        }else if(inputPassword.equals("")){
+        }else if(inputPassword.getText().toString().equals("")){
             msg("Ingrese una contraseña");
-        }else if(!inputValidPassword.equals(inputPassword)){
+        }else if(!inputValidPassword.getText().toString().equals(inputPassword.getText().toString())){
             msg("Las contraseñas no coinciden");
+        }else if(dateFechaNacimiento.getYear() < (dateFechaNacimiento.getYear() - 9)){
+            msg("Eres muy chico para usar esta aplicacion");
+        }else{
+            registrarUsuario();
         }
+    }
+
+    /**
+     * Funcion encargada de registrar al usuario en el web service y validar que el usuario o
+     * correo electronico no se encuentre registrado en caso de que se cree el usuario
+     * correctamente se guarda su informacion en la base de datos y lo redirecciona a la
+     * actvity siguiete
+     */
+    private void registrarUsuario() {
+        String nombre = inputNombre.getText().toString();
+        String correo = inputCorreo.getText().toString();
+        String nikname = inputUsuario.getText().toString();
+        String password = inputPassword.getText().toString();
+        String fechaNacimiento = dateFechaNacimiento.getYear() + "-" +
+                (dateFechaNacimiento.getMonth() + 1) + " - " +
+                dateFechaNacimiento.getDayOfMonth();
+        progreso.setVisibility(View.VISIBLE);
+        final Gson gson = new Gson();
+        JsonObjectRequest request;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("nom", nombre);
+        params.put("use", nikname);
+        params.put("pas", password);
+        params.put("cor", correo);
+        params.put("sex", flagSexo.toString());
+        params.put("fna", fechaNacimiento);
+        JSONObject jsonObj = new JSONObject(params);
+        VolleySingleton.getInstance(Registro.this).
+                addToRequestQueue(
+                        request = new JsonObjectRequest(
+                                Request.Method.POST,
+                                urls.getUrlRegistro(), jsonObj,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            String res = response.getString("estado");
+                                            Log.i("res1", res);
+                                            switch(res){
+                                                case "1":
+                                                    Log.i("res2", res);
+                                                    Toast toast = Toast.makeText(getApplicationContext(), "Registro correcto", Toast.LENGTH_SHORT);
+                                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                                    toast.show();
+                                                    Intent i = new Intent(Registro.this, Login.class);
+                                                    startActivity(i);
+                                                    finish();
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                case "0":
+                                                    //Regresar mensaje del problema con el regisro
+                                                    progreso.setVisibility(View.GONE);
+                                                    msg(response.getString("mensaje"));
+                                                    break;
+                                                default:
+                                                    progreso.setVisibility(View.GONE);
+                                                    msg("Ocurrio un problema al conectarse con el sertvidor");
+                                                    break;
+                                            }
+                                        }catch(JSONException json){
+                                            Log.e("JSON", json.toString());
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                }
+                        )
+                );
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
     }
 
     /**

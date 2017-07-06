@@ -60,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#fff"
+                    android:inputType="textEmailAddress"
                     android:textColorHint="#ffffff"
                     android:hint="Correo"
                     android:textSize="15sp"/>

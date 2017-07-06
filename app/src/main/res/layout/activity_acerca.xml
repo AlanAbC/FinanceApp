@@ -62,7 +62,7 @@
                 android:layout_height="200dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/Logo"
+                android:src="@drawable/logo"
                 android:padding="15dp"
                 android:id="@+id/acerca"
                 android:layout_below="@id/txt_DesarrolladoPor"/>
