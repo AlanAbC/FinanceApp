@@ -125,7 +125,7 @@
                         android:layout_below="@id/tv_categoria"/>
 
                     <TextView
-                        android:text="hola"
+                        android:text=""
                         android:layout_width="match_parent"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="50dp"
@@ -161,7 +161,7 @@
                         android:layout_below="@id/tv_cuenta"/>
 
                     <TextView
-                        android:text="hola"
+                        android:text=""
                         android:layout_width="match_parent"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="50dp"
@@ -191,7 +191,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#949494"
-                            android:inputType="numberSigned"
+                            android:inputType="numberDecimal"
                             android:textSize="15sp"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -214,7 +214,7 @@
                         android:layout_marginRight="20dp"
                         android:datePickerMode="spinner"
                         android:layout_below="@id/tv_fechaRegistro"
-                        android:id="@+id/date_fechaRegistro"
+                        android:id="@+id/date_fechaMovimiento"
                         android:layout_marginTop="15dp"
                         android:calendarViewShown="false"
                         android:layout_height="wrap_content"/>
@@ -230,7 +230,7 @@
                         android:background="#216c2a"
                         android:textColor="#fff"
                         android:layout_marginBottom="20dp"
-                        android:layout_below="@id/date_fechaRegistro" />
+                        android:layout_below="@id/date_fechaMovimiento" />
 
                 </RelativeLayout>
 
@@ -250,6 +250,7 @@
     <include layout="@layout/bottom_sheet_movimientos" />
 
     </android.support.design.widget.CoordinatorLayout>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
