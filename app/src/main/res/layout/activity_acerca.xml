@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/Btnmenu"
-                android:text="Agregar Gasto"
+                android:text="Acerca de"
                 android:textColor="#FFFFFF"
                 android:textSize="22dp"
                 android:layout_marginTop="15dp"
