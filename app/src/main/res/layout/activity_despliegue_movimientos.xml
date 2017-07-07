@@ -48,20 +48,10 @@
             android:layout_below="@id/menu"
             android:id="@+id/filtros">
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:id="@+id/spin_filtro" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/spin_filtro"
-                android:visibility="gone"
                 android:id="@+id/cont_filtroFecha">
 
                 <Button
@@ -87,6 +77,15 @@
 
             </RelativeLayout>
 
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@id/cont_filtroFecha"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:id="@+id/spin_filtro" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,6 +101,24 @@
                     android:layout_marginLeft="50dp"
                     android:layout_marginRight="50dp"
                     android:id="@+id/spin_categoria"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:layout_below="@id/spin_filtro"
+                android:id="@+id/cont_filtroCuenta">
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:id="@+id/spin_cuenta"/>
 
             </RelativeLayout>
 
