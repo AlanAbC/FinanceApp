@@ -40,7 +40,7 @@ public class AgregarCuenta extends AppCompatActivity {
 
     // Declaracion de variables en el layout
     private RelativeLayout ventana;
-    private EditText inputCategoria;
+    private EditText inputCuenta;
     private EditText inputDescripcion;
     private Button btnRegistrarCategoria;
     private ProgressBar progreso;
@@ -65,7 +65,7 @@ public class AgregarCuenta extends AppCompatActivity {
 
         // Asignacion variables layout
         ventana = (RelativeLayout)findViewById(R.id.l_ventana);
-        inputCategoria = (EditText)findViewById(R.id.input_nombreCat);
+        inputCuenta = (EditText)findViewById(R.id.input_nombreCat);
         inputDescripcion = (EditText)findViewById(R.id.input_descripcionCat);
         btnRegistrarCategoria = (Button)findViewById(R.id.btn_registrar);
         progreso = (ProgressBar)findViewById(R.id.progress);
@@ -105,7 +105,7 @@ public class AgregarCuenta extends AppCompatActivity {
      * regresa mensaje de dato faltante, en caso contrario ejectuta reliarRegistro
      */
     private void validarFormulario() {
-        if(inputCategoria.getText().toString().equals("")){
+        if(inputCuenta.getText().toString().equals("")){
             msg("Ingrese el nombre de la nueva categoria");
         }else if(inputDescripcion.getText().toString().equals("")){
             msg("Ingrese una descripcion para la nueva categoria");
@@ -127,7 +127,9 @@ public class AgregarCuenta extends AppCompatActivity {
                 addToRequestQueue(
                         request = new JsonObjectRequest(
                                 Request.Method.GET,
-                                urls.getSetCategoria(),
+                                urls.getSetCuenta() + "idU=" + usuario.getIdUsuario() +
+                                        "&name=" + inputCuenta.getText() +
+                                        "&dsc=" + inputDescripcion.getText(),
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -136,7 +138,7 @@ public class AgregarCuenta extends AppCompatActivity {
                                             switch(res){
                                                 case "1":
                                                     msg("Se registro correctamente la cuenta");
-                                                    inputCategoria.setText("");
+                                                    inputCuenta.setText("");
                                                     inputDescripcion.setText("");
                                                     progreso.setVisibility(View.GONE);
                                                     break;
@@ -188,14 +190,16 @@ public class AgregarCuenta extends AppCompatActivity {
         for(int i = 0; i < menu.size(); i++){
             items.add(menu.getItem(i));
         }
-        items.get(1).setChecked(true);
+        items.get(2).setChecked(true);
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
                 int pos = items.indexOf(item);
                 if(pos == 0){
-                    finish();
+                    Intent i = new Intent(AgregarCuenta.this, Movimientos.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
                 }else if(pos == 1){
                     Intent i = new Intent(AgregarCuenta.this, AgregarCategoria.class);
                     startActivity(i);

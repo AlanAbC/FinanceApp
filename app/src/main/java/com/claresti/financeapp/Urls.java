@@ -17,8 +17,8 @@ public class Urls {
         this.getCategorias = "http://cpmx.claresti.com/get_categorias.php?";
         this.getCuentas ="http://cpmx.claresti.com/get_cuentas.php?";
         this.setMovimiento = "http://cpmx.claresti.com/nuevo_movimiento.php?";
-        this.setCategoria = "";
-        this.setCuenta = "";
+        this.setCategoria = "http://cpmx.claresti.com/nueva_categoria.php?";
+        this.setCuenta = "http://cpmx.claresti.com/nueva_cuenta.php?";
     }
 
     public String getLogin() {

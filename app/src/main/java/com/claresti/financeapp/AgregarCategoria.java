@@ -126,8 +126,10 @@ public class AgregarCategoria extends AppCompatActivity {
         VolleySingleton.getInstance(AgregarCategoria.this).
                 addToRequestQueue(
                         request = new JsonObjectRequest(
-                                Request.Method.GET,
-                                urls.getSetCategoria(),
+                                Request.Method.GET ,
+                                urls.getSetCategoria() + "idU=" + usuario.getIdUsuario() +
+                                        "&name=" + inputCategoria.getText() +
+                                        "&dsc=" + inputDescripcion.getText(),
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -195,7 +197,9 @@ public class AgregarCategoria extends AppCompatActivity {
                 item.setChecked(true);
                 int pos = items.indexOf(item);
                 if(pos == 0){
-                    finish();
+                    Intent i = new Intent(AgregarCategoria.this, Movimientos.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
                 }else if(pos == 1){
 
                 }else if(pos == 2){
