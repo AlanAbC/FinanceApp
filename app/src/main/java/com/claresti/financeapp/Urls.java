@@ -2,31 +2,50 @@ package com.claresti.financeapp;
 
 public class Urls {
 
-    private String urlLogin;
-    private String urlRegistro;
-    private String urlGetCategorias;
-    private String urlGetCuentas;
+    private String login;
+    private String registro;
+    private String getCategorias;
+    private String getCuentas;
+    private String setMovimiento;
+    private String setCategoria;
+    private String setCuenta;
+
 
     public Urls(){
-        this.urlLogin = "http://cpmx.claresti.com/login.php?";
-        this.urlRegistro = "http://cpmx.claresti.com/registro_usuario.php?";
-        this.urlGetCategorias = "http://cpmx.claresti.com/get_categorias.php?";
-        this.urlGetCuentas ="http://cpmx.claresti.com/get_cuentas.php?";
+        this.login = "http://cpmx.claresti.com/login.php?";
+        this.registro = "http://cpmx.claresti.com/registro_usuario.php?";
+        this.getCategorias = "http://cpmx.claresti.com/get_categorias.php?";
+        this.getCuentas ="http://cpmx.claresti.com/get_cuentas.php?";
+        this.setMovimiento = "http://cpmx.claresti.com/nuevo_movimiento.php?";
+        this.setCategoria = "http://cpmx.claresti.com/nueva_categoria.php?";
+        this.setCuenta = "http://cpmx.claresti.com/nueva_cuenta.php?";
     }
 
-    public String getUrlLogin() {
-        return urlLogin;
+    public String getLogin() {
+        return login;
     }
 
-    public String getUrlRegistro() {
-        return urlRegistro;
+    public String getRegistro() {
+        return registro;
     }
 
-    public String getUrlGetCategorias() {
-        return urlGetCategorias;
+    public String getGetCategorias() {
+        return getCategorias;
     }
 
-    public String getUrlGetCuentas() {
-        return urlGetCuentas;
+    public String getGetCuentas() {
+        return getCuentas;
+    }
+
+    public String getSetMovimiento() {
+        return setMovimiento;
+    }
+
+    public String getSetCategoria() {
+        return setCategoria;
+    }
+
+    public String getSetCuenta() {
+        return setCuenta;
     }
 }

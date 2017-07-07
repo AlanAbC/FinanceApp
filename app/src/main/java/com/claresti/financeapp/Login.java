@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,8 +25,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Console;
 
 public class Login extends AppCompatActivity {
 
@@ -138,7 +135,7 @@ public class Login extends AppCompatActivity {
                 addToRequestQueue(
                         request = new JsonObjectRequest(
                                 Request.Method.GET,
-                                urls.getUrlLogin() + "identificador=" + correo + "&password=" + pass,
+                                urls.getLogin() + "identificador=" + correo + "&password=" + pass,
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
