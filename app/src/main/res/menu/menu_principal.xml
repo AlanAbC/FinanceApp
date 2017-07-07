@@ -5,24 +5,40 @@
         android:id="@+id/grupoMenu">
         <item
             android:id="@+id/opcion1"
-            android:title="Movimientos" />
+            android:title="Movimientos"
+            android:icon="@drawable/movimientos"/>
         <item
             android:id="@+id/opcion2"
-            android:title="Agregar Categoria" />
+            android:title="Agregar Categoria"
+            android:icon="@drawable/acategoria"/>
 
         <item
             android:id="@+id/opcion3"
-            android:title="Agregar Cuenta" />
+            android:title="Agregar Cuenta"
+            android:icon="@drawable/acuenta"/>
+
+        <item
+            android:id="@+id/opcion4"
+            android:title="Despliegue de movimientos"
+            android:icon="@drawable/registro"/>
 
         <item
             android:id="@+id/opcion5"
-            android:title="Configuración" />
+            android:title="Estadisticas"
+            android:icon="@drawable/estadisticas"/>
+
         <item
             android:id="@+id/opcion6"
-            android:title="Acerca de" />
+            android:title="Configuración"
+            android:icon="@drawable/configuracion"/>
         <item
             android:id="@+id/opcion7"
-            android:title="Cerrar sesion" />
+            android:title="Acerca de"
+            android:icon="@drawable/acerca"/>
+        <item
+            android:id="@+id/opcion8"
+            android:title="Cerrar sesion"
+            android:icon="@drawable/salir"/>
 
     </group>
 </menu>
