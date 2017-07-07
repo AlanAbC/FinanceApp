@@ -72,86 +72,11 @@
                         android:text="Fecha Fin"
                         android:id="@+id/btn_fechaFin"
                         android:textColor="#fff"
-                        android:layout_marginBottom="10dp"
-                        android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
-                        android:background="#216c2a"/>
-
-                </RelativeLayout>
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/cont_filtroFecha"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:id="@+id/spin_filtro" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_below="@id/spin_filtro"
-                    android:id="@+id/cont_filtroCategoria">
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginRight="50dp"
-                        android:id="@+id/spin_categoria"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_below="@id/spin_filtro"
-                    android:id="@+id/cont_filtroCuenta">
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginRight="50dp"
-                        android:id="@+id/spin_cuenta"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_below="@id/spin_filtro"
-                    android:id="@+id/cont_filtroTipo">
-
-                    <Button
-                        android:layout_width="160dp"
-                        android:layout_height="35dp"
-                        android:text="Ingresos"
-                        android:id="@+id/btn_Ingresos"
-                        android:textColor="#fff"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="#203d6c"/>
-                    <Button
-                        android:layout_width="160dp"
-                        android:layout_height="35dp"
-                        android:text="Egresos"
-                        android:id="@+id/btn_Egresos"
-                        android:textColor="#fff"
-                        android:layout_marginBottom="10dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="15dp"
-                        android:background="#d64141"/>
+                        android:background="#216c2a"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="16dp" />
 
                 </RelativeLayout>
 
@@ -180,26 +105,48 @@
             </TableLayout>
 
             <RelativeLayout
-                android:id="@+id/relativelayout"
+                android:id="@+id/lay_grafica_cuentas"
                 android:layout_below="@id/tabla"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp">
+                android:layout_height="350dp"
+                android:layout_marginTop="20dp">
 
                 <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/chart"
+                    android:id="@+id/graficaCuentas"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="20dp"/>
-                <!--
-
-                 <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp" />
-                 -->
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="40dp"/>
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lay_grafica_categorias"
+                android:layout_below="@id/lay_grafica_cuentas"
+                android:layout_width="wrap_content"
+                android:layout_height="350dp"
+                android:layout_marginTop="20dp">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/graficaCategorias"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"/>
+
+            </RelativeLayout>
+
+            <ProgressBar
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/progress"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 

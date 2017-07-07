@@ -17,6 +17,8 @@ public class Urls {
     private String getMovimientosCuenta;
     private String getMovimientosCategoria;
     private String getMovimientosTipo;
+    private String getGraficaCuentas;
+    private String getGraficaCategorias;
 
     public Urls(){
         this.login = "http://cpmx.claresti.com/login.php?";
@@ -34,6 +36,8 @@ public class Urls {
         this.getMovimientosIntervaloCuenta = "http://cpmx.claresti.com/get_movcueint.php?";
         this.getMovimientosIntervaloCategoria = "http://cpmx.claresti.com/get_movcatsemint.php?";
         this.getMovimientosIntervaloTipo = "http://cpmx.claresti.com/get_movtipoint.php?";
+        this.getGraficaCuentas = "http://cpmx.claresti.com/graficaCuentas.php?";
+        this.getGraficaCategorias = "http://cpmx.claresti.com/graficaCategorias.php?";
     }
 
     public String getLogin() {
@@ -94,5 +98,13 @@ public class Urls {
 
     public String getGetMovimientosTipo() {
         return getMovimientosTipo;
+    }
+
+    public String getGetGraficaCuentas() {
+        return getGraficaCuentas;
+    }
+
+    public String getGetGraficaCategorias() {
+        return getGraficaCategorias;
     }
 }

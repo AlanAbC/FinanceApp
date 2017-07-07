@@ -1,13 +1,16 @@
 package com.claresti.financeapp;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -54,6 +57,13 @@ public class Registro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_registro);
+
+        //Cambiar el color en la barra de notificaciones (Solo funciona de lollipop hacia arriba)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
+        }
 
         // Asignacion del los objetos
         bd = new BD(getApplicationContext());
