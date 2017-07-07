@@ -8,11 +8,11 @@
     android:gravity="bottom">
 
     <ImageView
-        android:layout_width="30dp"
+        android:layout_width="25dp"
         android:id="@+id/tipoMovimiento"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
-        android:layout_height="30dp" />
+        android:layout_height="25dp" />
 
     <TextView
         android:layout_width="180dp"
@@ -53,4 +53,51 @@
         android:textColor="#191919"
         android:text="$0000000.00000" />
 
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="10dp"
+        android:background="#fff"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/desplegar_mas"
+        android:id="@+id/desplegar"
+        android:layout_below="@id/txt_tipoMovimiento"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:scaleType="centerInside"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/conButtons"
+        android:visibility="gone"
+        android:layout_below="@id/txt_MontoMovimiento">
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:padding="5dp"
+            android:id="@+id/btn_edit"
+            android:layout_height="35dp"
+            android:src="@drawable/edit"
+            android:scaleType="centerInside"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="90dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@color/colorPrimary"
+            />
+        <ImageButton
+            android:layout_width="70dp"
+            android:padding="5dp"
+            android:id="@+id/btn_delete"
+            android:layout_height="35dp"
+            android:src="@drawable/delete"
+            android:scaleType="centerInside"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="80dp"
+            android:background="@color/colorPrimary"
+            />
+    </RelativeLayout>
 </RelativeLayout>
