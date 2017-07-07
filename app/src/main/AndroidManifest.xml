@@ -24,7 +24,8 @@
         <activity android:name=".AgregarCategoria" />
         <activity android:name=".AgregarCuenta" />
         <activity android:name=".Acerca" />
-        <activity android:name=".DespliegueMovimientos"></activity>
+        <activity android:name=".DespliegueMovimientos" />
+        <activity android:name=".Estadisticas"></activity>
     </application>
 
 </manifest>
