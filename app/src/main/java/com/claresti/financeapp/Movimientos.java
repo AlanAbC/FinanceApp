@@ -150,7 +150,7 @@ public class Movimientos extends AppCompatActivity {
     }
 
     /**
-     * Funcion encargada de llenar el espiner de categorias
+     * Funcion encargada de llenar el espiner de listaMovimientos
      */
     private void llenarSpinerCategoria() {
         progreso.setVisibility(View.VISIBLE);

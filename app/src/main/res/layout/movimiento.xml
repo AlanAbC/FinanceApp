@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:padding="0dp"
     android:orientation="vertical"
@@ -18,15 +18,15 @@
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:textSize="13sp"
-        android:layout_toRightOf="@id/tipoMovimiento"
         android:gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="2dp"
         android:id="@+id/txt_tipoMovimiento"
         android:paddingLeft="25dp"
         android:textColor="#191919"
-        android:text="Tipo de movimiento" />
+        android:text="Tipo de movimiento"
+        android:layout_alignBaseline="@+id/txt_fechaMovimiento"
+        android:layout_alignBottom="@+id/txt_fechaMovimiento"
+        android:layout_alignStart="@+id/txt_MontoMovimiento" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
