@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -100,6 +101,9 @@ public class Login extends AppCompatActivity {
                 bsb.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
+
+        //Ocultar teclado al iniciar la activity
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     /**
