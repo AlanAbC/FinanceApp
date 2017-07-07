@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -96,8 +97,6 @@ public class Movimientos extends AppCompatActivity {
         llenarSpinerCategoria();
         llenarSpinerCuenta();
         crearListeners();
-
-        //Ingreso 1 egreso 0
     }
 
     /**
@@ -321,11 +320,81 @@ public class Movimientos extends AppCompatActivity {
             } else if (fechaActual.before(fecha)){
                 msg("Ingrese una fecha que ya haya pasado");
             }else{
-                msg("Formulario completo");
+                crearMovimiento();
             }
         }catch (Exception e){
-        Log.e("SFD PARSE", e.toString());
+            Log.e("SFD PARSE", e.toString());
         }
+    }
+
+    /**
+     * Funcion encargada de mandar la informacion del formulario y crear un movimiento
+     * en caso correcto mostrara mensaje de operecion correcta y en caso contrario
+     * mostrara el mensaje del servidor con el error
+     */
+    private void crearMovimiento() {
+        progreso.setVisibility(View.VISIBLE);
+        final Gson gson = new Gson();
+        JsonObjectRequest request;
+        VolleySingleton.getInstance(Movimientos.this).
+                addToRequestQueue(
+                        request = new JsonObjectRequest(
+                                Request.Method.GET,
+                                urls.getUrlSetMovimiento() + "idU=" + usuario.getIdUsuario() +
+                                        "&idC=" + flagCategoria +
+                                        "&mon=" + inputMonto.getText() +
+                                        "&idCu=" + flagCuenta +
+                                        "&tip=" + flagMovimiento +
+                                        "&date==" + dateFechaMovimiento.getYear() + "-" + (dateFechaMovimiento.getMonth() + 1) + "-" + dateFechaMovimiento.getDayOfMonth(),
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            String res = response.getString("estado");
+                                            switch(res){
+                                                case "1":
+                                                    msg("Se registro correctamente el movimiento");
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                case "0":
+                                                    msg(response.getString("mensaje"));
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                default:
+
+                                                    progreso.setVisibility(View.GONE);
+                                                    msg("El correo ya esta registrado, prueba con otro correo");
+                                                    break;
+                                            }
+                                        }catch(JSONException json){
+                                            Log.e("JSON", json.toString());
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                }
+                        )
+                );
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
     }
 
     /**
