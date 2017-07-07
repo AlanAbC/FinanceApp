@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -14,30 +13,26 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.google.gson.internal.Excluder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -121,6 +116,9 @@ public class Movimientos extends AppCompatActivity {
         nav = (NavigationView)findViewById(R.id.navigation);
         menu = nav.getMenu();
         menuNav();
+
+        //Ocultar teclado al iniciar la activity
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     /**
@@ -163,7 +161,7 @@ public class Movimientos extends AppCompatActivity {
                 addToRequestQueue(
                         request = new JsonObjectRequest(
                                 Request.Method.GET,
-                                urls.getUrlGetCategorias() + "usuario=" + usuario.getUsuario(),
+                                urls.getGetCategorias() + "usuario=" + usuario.getUsuario(),
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -251,7 +249,7 @@ public class Movimientos extends AppCompatActivity {
                 addToRequestQueue(
                         request = new JsonObjectRequest(
                                 Request.Method.GET,
-                                urls.getUrlGetCuentas() + "usuario=" + usuario.getUsuario(),
+                                urls.getGetCuentas() + "usuario=" + usuario.getUsuario(),
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -364,7 +362,7 @@ public class Movimientos extends AppCompatActivity {
                 addToRequestQueue(
                         request = new JsonObjectRequest(
                                 Request.Method.GET,
-                                urls.getUrlSetMovimiento() + "idU=" + usuario.getIdUsuario() +
+                                urls.getSetMovimiento() + "idU=" + usuario.getIdUsuario() +
                                         "&idC=" + flagCategoria +
                                         "&mon=" + inputMonto.getText() +
                                         "&idCu=" + flagCuenta +
@@ -381,19 +379,13 @@ public class Movimientos extends AppCompatActivity {
                                                     progreso.setVisibility(View.GONE);
                                                     break;
                                                 case "0":
-                                                    Log.i("idU",usuario.getIdUsuario());
-                                                    Log.i("idC",flagCategoria + "");
-                                                    Log.i("mon",inputMonto.getText().toString());
-                                                    Log.i("idCu",flagCuenta + "");
-                                                    Log.i("tip",flagMovimiento + "");
-                                                    Log.i("date",dateFechaMovimiento.getYear() + "-" + (dateFechaMovimiento.getMonth() + 1) + "-" + dateFechaMovimiento.getDayOfMonth());
                                                     msg(response.getString("mensaje"));
                                                     progreso.setVisibility(View.GONE);
                                                     break;
                                                 default:
 
                                                     progreso.setVisibility(View.GONE);
-                                                    msg("El correo ya esta registrado, prueba con otro correo");
+                                                    msg("Ocurrio un error inesperado");
                                                     break;
                                             }
                                         }catch(JSONException json){
@@ -449,12 +441,18 @@ public class Movimientos extends AppCompatActivity {
                     Intent i = new Intent(Movimientos.this, AgregarCuenta.class);
                     startActivity(i);
                 }else if(pos == 3) {
-                    Intent i = new Intent(Movimientos.this, Configuracion.class);
+                    Intent i = new Intent(Movimientos.this, DespliegueMovimientos.class);
                     startActivity(i);
                 }else if(pos == 4){
+                    Intent i = new Intent(Movimientos.this, Estadisticas.class);
+                    startActivity(i);
+                }else if(pos == 5){
+                    Intent i = new Intent(Movimientos.this, Configuracion.class);
+                    startActivity(i);
+                }else if(pos == 6){
                     Intent i = new Intent(Movimientos.this, Acerca.class);
                     startActivity(i);
-                }else{
+                }else if(pos == 7){
                     if(bd.LogoutUsuario(usuario.getIdUsuario()).equals("1")){
                         Intent i = new Intent(Movimientos.this, Login.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

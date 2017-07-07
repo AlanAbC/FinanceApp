@@ -1,7 +1,6 @@
 package com.claresti.financeapp;
 
 import android.content.Intent;
-import android.icu.util.Calendar;
 import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,13 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Registro extends AppCompatActivity {
 
@@ -137,7 +131,7 @@ public class Registro extends AppCompatActivity {
                 addToRequestQueue(
                         request = new JsonObjectRequest(
                                 Request.Method.GET,
-                                urls.getUrlRegistro() + "nom=" + inputNombre.getText() +
+                                urls.getRegistro() + "nom=" + inputNombre.getText() +
                                         "&use=" + inputUsuario.getText() +
                                         "&pas=" + inputPassword.getText() +
                                         "&cor=" + inputCorreo.getText() +
