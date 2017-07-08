@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -93,6 +95,10 @@ public class DespliegueMovimientos extends AppCompatActivity {
     private int flagFiltro;
     private int flagTipo;
 
+    //Declaracion de variables para el control de bottom sheet
+    private Button btnConBottomSheet;
+    private LinearLayout bottomSheet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +140,21 @@ public class DespliegueMovimientos extends AppCompatActivity {
         ano = c.get(Calendar.YEAR);
         mes = c.get(Calendar.MONTH);
         dia = c.get(Calendar.DAY_OF_MONTH);
+
+        //Llamada de las variables para el control de bottomsheet
+        bottomSheet = (LinearLayout)findViewById(R.id.bottomSheet);
+        final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
+        bsb.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        //Control para esconder bottomsheet
+        btnConBottomSheet=(Button)findViewById(R.id.btnConBottomSheet);
+        btnConBottomSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                bsb.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
 
         // Llamada a funciones para llenar los spinners y crear los listenrs
         llenarSpinnerFiltro();

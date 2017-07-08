@@ -9,7 +9,8 @@ import android.graphics.drawable.BitmapDrawable;
         import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
-        import android.support.design.widget.NavigationView;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.NavigationView;
         import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -26,7 +27,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-        import android.widget.ProgressBar;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
         import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -79,6 +81,10 @@ public class Estadisticas extends AppCompatActivity {
     private ImageView btnMenu;
     private NavigationView nav;
 
+    //Declaracion de variables para el control de bottom sheet
+    private Button btnConBottomSheet;
+    private LinearLayout bottomSheet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +119,21 @@ public class Estadisticas extends AppCompatActivity {
         ano = c.get(Calendar.YEAR);
         mes = c.get(Calendar.MONTH);
         dia = c.get(Calendar.DAY_OF_MONTH);
+
+        //Llamada de las variables para el control de bottomsheet
+        bottomSheet = (LinearLayout)findViewById(R.id.bottomSheet);
+        final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
+        bsb.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        //Control para esconder bottomsheet
+        btnConBottomSheet=(Button)findViewById(R.id.btnConBottomSheet);
+        btnConBottomSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                bsb.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
 
         //Menu, Inicia las variables del menu y llama la funcion encargada de su manipulacion
         drawerLayout = (DrawerLayout) findViewById(R.id.dLayout);
