@@ -141,6 +141,7 @@ public class Movimientos extends AppCompatActivity {
                 flagMovimiento = 1;
                 txtMovimiento.setText("Ingreso");
                 Log.i("Movimiento", flagMovimiento + "");
+                ingreso.setBackgroundResource(R.drawable.img_verde_res);
             }
         });
         egreso.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +150,7 @@ public class Movimientos extends AppCompatActivity {
                 flagMovimiento = 2;
                 txtMovimiento.setText("Egreso");
                 Log.i("Movimiento", flagMovimiento + "");
+                egreso.setBackgroundResource(R.drawable.img_roja_res);
             }
         });
         btnRegistrarMovimiento.setOnClickListener(new View.OnClickListener() {
