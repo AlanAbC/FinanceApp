@@ -27,7 +27,7 @@
         android:textAlignment="center"
         android:layout_below="@id/img_Usuario"
         android:layout_marginTop="0dp"
-        android:text="USERNAME"
+        android:text="Denarius"
         android:textColor="#fff"
         android:id="@+id/txt_nombre"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>

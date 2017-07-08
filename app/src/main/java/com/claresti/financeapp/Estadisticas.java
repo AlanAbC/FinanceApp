@@ -1,8 +1,11 @@
 package com.claresti.financeapp;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
         import android.graphics.Bitmap;
-        import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
         import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -21,9 +24,11 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
         import android.widget.ProgressBar;
         import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -41,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Estadisticas extends AppCompatActivity {
@@ -50,6 +56,9 @@ public class Estadisticas extends AppCompatActivity {
     private ProgressBar progreso;
     private Button btnFechaInicial;
     private Button btnFechaFinal;
+    private TextView txtIngreso;
+    private TextView txtEgreso;
+    private TextView txtTotales;
 
     // Declaracion de variables de clases
     private BD bd;
@@ -57,6 +66,11 @@ public class Estadisticas extends AppCompatActivity {
     private Urls urls;
     private ArrayList<ObjetoDatosGraficaCuentas> cuentas;
     private ArrayList<ObjetoDatosGraficaCategorias> categorias;
+
+    // Declaracion variables para el datapikerdialog
+    private int ano;
+    private int mes;
+    private int dia;
 
     //Menu, Declaracion de variables
     private DrawerLayout drawerLayout;
@@ -83,6 +97,9 @@ public class Estadisticas extends AppCompatActivity {
         progreso = (ProgressBar)findViewById(R.id.progress);
         btnFechaInicial = (Button)findViewById(R.id.btn_fechaInicio);
         btnFechaFinal = (Button)findViewById(R.id.btn_fechaFin);
+        txtEgreso = (TextView)findViewById(R.id.txt_egresos);
+        txtIngreso = (TextView)findViewById(R.id.txt_ingresos);
+        txtTotales = (TextView)findViewById(R.id.txt_total);
 
         //Asignacion variables clases
         bd = new BD(getApplicationContext());
@@ -91,14 +108,359 @@ public class Estadisticas extends AppCompatActivity {
         cuentas = new ArrayList<ObjetoDatosGraficaCuentas>();
         categorias = new ArrayList<ObjetoDatosGraficaCategorias>();
 
+        // Datos para el datepikerdialog
+        Calendar c = Calendar.getInstance();
+        ano = c.get(Calendar.YEAR);
+        mes = c.get(Calendar.MONTH);
+        dia = c.get(Calendar.DAY_OF_MONTH);
+
         //Menu, Inicia las variables del menu y llama la funcion encargada de su manipulacion
         drawerLayout = (DrawerLayout) findViewById(R.id.dLayout);
         nav = (NavigationView)findViewById(R.id.navigation);
         menu = nav.getMenu();
         menuNav();
 
+        // Llamdo de las funciones y creacion de liseners
+        creacionListeners();
         generarGraficaCuentas();
         generarGraficaCategorias();
+        llenarTablaTotales();
+    }
+
+    private void creacionListeners() {
+        btnFechaInicial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog dpd = new DatePickerDialog(Estadisticas.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        btnFechaInicial.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                        if(!btnFechaInicial.getText().toString().equals("Fecha Inicio") && !btnFechaFinal.getText().toString().equals("Fecha Fin")){
+                            rellenarGraficaCategoriasIntervalo();
+                            rellenarGraficaCuentasIntervalo();
+                            rellenarTablaIntervalos();
+                        }
+                    }
+                }, ano, mes, dia);
+                dpd.show();
+                Button ok = dpd.getButton(DialogInterface.BUTTON_POSITIVE);
+                ok.setTextColor(Color.parseColor("#949494"));
+                Button cancel = dpd.getButton(DialogInterface.BUTTON_NEGATIVE);
+                cancel.setTextColor(Color.parseColor("#949494"));
+            }
+        });
+        btnFechaFinal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog dpd = new DatePickerDialog(Estadisticas.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        btnFechaFinal.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                        if(!btnFechaInicial.getText().toString().equals("Fecha Inicio") && !btnFechaFinal.getText().toString().equals("Fecha Fin")){
+                            rellenarGraficaCategoriasIntervalo();
+                            rellenarGraficaCuentasIntervalo();
+                            rellenarTablaIntervalos();
+                        }
+                    }
+                }, ano, mes, dia);
+                dpd.show();
+                Button ok = dpd.getButton(DialogInterface.BUTTON_POSITIVE);
+                ok.setTextColor(Color.parseColor("#949494"));
+                Button cancel = dpd.getButton(DialogInterface.BUTTON_NEGATIVE);
+                cancel.setTextColor(Color.parseColor("#949494"));
+            }
+        });
+    }
+
+    /**
+     * Funcion encargada de rellenar la grafica con los datos necesitados
+     */
+    private void rellenarTablaIntervalos() {
+        progreso.setVisibility(View.VISIBLE);
+        Log.i("JSON", "Si entro");
+        final Gson gson = new Gson();
+        JsonObjectRequest request;
+        VolleySingleton.getInstance(Estadisticas.this).
+                addToRequestQueue(
+                        request = new JsonObjectRequest(
+                                Request.Method.GET,
+                                urls.getGetEstadisticasIntervalo() + "idU=" + usuario.getIdUsuario() +
+                                        "&inicio=" + btnFechaInicial.getText() +
+                                        "&fin=" + btnFechaFinal.getText(),
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            String res = response.getString("estado");
+                                            switch(res){
+                                                case "1":
+                                                    txtEgreso.setText(response.getString("egresos"));
+                                                    txtIngreso.setText(response.getString("ingresos"));
+                                                    txtTotales.setText(response.getString("total"));
+
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                case "0":
+                                                    Log.i("peticion", "caso 0");
+                                                    //Regresar mensaje de que no hay registros
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                default:
+                                                    Log.i("peticion", "caso default");
+                                                    progreso.setVisibility(View.GONE);
+                                                    //msg("Ocurrio un problema al conectarse con el sertvidor");
+                                                    break;
+                                            }
+                                        }catch(JSONException json){
+                                            Log.e("JSON", json.toString());
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                }
+                        )
+                );
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+    }
+
+    /**
+     * Funcion encargada de rellenar la grafica con los datos necesitados
+     */
+    private void rellenarGraficaCategoriasIntervalo() {
+        progreso.setVisibility(View.VISIBLE);
+        Log.i("JSON", "Si entro");
+        final Gson gson = new Gson();
+        JsonObjectRequest request;
+        VolleySingleton.getInstance(Estadisticas.this).
+                addToRequestQueue(
+                        request = new JsonObjectRequest(
+                                Request.Method.GET,
+                                urls.getGetGraficaCategoriasIntervalo() + "idU=" + usuario.getIdUsuario() +
+                                        "&inicio=" + btnFechaInicial.getText() +
+                                        "&fin=" + btnFechaFinal.getText(),
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            String res = response.getString("estado");
+                                            switch(res){
+                                                case "1":
+                                                    cuentas.clear();
+                                                    JSONArray jArrayMarcadores = response.getJSONArray("registros");
+                                                    Log.i("peticion", jArrayMarcadores.toString());
+                                                    ObjetoDatosGraficaCuentas[] arraycuentasTotales = gson.fromJson(jArrayMarcadores.toString(), ObjetoDatosGraficaCuentas[].class);
+                                                    Log.i("peticion", "tamaño: " + arraycuentasTotales.length);
+                                                    for(int i = 0; i < arraycuentasTotales.length; i++){
+                                                        cuentas.add(arraycuentasTotales[i]);
+                                                    }
+                                                    rellenarGraficaCuentas();
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                case "0":
+                                                    Log.i("peticion", "caso 0");
+                                                    //Regresar mensaje de que no hay registros
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                default:
+                                                    Log.i("peticion", "caso default");
+                                                    progreso.setVisibility(View.GONE);
+                                                    //msg("Ocurrio un problema al conectarse con el sertvidor");
+                                                    break;
+                                            }
+                                        }catch(JSONException json){
+                                            Log.e("JSON", json.toString());
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                }
+                        )
+                );
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+    }
+
+    /**
+     * Funcion encargada de rellenar la grafica con los datos necesitados
+     */
+    private void rellenarGraficaCuentasIntervalo() {
+        progreso.setVisibility(View.VISIBLE);
+        Log.i("JSON", "Si entro");
+        final Gson gson = new Gson();
+        JsonObjectRequest request;
+        VolleySingleton.getInstance(Estadisticas.this).
+                addToRequestQueue(
+                        request = new JsonObjectRequest(
+                                Request.Method.GET,
+                                urls.getGetGraficaCuentasIntervalo() + "idU=" + usuario.getIdUsuario() +
+                                        "&inicio=" + btnFechaInicial.getText() +
+                                        "&fin=" + btnFechaFinal.getText(),
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            String res = response.getString("estado");
+                                            switch(res){
+                                                case "1":
+                                                    Log.i("peticion", "caso 1");
+                                                    cuentas.clear();
+                                                    JSONArray jArrayMarcadores = response.getJSONArray("registros");
+                                                    ObjetoDatosGraficaCuentas[] arraycuentasTotales = gson.fromJson(jArrayMarcadores.toString(), ObjetoDatosGraficaCuentas[].class);
+                                                    Log.i("peticion", "tamaño: " + arraycuentasTotales.length);
+                                                    for(int i = 0; i < arraycuentasTotales.length; i++){
+                                                        cuentas.add(arraycuentasTotales[i]);
+                                                    }
+                                                    rellenarGraficaCuentas();
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                case "0":
+                                                    Log.i("peticion", "caso 0");
+                                                    //Regresar mensaje de que no hay registros
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                default:
+                                                    Log.i("peticion", "caso default");
+                                                    progreso.setVisibility(View.GONE);
+                                                    //msg("Ocurrio un problema al conectarse con el sertvidor");
+                                                    break;
+                                            }
+                                        }catch(JSONException json){
+                                            Log.e("JSON", json.toString());
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                }
+                        )
+                );
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+    }
+
+    /**
+     * Funcion encargada de rellenar la tabla con lo totales
+     */
+    private void llenarTablaTotales() {
+        progreso.setVisibility(View.VISIBLE);
+        Log.i("JSON", "Si entro");
+        final Gson gson = new Gson();
+        JsonObjectRequest request;
+        VolleySingleton.getInstance(Estadisticas.this).
+                addToRequestQueue(
+                        request = new JsonObjectRequest(
+                                Request.Method.GET,
+                                urls.getGetEstadisticas() + "idU=" + usuario.getIdUsuario(),
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            String res = response.getString("estado");
+                                            switch(res){
+                                                case "1":
+                                                    txtEgreso.setText(response.getString("egresos"));
+                                                    txtIngreso.setText(response.getString("ingresos"));
+                                                    txtTotales.setText(response.getString("total"));
+
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                case "0":
+                                                    Log.i("peticion", "caso 0");
+                                                    //Regresar mensaje de que no hay registros
+                                                    progreso.setVisibility(View.GONE);
+                                                    break;
+                                                default:
+                                                    Log.i("peticion", "caso default");
+                                                    progreso.setVisibility(View.GONE);
+                                                    //msg("Ocurrio un problema al conectarse con el sertvidor");
+                                                    break;
+                                            }
+                                        }catch(JSONException json){
+                                            Log.e("JSON", json.toString());
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                }
+                        )
+                );
+        request.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
     }
 
     /**
