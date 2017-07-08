@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
         import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -58,6 +59,7 @@ public class Estadisticas extends AppCompatActivity {
     private ProgressBar progreso;
     private Button btnFechaInicial;
     private Button btnFechaFinal;
+    private Button btnLinkSocios;
     private TextView txtIngreso;
     private TextView txtEgreso;
     private TextView txtTotales;
@@ -103,6 +105,7 @@ public class Estadisticas extends AppCompatActivity {
         progreso = (ProgressBar)findViewById(R.id.progress);
         btnFechaInicial = (Button)findViewById(R.id.btn_fechaInicio);
         btnFechaFinal = (Button)findViewById(R.id.btn_fechaFin);
+        btnLinkSocios = (Button)findViewById(R.id.btnConBottomSheet);
         txtEgreso = (TextView)findViewById(R.id.txt_egresos);
         txtIngreso = (TextView)findViewById(R.id.txt_ingresos);
         txtTotales = (TextView)findViewById(R.id.txt_total);
@@ -191,6 +194,14 @@ public class Estadisticas extends AppCompatActivity {
                 ok.setTextColor(Color.parseColor("#949494"));
                 Button cancel = dpd.getButton(DialogInterface.BUTTON_NEGATIVE);
                 cancel.setTextColor(Color.parseColor("#949494"));
+            }
+        });
+        btnLinkSocios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("http://cpmx.claresti.com/socios.php");
+                Intent i = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(i);
             }
         });
     }

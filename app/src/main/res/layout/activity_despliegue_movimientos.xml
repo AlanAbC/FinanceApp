@@ -225,17 +225,19 @@
 
         </RelativeLayout>
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/navigation"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:menu="@menu/menu_principal"
-            app:itemTextColor="#898989"
-            app:headerLayout="@layout/header_menu"/>
-    </android.support.design.widget.CoordinatorLayout>
 
     <!-- Bottom Sheet -->
-    <include layout="@layout/bottom_sheet_movimientos" />
+        <include layout="@layout/bottom_sheet_movimientos" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/menu_principal"
+        app:itemTextColor="#898989"
+        app:headerLayout="@layout/header_menu"/>
 
 </android.support.v4.widget.DrawerLayout>

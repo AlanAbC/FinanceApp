@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -59,6 +60,7 @@ public class DespliegueMovimientos extends AppCompatActivity {
     private RelativeLayout contMovimiento;
     private Button btnFechaInicial;
     private Button btnFechaFinal;
+    private Button btnLinkSocios;
     private ListView listMovimientos;
     private Spinner spinnerFiltro;
     private TextView txtFiltro;
@@ -122,6 +124,7 @@ public class DespliegueMovimientos extends AppCompatActivity {
         contCuenta = (RelativeLayout)findViewById(R.id.cont_filtroCuenta);
         btnFechaInicial = (Button)findViewById(R.id.btn_fechaInicio);
         btnFechaFinal = (Button)findViewById(R.id.btn_fechaFin);
+        btnLinkSocios = (Button)findViewById(R.id.btnConBottomSheet);
         progreso = (ProgressBar)findViewById(R.id.progress);
         spinerCategoria = (Spinner)findViewById(R.id.spin_categoria);
         spinerCuenta = (Spinner)findViewById(R.id.spin_cuenta);
@@ -285,6 +288,14 @@ public class DespliegueMovimientos extends AppCompatActivity {
                 ok.setTextColor(Color.parseColor("#949494"));
                 Button cancel = dpd.getButton(DialogInterface.BUTTON_NEGATIVE);
                 cancel.setTextColor(Color.parseColor("#949494"));
+            }
+        });
+        btnLinkSocios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("http://cpmx.claresti.com/socios.php");
+                Intent i = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(i);
             }
         });
     }
