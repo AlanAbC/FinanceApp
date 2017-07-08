@@ -15,7 +15,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:padding="16dp"
         android:textColor="#ffffff"
-        android:text="Titulo" />
+        android:text="Te interesa hacer crecer tu dinero?" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:padding="16dp"
         android:textColor="#ffffff"
-        android:text="Descripcion" />
+        android:text="Invierte con alguno de nuestros socios clave y logra tus metas" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
