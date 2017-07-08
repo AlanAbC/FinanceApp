@@ -7,213 +7,222 @@
     android:theme="@style/Calendar"
     android:layout_width="match_parent">
 
-    <ScrollView
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/l_ventana">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="8dp"
-                android:background= "#216c2a"
-                android:id="@+id/menu"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true">
+                android:layout_height="match_parent"
+                android:id="@+id/l_ventana">
 
-                <ImageView
-                    android:layout_width="60dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:padding="15dp"
-                    android:src="@drawable/menu"
-                    android:id="@+id/Btnmenu"/>
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="8dp"
+                    android:background= "#216c2a"
+                    android:id="@+id/menu"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:padding="15dp"
+                        android:src="@drawable/menu"
+                        android:id="@+id/Btnmenu"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/Btnmenu"
+                        android:text="Estadisticas"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="20dp"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/menu"
+                    android:id="@+id/filtros">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/cont_filtroFecha">
+
+                        <Button
+                            android:layout_width="160dp"
+                            android:layout_height="35dp"
+                            android:text="Fecha Inicio"
+                            android:id="@+id/btn_fechaInicio"
+                            android:textColor="#fff"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="#216c2a"/>
+                        <Button
+                            android:layout_width="160dp"
+                            android:layout_height="35dp"
+                            android:text="Fecha Fin"
+                            android:id="@+id/btn_fechaFin"
+                            android:textColor="#fff"
+                            android:layout_marginBottom="10dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:background="#216c2a"/>
+
+                    </RelativeLayout>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_below="@id/cont_filtroFecha"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:id="@+id/spin_filtro" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:layout_below="@id/spin_filtro"
+                        android:id="@+id/cont_filtroCategoria">
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginRight="50dp"
+                            android:id="@+id/spin_categoria"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:layout_below="@id/spin_filtro"
+                        android:id="@+id/cont_filtroCuenta">
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginRight="50dp"
+                            android:id="@+id/spin_cuenta"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:layout_below="@id/spin_filtro"
+                        android:id="@+id/cont_filtroTipo">
+
+                        <Button
+                            android:layout_width="160dp"
+                            android:layout_height="35dp"
+                            android:text="Ingresos"
+                            android:id="@+id/btn_Ingresos"
+                            android:textColor="#fff"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="#203d6c"/>
+                        <Button
+                            android:layout_width="160dp"
+                            android:layout_height="35dp"
+                            android:text="Egresos"
+                            android:id="@+id/btn_Egresos"
+                            android:textColor="#fff"
+                            android:layout_marginBottom="10dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:background="#d64141"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/filtros"
+                    android:id="@+id/tabla"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="40dp">
+
+                    <TableRow>
+                        <TextView android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" android:text="Ingresos"/>
+                        <TextView android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" android:text="Egresos"/>
+                        <TextView android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" android:text="Total"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView android:id="@+id/txt_ingresos" android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" />
+                        <TextView android:id="@+id/txt_egresos" android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" />
+                        <TextView android:id="@+id/txt_total" android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" />
+                    </TableRow>
+                </TableLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativelayout"
+                    android:layout_below="@id/tabla"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/Btnmenu"
-                    android:text="Estadisticas"
-                    android:textColor="#FFFFFF"
-                    android:textSize="22dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="20dp"/>
+                    android:layout_marginTop="40dp">
 
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/menu"
-                android:id="@+id/filtros">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/cont_filtroFecha">
-
-                    <Button
-                        android:layout_width="160dp"
-                        android:layout_height="35dp"
-                        android:text="Fecha Inicio"
-                        android:id="@+id/btn_fechaInicio"
-                        android:textColor="#fff"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="#216c2a"/>
-                    <Button
-                        android:layout_width="160dp"
-                        android:layout_height="35dp"
-                        android:text="Fecha Fin"
-                        android:id="@+id/btn_fechaFin"
-                        android:textColor="#fff"
-                        android:layout_marginBottom="10dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="15dp"
-                        android:background="#216c2a"/>
-
-                </RelativeLayout>
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_below="@id/cont_filtroFecha"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:id="@+id/spin_filtro" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_below="@id/spin_filtro"
-                    android:id="@+id/cont_filtroCategoria">
-
-                    <Spinner
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chart"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginRight="50dp"
-                        android:id="@+id/spin_categoria"/>
+                        android:layout_height="match_parent"
+                        android:layout_margin="20dp"/>
+                    <!--
 
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_below="@id/spin_filtro"
-                    android:id="@+id/cont_filtroCuenta">
-
-                    <Spinner
+                     <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/chart"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginRight="50dp"
-                        android:id="@+id/spin_cuenta"/>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:visibility="gone"
-                    android:layout_below="@id/spin_filtro"
-                    android:id="@+id/cont_filtroTipo">
-
-                    <Button
-                        android:layout_width="160dp"
-                        android:layout_height="35dp"
-                        android:text="Ingresos"
-                        android:id="@+id/btn_Ingresos"
-                        android:textColor="#fff"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="#203d6c"/>
-                    <Button
-                        android:layout_width="160dp"
-                        android:layout_height="35dp"
-                        android:text="Egresos"
-                        android:id="@+id/btn_Egresos"
-                        android:textColor="#fff"
-                        android:layout_marginBottom="10dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="15dp"
-                        android:background="#d64141"/>
+                        android:layout_height="300dp" />
+                     -->
 
                 </RelativeLayout>
 
             </RelativeLayout>
 
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/filtros"
-                android:id="@+id/tabla"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="40dp"
-                android:layout_marginLeft="40dp">
-
-                <TableRow>
-                    <TextView android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" android:text="Ingresos"/>
-                    <TextView android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" android:text="Egresos"/>
-                    <TextView android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" android:text="Total"/>
-                </TableRow>
-
-                <TableRow>
-                    <TextView android:id="@+id/txt_ingresos" android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" />
-                    <TextView android:id="@+id/txt_egresos" android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" />
-                    <TextView android:id="@+id/txt_total" android:layout_width="100dp" android:textAlignment="center" android:layout_height="wrap_content" />
-                </TableRow>
-            </TableLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativelayout"
-                android:layout_below="@id/tabla"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp">
-
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="20dp"/>
-                <!--
-
-                 <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:id="@+id/chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp" />
-                 -->
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-    </ScrollView>
+        </ScrollView>
 
 
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/menu_principal"
-        app:itemTextColor="#898989"
-        app:headerLayout="@layout/header_menu"/>
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/menu_principal"
+            app:itemTextColor="#898989"
+            app:headerLayout="@layout/header_menu"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <!-- Bottom Sheet -->
+    <include layout="@layout/bottom_sheet_movimientos" />
 
 </android.support.v4.widget.DrawerLayout>

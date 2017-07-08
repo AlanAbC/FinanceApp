@@ -7,229 +7,235 @@
     android:theme="@style/Calendar"
     android:layout_width="match_parent">
 
-
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/l_ventana">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp"
-            android:background= "#216c2a"
-            android:id="@+id/menu"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:padding="15dp"
-                android:src="@drawable/menu"
-                android:id="@+id/Btnmenu"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/Btnmenu"
-                android:text="Despliegue Movimientos"
-                android:textColor="#FFFFFF"
-                android:textSize="22dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="20dp"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/menu"
-            android:id="@+id/filtros">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:id="@+id/cont_filtroFecha">
-
-                <Button
-                    android:layout_width="160dp"
-                    android:layout_height="35dp"
-                    android:text="Fecha Inicio"
-                    android:id="@+id/btn_fechaInicio"
-                    android:textColor="#fff"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="#216c2a"/>
-                <Button
-                    android:layout_width="160dp"
-                    android:layout_height="35dp"
-                    android:text="Fecha Fin"
-                    android:id="@+id/btn_fechaFin"
-                    android:textColor="#fff"
-                    android:layout_marginBottom="10dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:background="#216c2a"/>
-
-            </RelativeLayout>
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_below="@id/cont_filtroFecha"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:id="@+id/spin_filtro" />
-
-            <TextView
-                android:text=""
-                android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="90dp"
-                android:layout_height="50dp"
-                android:gravity="left"
-                android:textColor="#949494"
-                android:padding="15dp"
-                android:background="#FAFAFA"
-                android:id="@+id/txt_filtro"
-                android:textSize="15sp"
-                android:layout_below="@id/cont_filtroFecha"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:layout_below="@id/spin_filtro"
-                android:id="@+id/cont_filtroCategoria">
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:id="@+id/spin_categoria"/>
-
-                <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="90dp"
-                    android:layout_height="50dp"
-                    android:gravity="left"
-                    android:textColor="#949494"
-                    android:padding="15dp"
-                    android:background="#FAFAFA"
-                    android:id="@+id/txt_categoria"
-                    android:textSize="15sp"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:layout_below="@id/spin_filtro"
-                android:id="@+id/cont_filtroCuenta">
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:id="@+id/spin_cuenta"/>
-
-                <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="90dp"
-                    android:layout_height="50dp"
-                    android:gravity="left"
-                    android:textColor="#949494"
-                    android:padding="15dp"
-                    android:background="#FAFAFA"
-                    android:id="@+id/txt_cuenta"
-                    android:textSize="15sp"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:layout_below="@id/spin_filtro"
-                android:id="@+id/cont_filtroTipo">
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:id="@+id/spin_tipo"/>
-
-                <TextView
-                    android:text=""
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="90dp"
-                    android:layout_height="50dp"
-                    android:gravity="left"
-                    android:textColor="#949494"
-                    android:padding="15dp"
-                    android:background="#FAFAFA"
-                    android:id="@+id/txt_tipo"
-                    android:textSize="15sp"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/filtros"
-            android:id="@+id/contenedor">
+            android:id="@+id/l_ventana">
 
-            <ListView
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp"
+                android:background= "#216c2a"
+                android:id="@+id/menu"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:padding="15dp"
+                    android:src="@drawable/menu"
+                    android:id="@+id/Btnmenu"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/Btnmenu"
+                    android:text="Despliegue Movimientos"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/lis_movimientos"/>
+                android:layout_below="@id/menu"
+                android:id="@+id/filtros">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/cont_filtroFecha">
+
+                    <Button
+                        android:layout_width="160dp"
+                        android:layout_height="35dp"
+                        android:text="Fecha Inicio"
+                        android:id="@+id/btn_fechaInicio"
+                        android:textColor="#fff"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#216c2a"/>
+                    <Button
+                        android:layout_width="160dp"
+                        android:layout_height="35dp"
+                        android:text="Fecha Fin"
+                        android:id="@+id/btn_fechaFin"
+                        android:textColor="#fff"
+                        android:layout_marginBottom="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:background="#216c2a"/>
+
+                </RelativeLayout>
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/cont_filtroFecha"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:id="@+id/spin_filtro" />
+
+                <TextView
+                    android:text=""
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="90dp"
+                    android:layout_height="50dp"
+                    android:gravity="left"
+                    android:textColor="#949494"
+                    android:padding="15dp"
+                    android:background="#FAFAFA"
+                    android:id="@+id/txt_filtro"
+                    android:textSize="15sp"
+                    android:layout_below="@id/cont_filtroFecha"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/spin_filtro"
+                    android:id="@+id/cont_filtroCategoria">
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:id="@+id/spin_categoria"/>
+
+                    <TextView
+                        android:text=""
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="90dp"
+                        android:layout_height="50dp"
+                        android:gravity="left"
+                        android:textColor="#949494"
+                        android:padding="15dp"
+                        android:background="#FAFAFA"
+                        android:id="@+id/txt_categoria"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/spin_filtro"
+                    android:id="@+id/cont_filtroCuenta">
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:id="@+id/spin_cuenta"/>
+
+                    <TextView
+                        android:text=""
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="90dp"
+                        android:layout_height="50dp"
+                        android:gravity="left"
+                        android:textColor="#949494"
+                        android:padding="15dp"
+                        android:background="#FAFAFA"
+                        android:id="@+id/txt_cuenta"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:layout_below="@id/spin_filtro"
+                    android:id="@+id/cont_filtroTipo">
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="50dp"
+                        android:id="@+id/spin_tipo"/>
+
+                    <TextView
+                        android:text=""
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginRight="90dp"
+                        android:layout_height="50dp"
+                        android:gravity="left"
+                        android:textColor="#949494"
+                        android:padding="15dp"
+                        android:background="#FAFAFA"
+                        android:id="@+id/txt_tipo"
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/filtros"
+                android:id="@+id/contenedor">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lis_movimientos"/>
+
+            </RelativeLayout>
+
+            <ProgressBar
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/progress"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 
-        <ProgressBar
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:id="@+id/progress"
-            android:visibility="gone"/>
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/menu_principal"
+            app:itemTextColor="#898989"
+            app:headerLayout="@layout/header_menu"/>
+    </android.support.design.widget.CoordinatorLayout>
 
-    </RelativeLayout>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/menu_principal"
-        app:itemTextColor="#898989"
-        app:headerLayout="@layout/header_menu"/>
+    <!-- Bottom Sheet -->
+    <include layout="@layout/bottom_sheet_movimientos" />
 
 </android.support.v4.widget.DrawerLayout>
