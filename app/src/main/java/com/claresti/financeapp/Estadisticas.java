@@ -39,9 +39,11 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -151,6 +153,9 @@ public class Estadisticas extends AppCompatActivity {
         llenarTablaTotales();
     }
 
+    /**
+     * Funcion encargada de crear los listeners de los objetos del layout
+     */
     private void creacionListeners() {
         btnFechaInicial.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -581,17 +586,23 @@ public class Estadisticas extends AppCompatActivity {
         int flagIndex = 0;
 
         for(ObjetoDatosGraficaCategorias c : categorias){
-            entries.add(new BarEntry(Float.parseFloat(c.getMonto()), flagIndex));
-            labels.add(c.getNombre());
+            entries.add(new BarEntry(Float.parseFloat(c.getIngresos()), flagIndex));
             flagIndex ++;
+            entries.add(new BarEntry(Float.parseFloat(c.getEgresos()), flagIndex));
+            flagIndex ++;
+            labels.add(c.getNombre());
+            labels.add(c.getNombre());
         }
 
-        BarDataSet dataset = new BarDataSet(entries, "Dinero gastado");
+        BarDataSet dataset = new BarDataSet(entries, "Ingreso / Egreso");
 
         BarData data = new BarData(labels, dataset);
-        // dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
+        int[] colores = {Color.parseColor("#FF216C2A"), Color.parseColor("#CA0500")};
+        dataset.setColors(ColorTemplate.createColors(colores));//
         barChart.setData(data);
-        barChart.animateY(5000);
+        barChart.setDescription("Categorías");
+        barChart.animateY(7500);
+        LimitLine line = new LimitLine(10f);
     }
 
     /**
@@ -679,18 +690,24 @@ public class Estadisticas extends AppCompatActivity {
         ArrayList<String> labels = new ArrayList<String>();
         int flagIndex = 0;
 
-        for(ObjetoDatosGraficaCuentas c : cuentas){
-            entries.add(new BarEntry(Float.parseFloat(c.getMonto()), flagIndex));
-            labels.add(c.getNombre());
+        for (ObjetoDatosGraficaCuentas c : cuentas) {
+            entries.add(new BarEntry(Float.parseFloat(c.getIngresos()), flagIndex));
             flagIndex ++;
+            entries.add(new BarEntry(Float.parseFloat(c.getEgresos()), flagIndex));
+            flagIndex ++;
+            labels.add(c.getNombre());
+            labels.add(c.getNombre());
         }
 
-        BarDataSet dataset = new BarDataSet(entries, "Dinero gastado");
+        BarDataSet dataset = new BarDataSet(entries, "Ingreso / Egreso");
 
         BarData data = new BarData(labels, dataset);
-        // dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
+        //dataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        int[] colores = {Color.parseColor("#FF216C2A"), Color.parseColor("#CA0500")};
+        dataset.setColors(ColorTemplate.createColors(colores));//
         barChart.setData(data);
-        barChart.animateY(5000);
+        barChart.setDescription("Cuentas");
+        barChart.animateY(2500);
     }
 
     /**

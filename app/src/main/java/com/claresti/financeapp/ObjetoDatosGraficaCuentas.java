@@ -2,31 +2,42 @@ package com.claresti.financeapp;
 
 public class ObjetoDatosGraficaCuentas {
 
-    private String Nombre;
-    private String monto;
+    private String nombre;
+    private String ingresos;
+    private String egresos;
+
 
     public ObjetoDatosGraficaCuentas(){
 
     }
 
-    public ObjetoDatosGraficaCuentas(String nombre, String monto) {
-        Nombre = nombre;
-        this.monto = monto;
+    public ObjetoDatosGraficaCuentas(String nombre, String ingresos, String egresos) {
+        this.nombre = nombre;
+        this.ingresos = ingresos;
+        this.egresos = egresos;
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
-    public String getMonto() {
-        return monto;
+    public String getIngresos() {
+        return ingresos;
     }
 
-    public void setMonto(String monto) {
-        this.monto = monto;
+    public void setIngresos(String ingresos) {
+        this.ingresos = ingresos;
+    }
+
+    public String getEgresos() {
+        return egresos;
+    }
+
+    public void setEgresos(String egresos) {
+        this.egresos = egresos;
     }
 }

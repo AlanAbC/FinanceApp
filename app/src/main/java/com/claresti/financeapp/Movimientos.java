@@ -142,6 +142,11 @@ public class Movimientos extends AppCompatActivity {
                 txtMovimiento.setText("Ingreso");
                 Log.i("Movimiento", flagMovimiento + "");
                 ingreso.setBackgroundResource(R.drawable.img_verde_res);
+                egreso.setBackgroundResource(R.drawable.img_roja);
+                ingreso.setPadding(45,45,45,45);
+                egreso.setPadding(45,45,45,45);
+                ingreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                egreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             }
         });
         egreso.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +156,11 @@ public class Movimientos extends AppCompatActivity {
                 txtMovimiento.setText("Egreso");
                 Log.i("Movimiento", flagMovimiento + "");
                 egreso.setBackgroundResource(R.drawable.img_roja_res);
+                ingreso.setBackgroundResource(R.drawable.img_verde);
+                ingreso.setPadding(45,45,45,45);
+                egreso.setPadding(45,45,45,45);
+                ingreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                egreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             }
         });
         btnRegistrarMovimiento.setOnClickListener(new View.OnClickListener() {

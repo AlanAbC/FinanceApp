@@ -41,11 +41,11 @@ public class Urls {
         this.getMovimientosIntervaloCuenta = "http://cpmx.claresti.com/get_movcueint.php?";
         this.getMovimientosIntervaloCategoria = "http://cpmx.claresti.com/get_movcatsemint.php?";
         this.getMovimientosIntervaloTipo = "http://cpmx.claresti.com/get_movtipoint.php?";
-        this.getGraficaCuentas = "http://cpmx.claresti.com/graficaCuentas.php?";
-        this.getGraficaCategorias = "http://cpmx.claresti.com/graficaCategorias.php?";
+        this.getGraficaCuentas = "http://cpmx.claresti.com/grafica_cuenta.php?";
+        this.getGraficaCategorias = "http://cpmx.claresti.com/grafica_categoria.php?";
         this.getEstadisticas = "http://cpmx.claresti.com/statsCategoria.php?";
-        this.getGraficaCuentasIntervalo = "http://cpmx.claresti.com/statsCuentaRango.php?";
-        this.getGraficaCategoriasIntervalo = "http://cpmx.claresti.com/graficaCategorias.php?";
+        this.getGraficaCuentasIntervalo = "http://cpmx.claresti.com/grafica_cuenta.php?";
+        this.getGraficaCategoriasIntervalo = "http://cpmx.claresti.com/grafica_categoria.php?";
         this.getEstadisticasIntervalo = "http://cpmx.claresti.com/statsCategoriaRango.php?";
     }
 
