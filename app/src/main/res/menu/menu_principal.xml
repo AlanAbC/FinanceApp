@@ -27,10 +27,10 @@
             android:title="Estadisticas"
             android:icon="@drawable/estadisticas"/>
 
-        <item
+        <!--<item
             android:id="@+id/opcion6"
             android:title="Configuración"
-            android:icon="@drawable/configuracion"/>
+            android:icon="@drawable/configuracion"/>-->
         <item
             android:id="@+id/opcion7"
             android:title="Acerca de"

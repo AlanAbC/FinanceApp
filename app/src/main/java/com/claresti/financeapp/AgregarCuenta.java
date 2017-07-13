@@ -225,9 +225,6 @@ public class AgregarCuenta extends AppCompatActivity {
                     Intent i = new Intent(AgregarCuenta.this, Configuracion.class);
                     startActivity(i);
                 }else if(pos == 6){
-                    Intent i = new Intent(AgregarCuenta.this, Acerca.class);
-                    startActivity(i);
-                }else if(pos == 7){
                     if(bd.LogoutUsuario(usuario.getIdUsuario()).equals("1")){
                         Intent i = new Intent(AgregarCuenta.this, Login.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

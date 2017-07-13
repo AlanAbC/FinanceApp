@@ -469,12 +469,9 @@ public class Movimientos extends AppCompatActivity {
                     Intent i = new Intent(Movimientos.this, Estadisticas.class);
                     startActivity(i);
                 }else if(pos == 5){
-                    Intent i = new Intent(Movimientos.this, Configuracion.class);
-                    startActivity(i);
-                }else if(pos == 6){
                     Intent i = new Intent(Movimientos.this, Acerca.class);
                     startActivity(i);
-                }else if(pos == 7){
+                }else if(pos == 6){
                     if(bd.LogoutUsuario(usuario.getIdUsuario()).equals("1")){
                         Intent i = new Intent(Movimientos.this, Login.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

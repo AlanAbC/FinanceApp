@@ -147,7 +147,7 @@ public class DespliegueMovimientos extends AppCompatActivity {
         //Llamada de las variables para el control de bottomsheet
         bottomSheet = (LinearLayout)findViewById(R.id.bottomSheet);
         final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
-        bsb.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bsb.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         //Control para esconder bottomsheet
         btnConBottomSheet=(Button)findViewById(R.id.btnConBottomSheet);
@@ -1181,12 +1181,9 @@ public class DespliegueMovimientos extends AppCompatActivity {
                     Intent i = new Intent(DespliegueMovimientos.this, Estadisticas.class);
                     startActivity(i);
                 }else if(pos == 5){
-                    Intent i = new Intent(DespliegueMovimientos.this, Configuracion.class);
-                    startActivity(i);
-                }else if(pos == 6){
                     Intent i = new Intent(DespliegueMovimientos.this, Acerca.class);
                     startActivity(i);
-                }else if(pos == 7){
+                }else if(pos == 6){
                     if(bd.LogoutUsuario(usuario.getIdUsuario()).equals("1")){
                         Intent i = new Intent(DespliegueMovimientos.this, Login.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

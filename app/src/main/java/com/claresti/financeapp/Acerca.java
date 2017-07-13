@@ -95,7 +95,7 @@ public class Acerca extends AppCompatActivity {
         for(int i = 0; i < menu.size(); i++){
             items.add(menu.getItem(i));
         }
-        items.get(6).setChecked(true);
+        items.get(5).setChecked(true);
         nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -118,11 +118,8 @@ public class Acerca extends AppCompatActivity {
                     Intent i = new Intent(Acerca.this, Estadisticas.class);
                     startActivity(i);
                 }else if(pos == 5){
-                    Intent i = new Intent(Acerca.this, Configuracion.class);
-                    startActivity(i);
-                }else if(pos == 6){
 
-                }else if(pos == 7){
+                }else if(pos == 6){
                     if(bd.LogoutUsuario(usuario.getIdUsuario()).equals("1")){
                         Intent i = new Intent(Acerca.this, Login.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

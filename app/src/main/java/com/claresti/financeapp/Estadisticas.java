@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
         import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -65,6 +66,7 @@ public class Estadisticas extends AppCompatActivity {
     private TextView txtIngreso;
     private TextView txtEgreso;
     private TextView txtTotales;
+    private FloatingActionButton btnInfo;
 
     // Declaracion de variables de clases
     private BD bd;
@@ -111,6 +113,7 @@ public class Estadisticas extends AppCompatActivity {
         txtEgreso = (TextView)findViewById(R.id.txt_egresos);
         txtIngreso = (TextView)findViewById(R.id.txt_ingresos);
         txtTotales = (TextView)findViewById(R.id.txt_total);
+        btnInfo = (FloatingActionButton) findViewById(R.id.info);
 
         //Asignacion variables clases
         bd = new BD(getApplicationContext());
@@ -128,15 +131,23 @@ public class Estadisticas extends AppCompatActivity {
         //Llamada de las variables para el control de bottomsheet
         bottomSheet = (LinearLayout)findViewById(R.id.bottomSheet);
         final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
-        bsb.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bsb.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         //Control para esconder bottomsheet
         btnConBottomSheet=(Button)findViewById(R.id.btnConBottomSheet);
         btnConBottomSheet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 bsb.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        //Control para mostrar bottomSheet
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bsb.setState(BottomSheetBehavior.STATE_EXPANDED);
+                btnInfo.setVisibility(View.GONE);
             }
         });
 
@@ -209,6 +220,7 @@ public class Estadisticas extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
     }
 
     /**
@@ -739,12 +751,9 @@ public class Estadisticas extends AppCompatActivity {
                 }else if(pos == 4){
 
                 }else if(pos == 5){
-                    Intent i = new Intent(Estadisticas.this, Configuracion.class);
-                    startActivity(i);
-                }else if(pos == 6){
                     Intent i = new Intent(Estadisticas.this, Acerca.class);
                     startActivity(i);
-                }else if(pos == 7){
+                }else if(pos == 6){
                     if(bd.LogoutUsuario(usuario.getIdUsuario()).equals("1")){
                         Intent i = new Intent(Estadisticas.this, Login.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
