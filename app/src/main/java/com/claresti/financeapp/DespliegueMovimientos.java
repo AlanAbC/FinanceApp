@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -71,6 +72,7 @@ public class DespliegueMovimientos extends AppCompatActivity {
     private TextView txtCategoria;
     private TextView txtCuenta;
     private TextView txtTipo;
+    private FloatingActionButton btnInfo;
 
     // Declaracion de variables de clases
     private BD bd;
@@ -132,6 +134,7 @@ public class DespliegueMovimientos extends AppCompatActivity {
         txtCategoria = (TextView)findViewById(R.id.txt_categoria);
         txtCuenta = (TextView)findViewById(R.id.txt_cuenta);
         txtTipo = (TextView)findViewById(R.id.txt_tipo);
+        btnInfo = (FloatingActionButton) findViewById(R.id.info);
 
         //Asignacion variables clases
         bd = new BD(getApplicationContext());
@@ -154,8 +157,16 @@ public class DespliegueMovimientos extends AppCompatActivity {
         btnConBottomSheet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 bsb.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        //Control para mostrar bottomSheet
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bsb.setState(BottomSheetBehavior.STATE_EXPANDED);
+                btnInfo.setVisibility(View.GONE);
             }
         });
 

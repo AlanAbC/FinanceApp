@@ -104,7 +104,7 @@ public class Movimientos extends AppCompatActivity {
         txtMovimiento = (TextView)findViewById(R.id.tv_tipomov);
         ingreso = (ImageView)findViewById(R.id.img_mas);
         egreso = (ImageView)findViewById(R.id.img_menos);
-        dateFechaMovimiento = (DatePicker)findViewById(R.id.date_fechaMovimiento);
+        //dateFechaMovimiento = (DatePicker)findViewById(R.id.date_fechaMovimiento);
         btnRegistrarMovimiento = (Button)findViewById(R.id.btn_registrar);
         progreso = (ProgressBar)findViewById(R.id.progress);
 
