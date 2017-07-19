@@ -597,6 +597,7 @@ public class Estadisticas extends AppCompatActivity {
         ArrayList<String> labels = new ArrayList<String>();
         int flagIndex = 0;
 
+
         for(ObjetoDatosGraficaCategorias c : categorias){
             entries.add(new BarEntry(Float.parseFloat(c.getIngresos()), flagIndex));
             flagIndex ++;

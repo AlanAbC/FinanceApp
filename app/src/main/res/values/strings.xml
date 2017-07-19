@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Denarius</string>
+
+
+    <!--Activity Acerca-->
+    <string name="titulo_menu_acerca">Acerca de</string>
+    <string name="desarrollado_acerca">Desarrollado por:</string>
+    <string name="autor_acerca">CLARES TI\nQuerétaro, Querétaro, MX\nTodos los derechos reservados 2017</string>
+    <string name="donativos_acerca">Donativos:</string>
+
+
+    <!--Activity Agregar Categoria-->
+    <string name="titulo_menu_ACategoria">Agregar Categoria</string>
+    <string name="nombreCategoria_ACategoria">Nombre de la categoria</string>
+    <string name="descripcionCategoria_ACategoria">Descripción</string>
+    <string name="registrarCategoria_ACategoria">Registrar</string>
+
+    <!--Activity Agregar Cuenta-->
+    <string name="titulo_menu_ACuenta">Agregar Cuenta</string>
+    <string name="nombreCuenta_ACuenta">Nombre de la cuenta</string>
+    <string name="descripcionCuenta_ACuenta">Descripción</string>
+    <string name="registrarCuenta_ACuenta">Registrar</string>
+
+
 </resources>

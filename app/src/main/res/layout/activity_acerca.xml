@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/Btnmenu"
-                android:text="Acerca de"
+                android:text="@string/titulo_menu_acerca"
                 android:textColor="#FFFFFF"
                 android:textSize="22dp"
                 android:layout_marginTop="15dp"
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_DesarrolladoPor"
-                android:text="Desarrollado por:"
+                android:text="@string/desarrollado_acerca"
                 android:textAlignment="center"
                 android:layout_marginTop="30dp"
                 android:textColor="#000"/>
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_claresTI"
                 android:layout_below="@id/acerca"
-                android:text="CLARES TI\nQuerétaro, Querétaro, MX\nTodos los derechos reservados 2017"
+                android:text="@string/autor_acerca"
                 android:textAlignment="center"
                 android:textColor="#000"/>
 
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_Donativos"
                 android:layout_below="@id/txt_claresTI"
-                android:text="Donativos:"
+                android:text="@string/donativos_acerca"
                 android:textAlignment="center"
                 android:layout_marginTop="50dp"
                 android:textColor="#000"/>
