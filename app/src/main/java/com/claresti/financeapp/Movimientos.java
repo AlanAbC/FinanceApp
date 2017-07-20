@@ -1,7 +1,10 @@
 package com.claresti.financeapp;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -14,12 +17,15 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -43,6 +49,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -57,7 +64,7 @@ public class Movimientos extends AppCompatActivity {
     private ImageView ingreso;
     private ImageView egreso;
     private EditText inputMonto;
-    private DatePicker dateFechaMovimiento;
+    private EditText dateFechaMovimiento;
     private Button btnRegistrarMovimiento;
     private RelativeLayout ventana;
     private ProgressBar progreso;
@@ -80,6 +87,11 @@ public class Movimientos extends AppCompatActivity {
     private Menu menu;
     private ImageView btnMenu;
     private NavigationView nav;
+
+    // Declaracion variables para el datapikerdialog
+    private int ano;
+    private int mes;
+    private int dia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +116,7 @@ public class Movimientos extends AppCompatActivity {
         txtMovimiento = (TextView)findViewById(R.id.tv_tipomov);
         ingreso = (ImageView)findViewById(R.id.img_mas);
         egreso = (ImageView)findViewById(R.id.img_menos);
-        //dateFechaMovimiento = (DatePicker)findViewById(R.id.date_fechaMovimiento);
+        dateFechaMovimiento = (EditText) findViewById(R.id.input_fecha);
         btnRegistrarMovimiento = (Button)findViewById(R.id.btn_registrar);
         progreso = (ProgressBar)findViewById(R.id.progress);
 
@@ -115,6 +127,12 @@ public class Movimientos extends AppCompatActivity {
 
         // Asignacion variables restantes
         flagMovimiento = 5;
+
+        // Datos para el datepikerdialog
+        Calendar c = Calendar.getInstance();
+        ano = c.get(Calendar.YEAR);
+        mes = c.get(Calendar.MONTH);
+        dia = c.get(Calendar.DAY_OF_MONTH);
 
         // Llamada a funciones para llenar los spinners y crear los listenrs
         llenarSpinerCategoria();
@@ -167,6 +185,24 @@ public class Movimientos extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validarFormulario();
+            }
+        });
+
+        //Agregamos listener para saber si el EditText de fecha tiene el focus
+        dateFechaMovimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(dateFechaMovimiento.isFocused())
+                {
+                    setFechaMovimiento();
+                }
+            }
+        });
+
+        dateFechaMovimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFechaMovimiento();
             }
         });
     }
@@ -356,7 +392,7 @@ public class Movimientos extends AppCompatActivity {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date fechaActual = new Date();
-            Date fecha = sdf.parse(dateFechaMovimiento.getYear() + "-" + (dateFechaMovimiento.getMonth() + 1) + "-" + dateFechaMovimiento.getDayOfMonth());
+            Date fecha = sdf.parse(dateFechaMovimiento.getText().toString());
             if (flagMovimiento == 5) {
                 msg("Selecciona que tipo de movimiento desea realizar");
             } else if (inputMonto.getText().toString().equals("")) {
@@ -389,7 +425,7 @@ public class Movimientos extends AppCompatActivity {
                                         "&mon=" + inputMonto.getText() +
                                         "&idCu=" + flagCuenta +
                                         "&tip=" + flagMovimiento +
-                                        "&date=" + dateFechaMovimiento.getYear() + "-" + (dateFechaMovimiento.getMonth() + 1) + "-" + dateFechaMovimiento.getDayOfMonth(),
+                                        "&date=" + dateFechaMovimiento.getText().toString(),
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -508,5 +544,27 @@ public class Movimientos extends AppCompatActivity {
 
             }
         }).show();
+    }
+
+    private void setFechaMovimiento()
+    {
+        //Ocultamos el Teclado
+        dateFechaMovimiento.setInputType(InputType.TYPE_NULL);
+        InputMethodManager inputMethodManager =  (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(dateFechaMovimiento.getWindowToken(), 0);
+
+        DatePickerDialog dpd = new DatePickerDialog(Movimientos.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                if(year <= ano && month <= mes && dayOfMonth <= dia) {
+                    dateFechaMovimiento.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                }
+            }
+        }, ano, mes, dia);
+        dpd.show();
+        Button ok = dpd.getButton(DialogInterface.BUTTON_POSITIVE);
+        ok.setTextColor(Color.parseColor("#949494"));
+        Button cancel = dpd.getButton(DialogInterface.BUTTON_NEGATIVE);
+        cancel.setTextColor(Color.parseColor("#949494"));
     }
 }

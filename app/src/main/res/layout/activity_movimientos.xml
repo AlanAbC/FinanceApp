@@ -202,7 +202,7 @@
                         android:layout_marginRight="50dp"
                         android:layout_marginLeft="50dp"
                         android:layout_marginTop="20dp"
-                        android:hint="Fecha de registro(AAAA-MM-DD)"
+                        android:hint="Fecha de registro"
                         android:layout_below="@id/input_layout_monto"
                         android:textColorHint="#949494"
                         android:layout_height="wrap_content">
@@ -212,7 +212,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#949494"
-                            android:inputType="date"
+                            android:inputType="text"
                             android:textSize="15sp"/>
 
                     </android.support.design.widget.TextInputLayout>
