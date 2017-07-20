@@ -100,7 +100,7 @@
                         android:layout_below="@id/img_monedas"
                         android:text="Tipo de movimiento que realizaras"
                         android:textColor="#949494"
-                        android:textSize="15sp"
+                        android:textSize="18sp"
                         android:id="@+id/tv_tipomov"/>
 
                     <TextView
@@ -196,16 +196,31 @@
 
                     </android.support.design.widget.TextInputLayout>
 
+                    <ImageButton
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/calendario"
+                        android:id="@+id/calendar"
+                        android:layout_marginRight="50dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/calendar"
+                        android:layout_marginTop="35dp"
+                        android:padding="6dp"
+                        android:layout_below="@id/input_layout_monto"
+                        android:scaleType="centerInside"/>
+
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_layout_fecha"
-                        android:layout_width="match_parent"
-                        android:layout_marginRight="50dp"
+                        android:layout_width="fill_parent"
+                        android:layout_marginRight="20dp"
                         android:layout_marginLeft="50dp"
                         android:layout_marginTop="20dp"
+                        android:layout_toLeftOf="@id/calendar"
                         android:hint="Fecha de registro"
                         android:layout_below="@id/input_layout_monto"
                         android:textColorHint="#949494"
                         android:layout_height="wrap_content">
+                        
 
                         <EditText
                             android:id="@+id/input_fecha"

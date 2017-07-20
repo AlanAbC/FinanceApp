@@ -98,7 +98,7 @@
                     android:gravity="left"
                     android:textColor="#949494"
                     android:padding="15dp"
-                    android:background="#FAFAFA"
+                    android:background="#00000000"
                     android:id="@+id/txt_filtro"
                     android:textSize="15sp"
                     android:layout_below="@id/cont_filtroFecha"/>

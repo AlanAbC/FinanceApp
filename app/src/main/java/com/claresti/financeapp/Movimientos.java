@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -65,6 +66,7 @@ public class Movimientos extends AppCompatActivity {
     private ImageView egreso;
     private EditText inputMonto;
     private EditText dateFechaMovimiento;
+    private ImageButton calendarPicker;
     private Button btnRegistrarMovimiento;
     private RelativeLayout ventana;
     private ProgressBar progreso;
@@ -119,6 +121,7 @@ public class Movimientos extends AppCompatActivity {
         dateFechaMovimiento = (EditText) findViewById(R.id.input_fecha);
         btnRegistrarMovimiento = (Button)findViewById(R.id.btn_registrar);
         progreso = (ProgressBar)findViewById(R.id.progress);
+        calendarPicker= (ImageButton) findViewById(R.id.calendar);
 
         //Asignacion variables clases
         bd = new BD(getApplicationContext());
@@ -200,6 +203,13 @@ public class Movimientos extends AppCompatActivity {
         });
 
         dateFechaMovimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFechaMovimiento();
+            }
+        });
+
+        calendarPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setFechaMovimiento();
