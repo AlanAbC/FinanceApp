@@ -66,6 +66,7 @@ public class Movimientos extends AppCompatActivity {
     private ImageView egreso;
     private EditText inputMonto;
     private EditText dateFechaMovimiento;
+    private EditText conceptoMovimiento;
     private ImageButton calendarPicker;
     private Button btnRegistrarMovimiento;
     private RelativeLayout ventana;
@@ -119,6 +120,7 @@ public class Movimientos extends AppCompatActivity {
         ingreso = (ImageView)findViewById(R.id.img_mas);
         egreso = (ImageView)findViewById(R.id.img_menos);
         dateFechaMovimiento = (EditText) findViewById(R.id.input_fecha);
+        conceptoMovimiento = (EditText) findViewById(R.id.input_concepto);
         btnRegistrarMovimiento = (Button)findViewById(R.id.btn_registrar);
         progreso = (ProgressBar)findViewById(R.id.progress);
         calendarPicker= (ImageButton) findViewById(R.id.calendar);
@@ -409,7 +411,9 @@ public class Movimientos extends AppCompatActivity {
                 msg("Ingresa la cantidad del movimiento");
             } else if (fechaActual.before(fecha)){
                 msg("Ingrese una fecha que ya haya pasado");
-            }else{
+            } else if (conceptoMovimiento.getText().toString().equals("")){
+                msg("Ingrese el concepto del movimiento a realizar");
+            } else{
                 crearMovimiento();
             }
         }catch (Exception e){
@@ -435,7 +439,8 @@ public class Movimientos extends AppCompatActivity {
                                         "&mon=" + inputMonto.getText() +
                                         "&idCu=" + flagCuenta +
                                         "&tip=" + flagMovimiento +
-                                        "&date=" + dateFechaMovimiento.getText().toString(),
+                                        "&date=" + dateFechaMovimiento.getText().toString() +
+                                        "&concepto=" + conceptoMovimiento.getText().toString(),
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
@@ -556,6 +561,9 @@ public class Movimientos extends AppCompatActivity {
         }).show();
     }
 
+    /**
+     * funcion encargada de establecer la fecha en el campo de fecha de movimiento y ocultar el teclado al mostrar el dialog
+     */
     private void setFechaMovimiento()
     {
         //Ocultamos el Teclado
