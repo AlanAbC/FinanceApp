@@ -2,6 +2,9 @@ package com.claresti.financeapp;
 
 public class Urls {
 
+    public static final String clares = "http://cpmx.claresti.com/";
+    public static final String GETMOVEMENTS = clares + "get_movements.php";
+
     private String login;
     private String registro;
     private String getCategorias;

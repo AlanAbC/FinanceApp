@@ -60,6 +60,7 @@ public class Login extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
+            window.setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
         }
 
         // Declaracion de variables de clases
@@ -67,9 +68,17 @@ public class Login extends AppCompatActivity {
         usuario = bd.slectUsuario();
         urls = new Urls();
 
-        // Comprobacion de que el usuario este logueado o no
-        if(!usuario.getIdUsuario().equals("0")){
-            Intent i = new Intent(Login.this, Movimientos.class);
+        /*inicio de sesión handler de sesión global*/
+        UserSessionManager session;
+        session = new UserSessionManager(getApplicationContext());
+
+        /***
+         *
+         */
+        if(session.isUserLoggedIn()){
+            Intent i = new Intent(getApplicationContext(),Denarius.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
             finish();
         }
@@ -162,18 +171,16 @@ public class Login extends AppCompatActivity {
                                                     if(arrayUsuario.length == 1) {
                                                         for (ObjUsuario usuaro : arrayUsuario) {
                                                             //crear base de datos local i guardar la informacion del objeto
-                                                            if(bd.LoginUsuario(usuaro).equals("1")){
-                                                                progreso.setVisibility(View.GONE);
-                                                                Intent i = new Intent(Login.this, Movimientos.class);
-                                                                startActivity(i);
-                                                                finish();
-                                                            }else {
-                                                                progreso.setVisibility(View.GONE);
-                                                                Toast.makeText(getApplicationContext(), "No se pudo guardar la sesion", Toast.LENGTH_SHORT).show();
-                                                                Intent i = new Intent(Login.this, Movimientos.class);
-                                                                startActivity(i);
-                                                                finish();
-                                                            }
+                                                            UserSessionManager session;
+                                                            session = new UserSessionManager(getApplicationContext());
+
+                                                            session.createUserLoginSession(usuaro.getIdUsuario(), usuaro.getUsuario(), usuaro.getNombre(), usuaro.getCorreo(), usuaro.getSexo(), usuaro.getFecha_Nac());
+
+                                                            Intent i = new Intent(getApplicationContext(), Denarius.class);
+                                                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            startActivity(i);
+                                                            finish();
                                                         }
                                                     }
                                                     progreso.setVisibility(View.GONE);

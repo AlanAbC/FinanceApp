@@ -9,12 +9,13 @@ public class ObjMovimiento {
     private String idCategoria;
     private String idCuenta;
     private String idUsuario;
+    private String concepto;
 
     public ObjMovimiento(){
 
     }
 
-    public ObjMovimiento(String ID, String monto, String tipo, String fecha, String idCategoria, String idCuenta, String idUsuario) {
+    public ObjMovimiento(String ID, String monto, String tipo, String fecha, String idCategoria, String idCuenta, String idUsuario, String concepto) {
         this.ID = ID;
         Monto = monto;
         Tipo = tipo;
@@ -22,6 +23,7 @@ public class ObjMovimiento {
         this.idCategoria = idCategoria;
         this.idCuenta = idCuenta;
         this.idUsuario = idUsuario;
+        this.concepto = concepto;
     }
 
     public String getID() {
@@ -78,5 +80,13 @@ public class ObjMovimiento {
 
     public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getConcepto() {
+        return this.concepto;
+    }
+
+    public void setConcepto(String concepto) {
+        this.concepto = concepto;
     }
 }
