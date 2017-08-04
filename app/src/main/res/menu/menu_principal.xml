@@ -9,12 +9,12 @@
             android:icon="@drawable/movimientos"/>
         <item
             android:id="@+id/opcion2"
-            android:title="Agregar Categoria"
+            android:title="Categorias"
             android:icon="@drawable/acategoria"/>
 
         <item
             android:id="@+id/opcion3"
-            android:title="Agregar Cuenta"
+            android:title="Cuentas"
             android:icon="@drawable/acuenta"/>
 
         <item

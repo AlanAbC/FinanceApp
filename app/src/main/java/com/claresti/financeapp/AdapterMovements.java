@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by smp_3 on 01/08/2017.
+ * Created by CLARESTI on 01/08/2017.
  */
 
 public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.ViewHolderMovements>
@@ -45,12 +45,23 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         return adapter;
     }
 
+    /**
+     * Funcion que crea la vista
+     * @param parent
+     * @param viewType
+     * @return view - vista que se mostrara en el recycler view
+     */
     @Override
     public ViewHolderMovements onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movimiento, null, false);
         return new ViewHolderMovements(view);
     }
 
+    /**
+     * Funcion de personalizacion de la vista de cada Movimiento
+     * @param holder vista donde se mostrara todo
+     * @param position posicion de el objeto que se mostrara
+     */
     @Override
     public void onBindViewHolder(ViewHolderMovements holder, int position) {
         holder.date.setText(movements.get(position).getFecha());
@@ -66,24 +77,40 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         }
     }
 
+    /**
+     * Funcion que devuelve el tamaño de el arraylist de movimientos
+     * @return
+     */
     @Override
     public int getItemCount() {
         return movements.size();
     }
 
+    /**
+     * Funcion para sustituir el arrayList de la clase
+     * @param movements - ArrayList de los Movimientos
+     */
     public void setMovements(ArrayList<ObjMovimiento> movements)
     {
         this.movements = movements;
     }
 
+    /**
+     * Funcion para añadir Items a el arraylist de movimientos
+     * @param obj - movimiento a añadir
+     */
     public void addItem(ObjMovimiento obj)
     {
         movements.add(obj);
         notifyItemInserted(movements.indexOf(obj));
     }
 
+    /**
+     * Funcion para actualizar el contenido de el arraylist
+     */
     public void updateContent()
     {
+        movements.clear();
         UserSessionManager session = new UserSessionManager(context);
         HashMap<String,String> user = session.getUserDetails();
         Map<String, String> paramsMovements = new HashMap<String, String>();
@@ -92,6 +119,9 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         comunications.getMovements(Urls.GETMOVEMENTS, paramsMovements);
     }
 
+    /**
+     * Clase que contiene la vista y conexion a el xml
+     */
     public class ViewHolderMovements extends RecyclerView.ViewHolder{
         ObjMovimiento objMovements;
         TextView type, date, amount, concept;
@@ -106,6 +136,10 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
 
         }
 
+        /**
+         * Funcion para establecer el objeto de movimiento de la vista
+         * @param movement
+         */
         public void setMovement(ObjMovimiento movement)
         {
             this.objMovements = movement;
