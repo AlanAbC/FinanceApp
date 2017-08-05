@@ -26,6 +26,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 
@@ -51,9 +52,13 @@ public class Denarius extends AppCompatActivity
     private RecyclerView recyclerView;
 
     //Adaptadores
-    AdapterMovements adapterMovements;
-    AdapterCategories adapterCategories;
+    private AdapterMovements adapterMovements;
+    private AdapterCategories adapterCategories;
+    private AdapterAccounts adapterAccounts;
     private int flagAdaptador = 0;
+
+    //TextView del titulo de la actividad
+    private TextView title;
 
     @Override
     public void onCreate(Bundle savedInstancestate) {
@@ -77,7 +82,8 @@ public class Denarius extends AppCompatActivity
         //Asignacion del header menu en una bariable
         View headerview = nav.getHeaderView(0);
 
-        //Funcionalidad del boton de menu y funcionalidad
+        //Funcionalidad del boton de menu, funcionalidad y titulo de la aplicacion
+        title = (TextView) findViewById(R.id.title_denarius);
         btnMenu = (ImageView) findViewById(R.id.Btnmenu);
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +129,10 @@ public class Denarius extends AppCompatActivity
                         Intent newCategory = new Intent(Denarius.this, AgregarCategoria.class);
                         startActivity(newCategory);
                         break;
+                    case 2:
+                        Intent newAccount = new Intent(Denarius.this, AgregarCuenta.class);
+                        startActivity(newAccount);
+                        break;
                 }
             }
         });
@@ -135,6 +145,7 @@ public class Denarius extends AppCompatActivity
     {
         adapterMovements = AdapterMovements.getInstance(getApplicationContext(), view);
         adapterCategories = AdapterCategories.getInstance(getApplicationContext(), view);
+        adapterAccounts = AdapterAccounts.getInstance(getApplicationContext(), view);
         adapterMovements.updateContent();
         recyclerView.setAdapter(adapterMovements);
     }
@@ -169,16 +180,23 @@ public class Denarius extends AppCompatActivity
                 int pos = items.indexOf(item);
                 if(pos == 0)
                 {
+                    title.setText("Movimientos");
                     adapterMovements.updateContent();
                     recyclerView.setAdapter(adapterMovements);
                     recyclerView.invalidate();
+                    flagAdaptador = 0;
                 }else if(pos == 1){
+                    title.setText("Categorias");
                     adapterCategories.updateContent();
                     recyclerView.setAdapter(adapterCategories);
                     recyclerView.invalidate();
                     flagAdaptador = 1;
                 }else if(pos == 2){
-                    Snackbar.make(view, "Movimientos3", Snackbar.LENGTH_SHORT).show();
+                    title.setText("Cuentas");
+                    adapterAccounts.updateContent();
+                    recyclerView.setAdapter(adapterAccounts);
+                    recyclerView.invalidate();
+                    flagAdaptador = 2;
                 }else if(pos == 3) {
                     Snackbar.make(view, "Movimientos4", Snackbar.LENGTH_SHORT).show();
                 }else if(pos == 4){

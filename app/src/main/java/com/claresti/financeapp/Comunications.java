@@ -31,6 +31,7 @@ public class Comunications {
     private View view;
     private AdapterMovements adapterMovements;
     private AdapterCategories adapterCategories;
+    private AdapterAccounts adapterAccounts;
 
     public Comunications(Context context, View view)
     {
@@ -38,6 +39,7 @@ public class Comunications {
         this.view = view;
         this.adapterMovements = AdapterMovements.getInstance(context, view);
         this.adapterCategories = AdapterCategories.getInstance(context, view);
+        this.adapterAccounts = AdapterAccounts.getInstance(context, view);
     }
 
     /**
@@ -164,7 +166,7 @@ public class Comunications {
                         }
                         catch(JSONException jsone)
                         {
-                            Snackbar.make(view, "No se han podido cargar los movimientos", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(view, "No se han podido cargar las categorias", Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 },
@@ -205,4 +207,88 @@ public class Comunications {
         });
         requestQueue.add(stringRequest);
     }
+
+    /**
+     * Funcion para obtener todas las cuentas dependiendo de los parametros que se envien
+     * @param url - url de la API
+     * @param paramsGetData - parametros que se enviaran a la API
+     */
+    public void getAccounts(String url, Map<String, String> paramsGetData)
+    {
+        final Gson gson = new Gson();
+        final Map<String, String> paramsMap = paramsGetData;
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        try
+                        {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String state = jsonObject.getString("state");
+                            switch(state)
+                            {
+                                case "1":
+                                    JSONArray items = jsonObject.getJSONArray("items");
+                                    ObjCuenta[] itemsArray = gson.fromJson(items.toString(), ObjCuenta[].class);
+                                    for(int i = 0; i < itemsArray.length; i++)
+                                    {
+                                        adapterAccounts.addItem(itemsArray[i]);
+
+                                    }
+                                    break;
+                                case "0":
+                                    String mensaje = jsonObject.getString("message");
+                                    Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+
+                        }
+                        catch(JSONException jsone)
+                        {
+                            Snackbar.make(view, "No se han podido cargar las cuentas", Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("DCOM", error.getMessage());
+                        Snackbar.make(view, "Error de conexion", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = paramsMap;
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(stringRequest);
+    }
+
 }
