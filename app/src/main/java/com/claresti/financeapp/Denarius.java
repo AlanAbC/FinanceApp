@@ -207,12 +207,11 @@ public class Denarius extends AppCompatActivity
                     Snackbar.make(view, "Movimientos7", Snackbar.LENGTH_SHORT).show();
                 }
                 drawerLayout.closeDrawer(nav);
-                item.setChecked(false);
                 return false;
             }
         });
 
-        //Asignacion del header menu en una bariable
+        //Asignacion del header menu en una variable
         View headerview = nav.getHeaderView(0);
 
         //Funcionalidad del boton de menu

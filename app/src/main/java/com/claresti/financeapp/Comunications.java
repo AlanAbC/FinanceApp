@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -245,6 +249,188 @@ public class Comunications {
                                     Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
                                     break;
                             }
+
+                        }
+                        catch(JSONException jsone)
+                        {
+                            Snackbar.make(view, "No se han podido cargar las cuentas", Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("DCOM", error.getMessage());
+                        Snackbar.make(view, "Error de conexion", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = paramsMap;
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(stringRequest);
+    }
+
+    /**
+     * Funcion para llenar un spinner que contenga categorias
+     * @param url - url de la API
+     * @param paramsGetData - parametros que se enviaran a la API
+     * @param spinner - spinner a llenar
+     * @param progressBar - barra de progreso para mostrar que se estan descargando datos
+     */
+    public void fillSpinnerCategory(String url, Map<String, String> paramsGetData, Spinner spinner, final ProgressBar progressBar)
+    {
+        progressBar.setVisibility(View.VISIBLE);
+        final Gson gson = new Gson();
+        final Map<String, String> paramsMap = paramsGetData;
+        final Spinner spinnerToFill = spinner;
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        try
+                        {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String state = jsonObject.getString("state");
+                            switch(state)
+                            {
+                                case "1":
+                                    JSONArray items = jsonObject.getJSONArray("items");
+                                    ObjCategoria[] itemsArray = gson.fromJson(items.toString(), ObjCategoria[].class);
+
+                                    final ArrayList<String> textoSpinerCategoria = new ArrayList<String>();
+                                    for(int i = 0; i < itemsArray.length; i++)
+                                    {
+                                        textoSpinerCategoria.add(itemsArray[i].getNombre());
+                                    }
+                                    Movimientos.arrayCategoria = itemsArray;
+                                    spinnerToFill.setAdapter(new AdaptadorSpinnerMovimientos(context, textoSpinerCategoria));
+                                    break;
+                                case "0":
+                                    String mensaje = jsonObject.getString("message");
+                                    Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+                        catch(JSONException jsone)
+                        {
+                            Snackbar.make(view, "No se han podido cargar las cuentas", Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("DCOM", error.getMessage());
+                        Snackbar.make(view, "Error de conexion", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = paramsMap;
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(stringRequest);
+    }
+
+    /**
+     * Funcion para llenar un spinner que contenga cuentas
+     * @param url - url de la API
+     * @param paramsGetData - parametros que se enviaran a la API
+     * @param spinner - spinner a llenar
+     * @param progressBar - barra de progreso para mostrar que se estan descargando datos
+     */
+    public void fillSpinnerAccount(String url, Map<String, String> paramsGetData, Spinner spinner, final ProgressBar progressBar)
+    {
+        progressBar.setVisibility(View.VISIBLE);
+        final Gson gson = new Gson();
+        final Map<String, String> paramsMap = paramsGetData;
+        final Spinner spinnerToFill = spinner;
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        try
+                        {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String state = jsonObject.getString("state");
+                            switch(state)
+                            {
+                                case "1":
+                                    JSONArray items = jsonObject.getJSONArray("items");
+                                    ObjCuenta[] itemsArray = gson.fromJson(items.toString(), ObjCuenta[].class);
+
+                                    final ArrayList<String> textoSpinerCategoria = new ArrayList<String>();
+                                    for(int i = 0; i < itemsArray.length; i++)
+                                    {
+                                        textoSpinerCategoria.add(itemsArray[i].getNombre());
+                                    }
+                                    Movimientos.arrayCuenta = itemsArray;
+                                    spinnerToFill.setAdapter(new AdaptadorSpinnerMovimientos(context, textoSpinerCategoria));
+                                    break;
+                                case "0":
+                                    String mensaje = jsonObject.getString("message");
+                                    Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                            progressBar.setVisibility(View.GONE);
 
                         }
                         catch(JSONException jsone)

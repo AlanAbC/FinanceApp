@@ -47,7 +47,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
      */
     @Override
     public AdapterAccounts.ViewHolderAccounts onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movimiento, null, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account, null, false);
         return new AdapterAccounts.ViewHolderAccounts(view);
     }
 
@@ -58,10 +58,9 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
      */
     @Override
     public void onBindViewHolder(AdapterAccounts.ViewHolderAccounts holder, int position) {
-        holder.type.setText(accounts.get(position).getNombre());
-        holder.concept.setText(accounts.get(position).getDescripcion());
+        holder.name.setText(accounts.get(position).getNombre());
+        holder.description.setText(accounts.get(position).getDescripcion());
         holder.imageType.setImageResource(R.drawable.acuenta);
-        holder.date.setText("Ingreso");
     }
 
     /**
@@ -111,16 +110,15 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
      */
     public class ViewHolderAccounts extends RecyclerView.ViewHolder{
         ObjCuenta account;
-        TextView type, date, amount, concept;
+        TextView name, money, description;
         ImageView imageType;
 
         public ViewHolderAccounts(View itemView) {
             super(itemView);
-            imageType = (ImageView) itemView.findViewById(R.id.tipoMovimiento);
-            type = (TextView) itemView.findViewById(R.id.txt_tipoMovimiento);
-            date = (TextView) itemView.findViewById(R.id.txt_fechaMovimiento);
-            amount = (TextView) itemView.findViewById(R.id.txt_MontoMovimiento);
-            concept = (TextView) itemView.findViewById(R.id.txt_ConceptoMovimiento);
+            imageType = (ImageView) itemView.findViewById(R.id.imgAccount);
+            name = (TextView) itemView.findViewById(R.id.txt_nameAccount);
+            money = (TextView) itemView.findViewById(R.id.txt_moneyAccount);
+            description = (TextView) itemView.findViewById(R.id.txt_descriptionAccount);
 
         }
 

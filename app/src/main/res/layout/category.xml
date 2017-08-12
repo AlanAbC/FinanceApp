@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_border"
+    android:padding="0dp"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:layout_marginBottom="10dp">
+
+    <ImageView
+        android:layout_width="25dp"
+        android:id="@+id/imgCategory"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_height="25dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/txt_nameCategory"
+        android:paddingLeft="12dp"
+        android:textColor="#191919"
+        android:text="Nombre de Categoria"
+        android:layout_alignStart="@+id/txt_descriptionCategory"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_toRightOf="@id/imgCategory"
+        android:layout_below="@id/txt_nameCategory"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="3dp"
+        android:id="@+id/txt_descriptionCategory"
+        android:paddingLeft="25dp"
+        android:textColor="#191919"
+        android:text="Descripcion de la Categoria"/>
+</RelativeLayout>

@@ -47,23 +47,30 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Movimientos extends AppCompatActivity {
 
     // Declaracion de variables en el layout
     private Spinner spinerCategoria;
     private Spinner spinerCuenta;
+    private Spinner spinerAccountTransfer;
     private TextView txtCategoria;
     private TextView txtCuenta;
     private TextView txtMovimiento;
+    private TextView txtAccountTransfer;
+    private TextView descriptionAccountTranfer;
     private ImageView ingreso;
     private ImageView egreso;
+    private ImageView transfer;
     private EditText inputMonto;
     private EditText dateFechaMovimiento;
     private EditText conceptoMovimiento;
@@ -76,8 +83,8 @@ public class Movimientos extends AppCompatActivity {
     private BD bd;
     private ObjUsuario usuario;
     private Urls urls;
-    private ObjCategoria[] arrayCategoria;
-    private ObjCuenta[] arrayCuenta;
+    public static ObjCategoria[] arrayCategoria;
+    public static ObjCuenta[] arrayCuenta;
 
     //Declaracion de banderas de variables
     private int flagMovimiento;
@@ -112,13 +119,17 @@ public class Movimientos extends AppCompatActivity {
         // Asignacion variables layout
         spinerCategoria = (Spinner)findViewById(R.id.spin_categoria);
         spinerCuenta = (Spinner)findViewById(R.id.spin_cuenta);
+        spinerAccountTransfer = (Spinner)findViewById(R.id.spin_accountTransfer);
         inputMonto = (EditText)findViewById(R.id.input_monto);
         ventana = (RelativeLayout)findViewById(R.id.l_ventana);
         txtCategoria = (TextView)findViewById(R.id.txt_categoria);
         txtCuenta = (TextView)findViewById(R.id.txt_cuenta);
+        txtAccountTransfer = (TextView)findViewById(R.id.txt_accountTransfer);
+        descriptionAccountTranfer = (TextView)findViewById(R.id.tv_accountTransfer);
         txtMovimiento = (TextView)findViewById(R.id.tv_tipomov);
         ingreso = (ImageView)findViewById(R.id.img_mas);
         egreso = (ImageView)findViewById(R.id.img_menos);
+        transfer = (ImageView) findViewById(R.id.img_transfer);
         dateFechaMovimiento = (EditText) findViewById(R.id.input_fecha);
         conceptoMovimiento = (EditText) findViewById(R.id.input_concepto);
         btnRegistrarMovimiento = (Button)findViewById(R.id.btn_registrar);
@@ -140,15 +151,15 @@ public class Movimientos extends AppCompatActivity {
         dia = c.get(Calendar.DAY_OF_MONTH);
 
         // Llamada a funciones para llenar los spinners y crear los listenrs
-        llenarSpinerCategoria();
-        llenarSpinerCuenta();
+        UserSessionManager session = new UserSessionManager(getApplicationContext());
+        HashMap<String,String> user = session.getUserDetails();
+        Map<String, String> paramsMovements = new HashMap<String, String>();
+        paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
+        Comunications com = new Comunications(getApplicationContext(), ventana);
+        com.fillSpinnerCategory(Urls.GETCATEGORIES, paramsMovements, spinerCategoria, progreso);
+        com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerCuenta, progreso);
+        com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso);
         crearListeners();
-
-        //Menu, Inicia las variables del menu y llama la funcion encargada de su manipulacion
-        drawerLayout = (DrawerLayout) findViewById(R.id.dLayout);
-        nav = (NavigationView)findViewById(R.id.navigation);
-        menu = nav.getMenu();
-        menuNav();
 
         //Ocultar teclado al iniciar la activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -164,12 +175,17 @@ public class Movimientos extends AppCompatActivity {
                 flagMovimiento = 1;
                 txtMovimiento.setText("Ingreso");
                 Log.i("Movimiento", flagMovimiento + "");
-                ingreso.setBackgroundResource(R.drawable.img_verde_res);
-                egreso.setBackgroundResource(R.drawable.img_roja);
-                ingreso.setPadding(45,45,45,45);
-                egreso.setPadding(45,45,45,45);
+                //ingreso.setBackgroundResource(R.drawable.img_verde_res);
+                //egreso.setBackgroundResource(R.drawable.img_roja);
+                ingreso.setPadding(20,20,20,20);
+                egreso.setPadding(25,25,25,25);
+                transfer.setPadding(25,25,25,25);
                 ingreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 egreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                transfer.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                descriptionAccountTranfer.setVisibility(View.GONE);
+                spinerAccountTransfer.setVisibility(View.GONE);
+                txtAccountTransfer.setVisibility(View.GONE);
             }
         });
         egreso.setOnClickListener(new View.OnClickListener() {
@@ -178,12 +194,34 @@ public class Movimientos extends AppCompatActivity {
                 flagMovimiento = 2;
                 txtMovimiento.setText("Egreso");
                 Log.i("Movimiento", flagMovimiento + "");
-                egreso.setBackgroundResource(R.drawable.img_roja_res);
-                ingreso.setBackgroundResource(R.drawable.img_verde);
-                ingreso.setPadding(45,45,45,45);
-                egreso.setPadding(45,45,45,45);
+                //egreso.setBackgroundResource(R.drawable.img_roja_res);
+                //ingreso.setBackgroundResource(R.drawable.img_verde);
+                egreso.setPadding(20,20,20,20);
+                ingreso.setPadding(25,25,25,25);
+                transfer.setPadding(25,25,25,25);
                 ingreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 egreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                transfer.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                descriptionAccountTranfer.setVisibility(View.GONE);
+                spinerAccountTransfer.setVisibility(View.GONE);
+                txtAccountTransfer.setVisibility(View.GONE);
+            }
+        });
+
+        transfer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flagMovimiento = 3;
+                txtMovimiento.setText("Transferencia");
+                transfer.setPadding(10,10,10,10);
+                ingreso.setPadding(25,25,25,25);
+                egreso.setPadding(25,25,25,25);
+                ingreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                egreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                transfer.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                descriptionAccountTranfer.setVisibility(View.VISIBLE);
+                spinerAccountTransfer.setVisibility(View.VISIBLE);
+                txtAccountTransfer.setVisibility(View.VISIBLE);
             }
         });
         btnRegistrarMovimiento.setOnClickListener(new View.OnClickListener() {
@@ -217,180 +255,40 @@ public class Movimientos extends AppCompatActivity {
                 setFechaMovimiento();
             }
         });
-    }
 
-    /**
-     * Funcion encargada de llenar el espiner de listaMovimientos
-     */
-    private void llenarSpinerCategoria() {
-        progreso.setVisibility(View.VISIBLE);
-        Log.i("NICKNAME", usuario.getUsuario());
-        final Gson gson = new Gson();
-        JsonObjectRequest request;
-        VolleySingleton.getInstance(Movimientos.this).
-                addToRequestQueue(
-                        request = new JsonObjectRequest(
-                                Request.Method.GET,
-                                urls.getGetCategorias() + "usuario=" + usuario.getUsuario(),
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        try {
-                                            String res = response.getString("estado");
-                                            switch(res){
-                                                case "1":
-                                                    Log.i("peticion", "caso 1");
-                                                    JSONArray jArrayMarcadores = response.getJSONArray("registros");
-                                                    final ArrayList<String> textoSpinerCategoria = new ArrayList<String>();
-                                                    arrayCategoria = gson.fromJson(jArrayMarcadores.toString(), ObjCategoria[].class);
-                                                    Log.i("peticion", "tamaño: " + arrayCategoria.length);
-                                                    for(int i = 0; i < arrayCategoria.length; i++){
-                                                        if(arrayCategoria.length > 0){
-                                                            textoSpinerCategoria.add(arrayCategoria[i].getNombre());
-                                                        }
-                                                    }
-                                                    spinerCategoria.setAdapter(new AdaptadorSpinnerMovimientos(getApplicationContext(), textoSpinerCategoria));
-                                                    spinerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                                        @Override
-                                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                                            txtCategoria.setText(textoSpinerCategoria.get(position));
-                                                            flagCategoria = Integer.parseInt(arrayCategoria[position].getID());
-                                                        }
-
-                                                        @Override
-                                                        public void onNothingSelected(AdapterView<?> parent) {
-
-                                                        }
-                                                    });
-                                                    progreso.setVisibility(View.GONE);
-                                                    break;
-                                                case "0":
-                                                    Log.i("peticion", "caso 0");
-                                                    arrayCategoria = null;
-                                                    //Regresar mensaje de que no hay registros
-                                                    progreso.setVisibility(View.GONE);
-                                                    break;
-                                                default:
-                                                    Log.i("peticion", "caso default");
-                                                    arrayCategoria = null;
-                                                    progreso.setVisibility(View.GONE);
-                                                    //msg("Ocurrio un problema al conectarse con el sertvidor");
-                                                    break;
-                                            }
-                                        }catch(JSONException json){
-                                            Log.e("JSON", json.toString());
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                    }
-                                }
-                        )
-                );
-        request.setRetryPolicy(new RetryPolicy() {
+        spinerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public int getCurrentTimeout() {
-                return 50000;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                txtCategoria.setText(arrayCategoria[position].getNombre());
+                flagCategoria = Integer.parseInt(arrayCategoria[position].getID());
             }
 
             @Override
-            public int getCurrentRetryCount() {
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-    }
-
-    /**
-     * Funcion encargada de llenar el espiner de cuenta
-     */
-    private void llenarSpinerCuenta() {
-        progreso.setVisibility(View.VISIBLE);
-        final Gson gson = new Gson();
-        JsonObjectRequest request;
-        VolleySingleton.getInstance(Movimientos.this).
-                addToRequestQueue(
-                        request = new JsonObjectRequest(
-                                Request.Method.GET,
-                                urls.getGetCuentas() + "usuario=" + usuario.getUsuario(),
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        try {
-                                            String res = response.getString("estado");
-                                            switch(res){
-                                                case "1":
-                                                    Log.i("peticion", "caso 1");
-                                                    JSONArray jArrayMarcadores = response.getJSONArray("registros");
-                                                    final ArrayList<String> textoSpinerCuenta = new ArrayList<String>();
-                                                    arrayCuenta = gson.fromJson(jArrayMarcadores.toString(), ObjCuenta[].class);
-                                                    Log.i("peticion", "tamaño: " + arrayCuenta.length);
-                                                    for(int i = 0; i < arrayCuenta.length; i++){
-                                                        if(arrayCuenta.length > 0){
-                                                            textoSpinerCuenta.add(arrayCuenta[i].getNombre());
-                                                        }
-                                                    }
-                                                    spinerCuenta.setAdapter(new AdaptadorSpinnerMovimientos(getApplicationContext(), textoSpinerCuenta));
-                                                    spinerCuenta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                                        @Override
-                                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                                            txtCuenta.setText(textoSpinerCuenta.get(position));
-                                                            flagCuenta = Integer.parseInt(arrayCuenta[position].getID());
-                                                        }
-
-                                                        @Override
-                                                        public void onNothingSelected(AdapterView<?> parent) {
-
-                                                        }
-                                                    });
-                                                    progreso.setVisibility(View.GONE);
-                                                    break;
-                                                case "0":
-                                                    Log.i("peticion", "caso 0");
-                                                    arrayCuenta = null;
-                                                    //Regresar mensaje de que no hay registros
-                                                    progreso.setVisibility(View.GONE);
-                                                    break;
-                                                default:
-                                                    Log.i("peticion", "caso default");
-                                                    arrayCuenta = null;
-                                                    progreso.setVisibility(View.GONE);
-                                                    //msg("Ocurrio un problema al conectarse con el sertvidor");
-                                                    break;
-                                            }
-                                        }catch(JSONException json){
-                                            Log.e("JSON", json.toString());
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                    }
-                                }
-                        )
-                );
-        request.setRetryPolicy(new RetryPolicy() {
+        spinerAccountTransfer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public int getCurrentTimeout() {
-                return 50000;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                txtAccountTransfer.setText(arrayCuenta[position].getNombre());
+                flagCategoria = Integer.parseInt(arrayCuenta[position].getID());
             }
 
             @Override
-            public int getCurrentRetryCount() {
-                return 50000;
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinerCuenta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                txtCuenta.setText(arrayCuenta[position].getNombre());
+                flagCategoria = Integer.parseInt(arrayCuenta[position].getID());
             }
 
             @Override
-            public void retry(VolleyError error) throws VolleyError {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -488,62 +386,6 @@ public class Movimientos extends AppCompatActivity {
             @Override
             public void retry(VolleyError error) throws VolleyError {
 
-            }
-        });
-    }
-
-    /**
-     * Funcion que da funcionalidad al menu
-     */
-    private void menuNav(){
-        for(int i = 0; i < menu.size(); i++){
-            items.add(menu.getItem(i));
-        }
-        items.get(0).setChecked(true);
-        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);
-                int pos = items.indexOf(item);
-                if(pos == 0){
-
-                }else if(pos == 1){
-                    Intent i = new Intent(Movimientos.this, AgregarCategoria.class);
-                    startActivity(i);
-                }else if(pos == 2){
-                    Intent i = new Intent(Movimientos.this, AgregarCuenta.class);
-                    startActivity(i);
-                }else if(pos == 3) {
-                    Intent i = new Intent(Movimientos.this, DespliegueMovimientos.class);
-                    startActivity(i);
-                }else if(pos == 4){
-                    Intent i = new Intent(Movimientos.this, Estadisticas.class);
-                    startActivity(i);
-                }else if(pos == 5){
-                    Intent i = new Intent(Movimientos.this, Acerca.class);
-                    startActivity(i);
-                }else if(pos == 6){
-                    if(bd.LogoutUsuario(usuario.getIdUsuario()).equals("1")){
-                        Intent i = new Intent(Movimientos.this, Login.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(i);
-                    }
-                }
-                drawerLayout.closeDrawer(nav);
-                item.setChecked(false);
-                return false;
-            }
-        });
-
-        //Asignacion del header menu en una bariable
-        View headerview = nav.getHeaderView(0);
-
-        //Funcionalidad del boton de menu
-        btnMenu = (ImageView)findViewById(R.id.Btnmenu);
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(nav);
             }
         });
     }

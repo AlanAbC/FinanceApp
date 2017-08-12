@@ -10,7 +10,7 @@
 
     <ImageView
         android:layout_width="25dp"
-        android:id="@+id/tipoMovimiento"
+        android:id="@+id/imgAccount"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         android:layout_height="25dp" />
@@ -21,48 +21,35 @@
         android:textSize="13sp"
         android:gravity="center_vertical"
         android:layout_marginLeft="10dp"
-        android:id="@+id/txt_tipoMovimiento"
+        android:id="@+id/txt_nameAccount"
         android:paddingLeft="12dp"
         android:textColor="#191919"
-        android:text="Tipo de movimiento"
-        android:layout_alignBaseline="@+id/txt_fechaMovimiento"
-        android:layout_alignBottom="@+id/txt_fechaMovimiento"
-        android:layout_alignStart="@+id/txt_MontoMovimiento"/>
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:layout_toRightOf="@id/txt_tipoMovimiento"
-        android:gravity="center_vertical"
-        android:layout_marginTop="2dp"
-        android:id="@+id/txt_fechaMovimiento"
-        android:paddingLeft="10dp"
-        android:textColor="#191919"
-        android:text="DD/MM/AAAA" />
+        android:text="Nombre de la Cuenta"
+        android:layout_alignStart="@+id/txt_moneyAccount"/>
     <TextView
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:textSize="13sp"
-        android:layout_toRightOf="@id/tipoMovimiento"
-        android:layout_below="@id/txt_tipoMovimiento"
+        android:layout_toRightOf="@id/imgAccount"
+        android:layout_below="@id/txt_nameAccount"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="3dp"
-        android:id="@+id/txt_MontoMovimiento"
+        android:id="@+id/txt_moneyAccount"
         android:paddingLeft="25dp"
         android:textColor="#191919"
-        android:text="$0000000.00000"/>
+        android:text="Dinero en la Cuenta: $0.0"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="13sp"
-        android:layout_toRightOf="@id/tipoMovimiento"
-        android:layout_below="@id/txt_MontoMovimiento"
+        android:layout_toRightOf="@id/imgAccount"
+        android:layout_below="@id/txt_moneyAccount"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
         android:layout_marginRight="3dp"
-        android:id="@+id/txt_ConceptoMovimiento"
+        android:id="@+id/txt_descriptionAccount"
         android:paddingLeft="25dp"
         android:textColor="#191919"
-        android:text="Concepto" />
+        android:text="Descripcion de la Cuenta" />
 </RelativeLayout>

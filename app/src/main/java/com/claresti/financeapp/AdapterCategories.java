@@ -47,7 +47,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
      */
     @Override
     public AdapterCategories.ViewHolderCategories onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movimiento, null, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category, null, false);
         return new AdapterCategories.ViewHolderCategories(view);
     }
 
@@ -58,10 +58,9 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
      */
     @Override
     public void onBindViewHolder(AdapterCategories.ViewHolderCategories holder, int position) {
-        holder.type.setText(categories.get(position).getNombre());
-        holder.concept.setText(categories.get(position).getDescripcion());
+        holder.name.setText(categories.get(position).getNombre());
+        holder.description.setText(categories.get(position).getDescripcion());
         holder.imageType.setImageResource(R.drawable.acategoria);
-        holder.date.setText("Ingreso");
     }
 
     /**
@@ -111,16 +110,14 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
      */
     public class ViewHolderCategories extends RecyclerView.ViewHolder{
         ObjCategoria category;
-        TextView type, date, amount, concept;
+        TextView name, description;
         ImageView imageType;
 
         public ViewHolderCategories(View itemView) {
             super(itemView);
-            imageType = (ImageView) itemView.findViewById(R.id.tipoMovimiento);
-            type = (TextView) itemView.findViewById(R.id.txt_tipoMovimiento);
-            date = (TextView) itemView.findViewById(R.id.txt_fechaMovimiento);
-            amount = (TextView) itemView.findViewById(R.id.txt_MontoMovimiento);
-            concept = (TextView) itemView.findViewById(R.id.txt_ConceptoMovimiento);
+            imageType = (ImageView) itemView.findViewById(R.id.imgCategory);
+            name = (TextView) itemView.findViewById(R.id.txt_nameCategory);
+            description = (TextView) itemView.findViewById(R.id.txt_descriptionCategory);
 
         }
 
