@@ -71,9 +71,13 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         if(movements.get(position).getTipo().equals("1")){
             holder.imageType.setImageResource(R.drawable.arrow_up);
             holder.type.setText("Ingreso");
-        }else{
+        }else if(movements.get(position).getTipo().equals("2")){
             holder.imageType.setImageResource(R.drawable.arrow_down);
             holder.type.setText("Egreso");
+        }else
+        {
+            holder.imageType.setImageResource(R.drawable.icon_transfer);
+            holder.type.setText("Transferencia");
         }
     }
 

@@ -61,6 +61,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
         holder.name.setText(accounts.get(position).getNombre());
         holder.description.setText(accounts.get(position).getDescripcion());
         holder.imageType.setImageResource(R.drawable.acuenta);
+        holder.money.setText("$ " + accounts.get(position).getDinero());
     }
 
     /**

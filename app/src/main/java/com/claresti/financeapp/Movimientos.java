@@ -36,6 +36,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -79,29 +80,21 @@ public class Movimientos extends AppCompatActivity {
     private RelativeLayout ventana;
     private ProgressBar progreso;
 
-    // Declaracion de variables de clases
-    private BD bd;
-    private ObjUsuario usuario;
-    private Urls urls;
-    public static ObjCategoria[] arrayCategoria;
-    public static ObjCuenta[] arrayCuenta;
-
     //Declaracion de banderas de variables
     private int flagMovimiento;
     private int flagCategoria;
     private int flagCuenta;
-
-    //Menu, Declaracion de variables
-    private DrawerLayout drawerLayout;
-    final List<MenuItem> items = new ArrayList<>();
-    private Menu menu;
-    private ImageView btnMenu;
-    private NavigationView nav;
+    private int flagCuentaTransfer;
 
     // Declaracion variables para el datapikerdialog
     private int ano;
     private int mes;
     private int dia;
+
+    //Declaracion de variables para la comunicacion con la API
+    private Comunications com;
+    private UserSessionManager session;
+    private HashMap<String,String> user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,13 +129,11 @@ public class Movimientos extends AppCompatActivity {
         progreso = (ProgressBar)findViewById(R.id.progress);
         calendarPicker= (ImageButton) findViewById(R.id.calendar);
 
-        //Asignacion variables clases
-        bd = new BD(getApplicationContext());
-        usuario = bd.slectUsuario();
-        urls = new Urls();
-
         // Asignacion variables restantes
         flagMovimiento = 5;
+        flagCuentaTransfer = -1;
+        flagCuenta = -1;
+        flagCategoria = -1;
 
         // Datos para el datepikerdialog
         Calendar c = Calendar.getInstance();
@@ -151,11 +142,11 @@ public class Movimientos extends AppCompatActivity {
         dia = c.get(Calendar.DAY_OF_MONTH);
 
         // Llamada a funciones para llenar los spinners y crear los listenrs
-        UserSessionManager session = new UserSessionManager(getApplicationContext());
-        HashMap<String,String> user = session.getUserDetails();
+        session = new UserSessionManager(getApplicationContext());
+        user = session.getUserDetails();
         Map<String, String> paramsMovements = new HashMap<String, String>();
         paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
-        Comunications com = new Comunications(getApplicationContext(), ventana);
+        com = new Comunications(getApplicationContext(), ventana);
         com.fillSpinnerCategory(Urls.GETCATEGORIES, paramsMovements, spinerCategoria, progreso);
         com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerCuenta, progreso);
         com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso);
@@ -212,6 +203,7 @@ public class Movimientos extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 flagMovimiento = 3;
+                flagCuentaTransfer = -1;//reseteamos la bandera de cuenta a transferir
                 txtMovimiento.setText("Transferencia");
                 transfer.setPadding(10,10,10,10);
                 ingreso.setPadding(25,25,25,25);
@@ -259,8 +251,8 @@ public class Movimientos extends AppCompatActivity {
         spinerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                txtCategoria.setText(arrayCategoria[position].getNombre());
-                flagCategoria = Integer.parseInt(arrayCategoria[position].getID());
+                txtCategoria.setText(Comunications.arrayCategoria[position].getNombre());
+                flagCategoria = Integer.parseInt(Comunications.arrayCategoria[position].getID());
             }
 
             @Override
@@ -271,8 +263,8 @@ public class Movimientos extends AppCompatActivity {
         spinerAccountTransfer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                txtAccountTransfer.setText(arrayCuenta[position].getNombre());
-                flagCategoria = Integer.parseInt(arrayCuenta[position].getID());
+                txtAccountTransfer.setText(Comunications.arrayCuenta[position].getNombre());
+                flagCuentaTransfer = Integer.parseInt(Comunications.arrayCuenta[position].getID());
             }
 
             @Override
@@ -283,8 +275,8 @@ public class Movimientos extends AppCompatActivity {
         spinerCuenta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                txtCuenta.setText(arrayCuenta[position].getNombre());
-                flagCategoria = Integer.parseInt(arrayCuenta[position].getID());
+                txtCuenta.setText(Comunications.arrayCuenta[position].getNombre());
+                flagCuenta = Integer.parseInt(Comunications.arrayCuenta[position].getID());
             }
 
             @Override
@@ -311,83 +303,29 @@ public class Movimientos extends AppCompatActivity {
                 msg("Ingrese una fecha que ya haya pasado");
             } else if (conceptoMovimiento.getText().toString().equals("")){
                 msg("Ingrese el concepto del movimiento a realizar");
-            } else{
-                crearMovimiento();
+            } else if (flagMovimiento == 3 && flagCuentaTransfer == -1) {
+                msg("Selecciona una cuenta para la transferencia");
+            } else if (flagMovimiento == 3 && flagCuenta == flagCuentaTransfer) {
+                msg("No puedes hacer una transferencia a la misma cuenta");
+            } else {
+                Map<String, String> paramsMovements = new HashMap<String, String>();
+                paramsMovements.put("idUsuario",user.get(UserSessionManager.KEY_ID));
+                paramsMovements.put("idCategoria", flagCategoria + "");
+                paramsMovements.put("monto", inputMonto.getText().toString());
+                paramsMovements.put("idCuenta", flagCuenta + "");
+                paramsMovements.put("tipo", flagMovimiento + "");
+                paramsMovements.put("fecha", dateFechaMovimiento.getText().toString());
+                paramsMovements.put("concepto", conceptoMovimiento.getText().toString());
+                if(flagMovimiento == 3)
+                {
+                    paramsMovements.put("idAccountTransfer", flagCuentaTransfer + "");
+                }
+                com.newMovement(Urls.NEWMOVEMENT, paramsMovements, progreso);
+                finish();
             }
         }catch (Exception e){
             Log.e("SFD PARSE", e.toString());
         }
-    }
-
-    /**
-     * Funcion encargada de mandar la informacion del formulario y crear un movimiento
-     * en caso correcto mostrara mensaje de operecion correcta y en caso contrario
-     * mostrara el mensaje del servidor con el error
-     */
-    private void crearMovimiento() {
-        progreso.setVisibility(View.VISIBLE);
-        final Gson gson = new Gson();
-        JsonObjectRequest request;
-        VolleySingleton.getInstance(Movimientos.this).
-                addToRequestQueue(
-                        request = new JsonObjectRequest(
-                                Request.Method.GET,
-                                urls.getSetMovimiento() + "idU=" + usuario.getIdUsuario() +
-                                        "&idC=" + flagCategoria +
-                                        "&mon=" + inputMonto.getText() +
-                                        "&idCu=" + flagCuenta +
-                                        "&tip=" + flagMovimiento +
-                                        "&date=" + dateFechaMovimiento.getText().toString() +
-                                        "&concepto=" + conceptoMovimiento.getText().toString(),
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        try {
-                                            String res = response.getString("estado");
-                                            switch(res){
-                                                case "1":
-                                                    msg("Se registro correctamente el movimiento");
-                                                    progreso.setVisibility(View.GONE);
-                                                    break;
-                                                case "0":
-                                                    msg(response.getString("mensaje"));
-                                                    progreso.setVisibility(View.GONE);
-                                                    break;
-                                                default:
-
-                                                    progreso.setVisibility(View.GONE);
-                                                    msg("Ocurrio un error inesperado");
-                                                    break;
-                                            }
-                                        }catch(JSONException json){
-                                            Log.e("JSON", json.toString());
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                    }
-                                }
-                        )
-                );
-        request.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 50000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
     }
 
     /**
@@ -427,4 +365,5 @@ public class Movimientos extends AppCompatActivity {
         Button cancel = dpd.getButton(DialogInterface.BUTTON_NEGATIVE);
         cancel.setTextColor(Color.parseColor("#949494"));
     }
+
 }

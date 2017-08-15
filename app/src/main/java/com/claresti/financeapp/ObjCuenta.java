@@ -6,14 +6,17 @@ public class ObjCuenta {
     private String Nombre;
     private String Descripcion;
 
+    private float dinero;
+
     public ObjCuenta(){
 
     }
 
-    public ObjCuenta(String ID, String nombre, String descripcion) {
+    public ObjCuenta(String ID, String nombre, String descripcion, float dinero) {
         this.ID = ID;
         Nombre = nombre;
         Descripcion = descripcion;
+        this.dinero = dinero;
     }
 
     public String getID() {
@@ -38,5 +41,13 @@ public class ObjCuenta {
 
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
+    }
+
+    public float getDinero() {
+        return dinero;
+    }
+
+    public void setDinero(float dinero) {
+        this.dinero = dinero;
     }
 }

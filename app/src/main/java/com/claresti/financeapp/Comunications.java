@@ -36,6 +36,8 @@ public class Comunications {
     private AdapterMovements adapterMovements;
     private AdapterCategories adapterCategories;
     private AdapterAccounts adapterAccounts;
+    public static ObjCategoria[] arrayCategoria;
+    public static ObjCuenta[] arrayCuenta;
 
     public Comunications(Context context, View view)
     {
@@ -331,7 +333,7 @@ public class Comunications {
                                     {
                                         textoSpinerCategoria.add(itemsArray[i].getNombre());
                                     }
-                                    Movimientos.arrayCategoria = itemsArray;
+                                    arrayCategoria = itemsArray;
                                     spinnerToFill.setAdapter(new AdaptadorSpinnerMovimientos(context, textoSpinerCategoria));
                                     break;
                                 case "0":
@@ -422,7 +424,7 @@ public class Comunications {
                                     {
                                         textoSpinerCategoria.add(itemsArray[i].getNombre());
                                     }
-                                    Movimientos.arrayCuenta = itemsArray;
+                                    arrayCuenta = itemsArray;
                                     spinnerToFill.setAdapter(new AdaptadorSpinnerMovimientos(context, textoSpinerCategoria));
                                     break;
                                 case "0":
@@ -436,6 +438,87 @@ public class Comunications {
                         catch(JSONException jsone)
                         {
                             Snackbar.make(view, "No se han podido cargar las cuentas", Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("DCOM", error.getMessage());
+                        Snackbar.make(view, "Error de conexion", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = paramsMap;
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(stringRequest);
+    }
+
+    /**
+     * Funcion para llenar un spinner que contenga cuentas
+     * @param url - url de la API
+     * @param paramsGetData - parametros que se enviaran a la API
+     * @param progressBar - barra de progreso para mostrar que se estan descargando datos
+     */
+    public void newMovement(String url, Map<String, String> paramsGetData, final ProgressBar progressBar)
+    {
+        progressBar.setVisibility(View.VISIBLE);
+        final Gson gson = new Gson();
+        final Map<String, String> paramsMap = paramsGetData;
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Log.i("RES", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String res = jsonObject.getString("estado");
+                            switch(res){
+                                case "1":
+                                    Snackbar.make(view, "Se realizo el movimiento con exito", Snackbar.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    break;
+                                case "0":
+                                    Snackbar.make(view, jsonObject.getString("mensaje"), Snackbar.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    break;
+                                default:
+
+                                    progressBar.setVisibility(View.GONE);
+                                    Snackbar.make(view, "Ocurrio un error inesperado", Snackbar.LENGTH_SHORT).show();
+                                    break;
+                            }
+                        }catch(JSONException json){
+                            Log.e("JSON", json.toString());
                         }
                     }
                 },
