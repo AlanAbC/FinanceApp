@@ -7,6 +7,8 @@ public class Urls {
     public static final String GETCATEGORIES = clares + "get_categories.php";
     public static final String GETACCOUNTS = clares + "get_accounts.php";
     public static final String NEWMOVEMENT = clares + "insert_movement.php";
+    public static final String NEWCATEGORY = clares + "insert_category.php";
+    public static final String NEWACCOUNT = clares + "insert_account.php";
 
     private String login;
     private String registro;

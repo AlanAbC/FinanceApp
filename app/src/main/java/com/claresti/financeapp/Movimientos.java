@@ -1,6 +1,7 @@
 package com.claresti.financeapp;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -96,6 +97,9 @@ public class Movimientos extends AppCompatActivity {
     private UserSessionManager session;
     private HashMap<String,String> user;
 
+    //ProgressDialog
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +132,13 @@ public class Movimientos extends AppCompatActivity {
         btnRegistrarMovimiento = (Button)findViewById(R.id.btn_registrar);
         progreso = (ProgressBar)findViewById(R.id.progress);
         calendarPicker= (ImageButton) findViewById(R.id.calendar);
+
+        progressDialog = new ProgressDialog(this, R.style.ThemeOverlay_AppCompat_Dialog_Alert);
+        progressDialog.setTitle("Registro");
+        progressDialog.setMessage("Registrando...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+
 
         // Asignacion variables restantes
         flagMovimiento = 5;
@@ -284,6 +295,13 @@ public class Movimientos extends AppCompatActivity {
 
             }
         });
+
+        progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -308,6 +326,7 @@ public class Movimientos extends AppCompatActivity {
             } else if (flagMovimiento == 3 && flagCuenta == flagCuentaTransfer) {
                 msg("No puedes hacer una transferencia a la misma cuenta");
             } else {
+                progressDialog.show();
                 Map<String, String> paramsMovements = new HashMap<String, String>();
                 paramsMovements.put("idUsuario",user.get(UserSessionManager.KEY_ID));
                 paramsMovements.put("idCategoria", flagCategoria + "");
@@ -320,8 +339,7 @@ public class Movimientos extends AppCompatActivity {
                 {
                     paramsMovements.put("idAccountTransfer", flagCuentaTransfer + "");
                 }
-                com.newMovement(Urls.NEWMOVEMENT, paramsMovements, progreso);
-                finish();
+                com.newRegister(Urls.NEWMOVEMENT, paramsMovements, progressDialog);
             }
         }catch (Exception e){
             Log.e("SFD PARSE", e.toString());

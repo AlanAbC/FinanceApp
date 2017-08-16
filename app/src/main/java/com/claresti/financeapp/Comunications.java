@@ -1,5 +1,6 @@
 package com.claresti.financeapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -480,15 +481,14 @@ public class Comunications {
     }
 
     /**
-     * Funcion para llenar un spinner que contenga cuentas
+     * Funcion para hacer un nuevo registro (Movimiento, Categoria, Cuenta)
      * @param url - url de la API
      * @param paramsGetData - parametros que se enviaran a la API
-     * @param progressBar - barra de progreso para mostrar que se estan descargando datos
+     * @param progressDialog - barra de progreso
      */
-    public void newMovement(String url, Map<String, String> paramsGetData, final ProgressBar progressBar)
+    public void newRegister(String url, Map<String, String> paramsGetData, ProgressDialog progressDialog)
     {
-        progressBar.setVisibility(View.VISIBLE);
-        final Gson gson = new Gson();
+        final ProgressDialog progress = progressDialog;
         final Map<String, String> paramsMap = paramsGetData;
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -504,17 +504,16 @@ public class Comunications {
                             String res = jsonObject.getString("estado");
                             switch(res){
                                 case "1":
-                                    Snackbar.make(view, "Se realizo el movimiento con exito", Snackbar.LENGTH_SHORT).show();
-                                    progressBar.setVisibility(View.GONE);
+                                    progress.setMessage("Registrado");
+                                    progress.dismiss();
                                     break;
                                 case "0":
-                                    Snackbar.make(view, jsonObject.getString("mensaje"), Snackbar.LENGTH_SHORT).show();
-                                    progressBar.setVisibility(View.GONE);
+                                    progress.setMessage(jsonObject.getString("mensaje"));
+                                    progress.dismiss();
                                     break;
                                 default:
-
-                                    progressBar.setVisibility(View.GONE);
-                                    Snackbar.make(view, "Ocurrio un error inesperado", Snackbar.LENGTH_SHORT).show();
+                                    progress.dismiss();
+                                    progress.setMessage(jsonObject.getString("mensaje"));
                                     break;
                             }
                         }catch(JSONException json){
