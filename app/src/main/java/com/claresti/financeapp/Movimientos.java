@@ -98,7 +98,7 @@ public class Movimientos extends AppCompatActivity {
     private HashMap<String,String> user;
 
     //ProgressDialog
-    private ProgressDialog progressDialog;
+    private ProgressDialogDenarius progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,11 +133,7 @@ public class Movimientos extends AppCompatActivity {
         progreso = (ProgressBar)findViewById(R.id.progress);
         calendarPicker= (ImageButton) findViewById(R.id.calendar);
 
-        progressDialog = new ProgressDialog(this, R.style.ThemeOverlay_AppCompat_Dialog_Alert);
-        progressDialog.setTitle("Registro");
-        progressDialog.setMessage("Registrando...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
+        progressDialog = new ProgressDialogDenarius(this);
 
 
         // Asignacion variables restantes
@@ -299,7 +295,10 @@ public class Movimientos extends AppCompatActivity {
         progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                finish();
+                if(progressDialog.getState())
+                {
+                    finish();
+                }
             }
         });
     }

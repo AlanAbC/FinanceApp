@@ -33,7 +33,7 @@ public class AgregarCuenta extends AppCompatActivity {
     private HashMap<String,String> user;
 
     //ProgressDialog
-    private ProgressDialog progressDialog;
+    private ProgressDialogDenarius progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +55,7 @@ public class AgregarCuenta extends AppCompatActivity {
         btnRegistrarCategoria = (Button)findViewById(R.id.btn_registrar);
         progreso = (ProgressBar)findViewById(R.id.progress);
 
-        progressDialog = new ProgressDialog(this, R.style.ThemeOverlay_AppCompat_Dialog_Alert);
-        progressDialog.setTitle("Registro");
-        progressDialog.setMessage("Registrando...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
+        progressDialog = new ProgressDialogDenarius(this);
 
         // Llamada a funciones para llenar los spinners y crear los listenrs
         crearListeners();
@@ -87,7 +83,10 @@ public class AgregarCuenta extends AppCompatActivity {
         progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                finish();
+                if(progressDialog.getState())
+                {
+                    finish();
+                }
             }
         });
     }

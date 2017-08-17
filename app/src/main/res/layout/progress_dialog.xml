@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:animateLayoutChanges="true">
+
+    <RelativeLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_weight="0.07">
+
+        <RelativeLayout
+            android:id="@+id/layout_content"
+            android:layout_width="fill_parent"
+            android:layout_height="70dp">
+            <ProgressBar
+                android:id="@+id/dialogProgressbar"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                style="@style/ProgressBarTheme"/>
+            <ImageView
+                android:id="@+id/dialogImg"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"/>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/dialogDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_content"
+            android:layout_centerHorizontal="true"
+            android:text="Trabajando..."
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:textAlignment="center"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

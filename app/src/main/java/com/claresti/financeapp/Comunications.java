@@ -486,9 +486,9 @@ public class Comunications {
      * @param paramsGetData - parametros que se enviaran a la API
      * @param progressDialog - barra de progreso
      */
-    public void newRegister(String url, Map<String, String> paramsGetData, ProgressDialog progressDialog)
+    public void newRegister(String url, Map<String, String> paramsGetData, ProgressDialogDenarius progressDialog)
     {
-        final ProgressDialog progress = progressDialog;
+        final ProgressDialogDenarius progress = progressDialog;
         final Map<String, String> paramsMap = paramsGetData;
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -504,16 +504,13 @@ public class Comunications {
                             String res = jsonObject.getString("estado");
                             switch(res){
                                 case "1":
-                                    progress.setMessage("Registrado");
-                                    progress.dismiss();
+                                    progress.setActionCorrect(jsonObject.getString("mensaje"));
                                     break;
                                 case "0":
-                                    progress.setMessage(jsonObject.getString("mensaje"));
-                                    progress.dismiss();
+                                    progress.setActionIncorrect(jsonObject.getString("mensaje"));
                                     break;
                                 default:
-                                    progress.dismiss();
-                                    progress.setMessage(jsonObject.getString("mensaje"));
+                                    progress.setActionIncorrect(jsonObject.getString("mensaje"));
                                     break;
                             }
                         }catch(JSONException json){
@@ -527,7 +524,7 @@ public class Comunications {
                     public void onErrorResponse(VolleyError error)
                     {
                         Log.e("DCOM", error.getMessage());
-                        Snackbar.make(view, "Error de conexion", Snackbar.LENGTH_SHORT).show();
+                        progress.setActionIncorrect("No se ha podido conectar a Internet");
                     }
                 }
         )

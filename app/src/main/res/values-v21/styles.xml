@@ -4,7 +4,7 @@
     <style name="ThemePrincipal" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#216c2a</item>
         <item name="colorPrimaryDark">#216c2a</item>
-        <item name="colorAccent">#AAAAAA</item>
+        <item name="colorAccent">#216c2a</item>
         <item name="colorControlActivated">#949494</item>
         <item name="android:colorControlActivated">#949494</item>
 
