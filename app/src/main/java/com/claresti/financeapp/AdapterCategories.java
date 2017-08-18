@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -94,15 +95,21 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     /**
      * Funcion para actualizar el contenido de el arraylist
      */
-    public void updateContent()
+    public void updateContent(final ProgressBar progressBar)
     {
-        categories.clear();
-        UserSessionManager session = new UserSessionManager(context);
-        HashMap<String,String> user = session.getUserDetails();
-        Map<String, String> paramsMovements = new HashMap<String, String>();
-        paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
-        Comunications comunications = new Comunications(context, view);
-        comunications.getCategories(Urls.GETCATEGORIES, paramsMovements);
+        progressBar.setVisibility(View.VISIBLE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                categories.clear();
+                UserSessionManager session = new UserSessionManager(context);
+                HashMap<String,String> user = session.getUserDetails();
+                Map<String, String> paramsMovements = new HashMap<String, String>();
+                paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
+                Comunications comunications = new Comunications(context, view);
+                comunications.getCategories(Urls.GETCATEGORIES, paramsMovements, progressBar);
+            }
+        }).start();
     }
 
     /**

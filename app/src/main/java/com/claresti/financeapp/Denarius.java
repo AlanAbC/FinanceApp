@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,6 +61,7 @@ public class Denarius extends AppCompatActivity
 
     //TextView del titulo de la actividad
     private TextView title;
+    private ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstancestate) {
@@ -107,6 +110,8 @@ public class Denarius extends AppCompatActivity
         view = (RelativeLayout) findViewById(R.id.l_ventana);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
+        progressBar = (ProgressBar) findViewById(R.id.progressDenarius);
+
         asignarAdaptadores();
     }
 
@@ -146,7 +151,7 @@ public class Denarius extends AppCompatActivity
         adapterMovements = AdapterMovements.getInstance(getApplicationContext(), view);
         adapterCategories = AdapterCategories.getInstance(getApplicationContext(), view);
         adapterAccounts = AdapterAccounts.getInstance(getApplicationContext(), view);
-        adapterMovements.updateContent();
+        adapterMovements.updateContent(progressBar);
         recyclerView.setAdapter(adapterMovements);
     }
 
@@ -181,19 +186,19 @@ public class Denarius extends AppCompatActivity
                 if(pos == 0)
                 {
                     title.setText("Movimientos");
-                    adapterMovements.updateContent();
+                    adapterMovements.updateContent(progressBar);
                     recyclerView.setAdapter(adapterMovements);
                     recyclerView.invalidate();
                     flagAdaptador = 0;
                 }else if(pos == 1){
                     title.setText("Categorias");
-                    adapterCategories.updateContent();
+                    adapterCategories.updateContent(progressBar);
                     recyclerView.setAdapter(adapterCategories);
                     recyclerView.invalidate();
                     flagAdaptador = 1;
                 }else if(pos == 2){
                     title.setText("Cuentas");
-                    adapterAccounts.updateContent();
+                    adapterAccounts.updateContent(progressBar);
                     recyclerView.setAdapter(adapterAccounts);
                     recyclerView.invalidate();
                     flagAdaptador = 2;

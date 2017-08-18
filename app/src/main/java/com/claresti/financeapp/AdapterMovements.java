@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -112,15 +113,22 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
     /**
      * Funcion para actualizar el contenido de el arraylist
      */
-    public void updateContent()
+    public void updateContent(final ProgressBar progressBar)
     {
-        movements.clear();
-        UserSessionManager session = new UserSessionManager(context);
-        HashMap<String,String> user = session.getUserDetails();
-        Map<String, String> paramsMovements = new HashMap<String, String>();
-        paramsMovements.put("idUser",user.get(UserSessionManager.KEY_ID));
-        Comunications comunications = new Comunications(context, view);
-        comunications.getMovements(Urls.GETMOVEMENTS, paramsMovements);
+        progressBar.setVisibility(View.VISIBLE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                movements.clear();
+                UserSessionManager session = new UserSessionManager(context);
+                HashMap<String,String> user = session.getUserDetails();
+                Map<String, String> paramsMovements = new HashMap<String, String>();
+                paramsMovements.put("idUser",user.get(UserSessionManager.KEY_ID));
+                Comunications comunications = new Comunications(context, view);
+                comunications.getMovements(Urls.GETMOVEMENTS, paramsMovements, progressBar);
+            }
+        }).start();
     }
 
     /**

@@ -54,7 +54,7 @@ public class Comunications {
      * @param url - url de la API
      * @param paramsGetData - parametros que se enviaran a la funcion
      */
-    public void getMovements(String url, Map<String, String> paramsGetData)
+    public void getMovements(String url, Map<String, String> paramsGetData, final ProgressBar progressBar)
     {
         final Gson gson = new Gson();
         final Map<String, String> paramsMap = paramsGetData;
@@ -80,6 +80,7 @@ public class Comunications {
                                         adapterMovements.addItem(itemsArray[i]);
 
                                     }
+                                    progressBar.setVisibility(View.GONE);
                                     break;
                                 case "0":
                                     String mensaje = jsonObject.getString("message");
@@ -137,7 +138,7 @@ public class Comunications {
      * @param url - url de la API
      * @param paramsGetData - parametros que se enviaran a la API
      */
-    public void getCategories(String url, Map<String, String> paramsGetData)
+    public void getCategories(String url, Map<String, String> paramsGetData, final ProgressBar progressBar)
     {
         final Gson gson = new Gson();
         final Map<String, String> paramsMap = paramsGetData;
@@ -163,6 +164,7 @@ public class Comunications {
                                         adapterCategories.addItem(itemsArray[i]);
 
                                     }
+                                    progressBar.setVisibility(View.GONE);
                                     break;
                                 case "0":
                                     String mensaje = jsonObject.getString("message");
@@ -220,7 +222,7 @@ public class Comunications {
      * @param url - url de la API
      * @param paramsGetData - parametros que se enviaran a la API
      */
-    public void getAccounts(String url, Map<String, String> paramsGetData)
+    public void getAccounts(String url, Map<String, String> paramsGetData, final ProgressBar progressBar)
     {
         final Gson gson = new Gson();
         final Map<String, String> paramsMap = paramsGetData;
@@ -246,6 +248,7 @@ public class Comunications {
                                         adapterAccounts.addItem(itemsArray[i]);
 
                                     }
+                                    progressBar.setVisibility(View.GONE);
                                     break;
                                 case "0":
                                     String mensaje = jsonObject.getString("message");
