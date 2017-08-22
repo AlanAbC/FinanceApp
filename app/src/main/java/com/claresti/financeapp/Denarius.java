@@ -3,6 +3,7 @@ package com.claresti.financeapp;
 import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,7 +64,15 @@ public class Denarius extends AppCompatActivity
 
     //TextView del titulo de la actividad
     private TextView title;
+
+    //ProgressBar's
     private ProgressBar progressBar;
+    private ProgressBar progressBarLoading;
+
+    //variables para carga de items y actualizaciones
+    private int lastVisibleItem, totalItemCount;
+    private LinearLayoutManager linearLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstancestate) {
@@ -104,13 +115,19 @@ public class Denarius extends AppCompatActivity
         new_action = (FloatingActionButton) findViewById(R.id.new_action);
 
 
-        asignarListeners();
+
 
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler);
         view = (RelativeLayout) findViewById(R.id.l_ventana);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        linearLayout = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+        //Configuraciones del SwipeRefreshLayout
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         progressBar = (ProgressBar) findViewById(R.id.progressDenarius);
+        progressBarLoading = (ProgressBar) findViewById(R.id.progressDenariusLoading);
+        asignarListeners();
 
         asignarAdaptadores();
     }
@@ -139,6 +156,39 @@ public class Denarius extends AppCompatActivity
                         startActivity(newAccount);
                         break;
                 }
+            }
+        });
+
+        recyclerView.addOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalItemCount = linearLayout.getItemCount();
+                lastVisibleItem = linearLayout.findLastCompletelyVisibleItemPosition();
+                switch (flagAdaptador)
+                {
+                    case 0:
+                        if(!AdapterMovements.isLoading && totalItemCount == (lastVisibleItem + 1))
+                        {
+                            adapterMovements.loadMoreItems(progressBarLoading);
+                        }
+                        break;
+                }
+            }
+        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                switch (flagAdaptador)
+                {
+                    case 0:
+                        if(!AdapterMovements.isLoading)
+                        {
+                            adapterMovements.updateContent(progressBar);
+                        }
+                        break;
+                }
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

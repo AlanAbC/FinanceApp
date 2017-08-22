@@ -29,12 +29,15 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
     ArrayList<ObjMovimiento> movements;
     private Context context;
     private View view;
+    private int minID;
+    public static boolean isLoading = false;
 
     private AdapterMovements(Context context, View view)
     {
         this.movements = new ArrayList<ObjMovimiento>();
         this.context = context;
         this.view = view;
+        this.minID = 0;
     }
 
     public static synchronized AdapterMovements getInstance(Context context, View view)
@@ -65,7 +68,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
      */
     @Override
     public void onBindViewHolder(ViewHolderMovements holder, int position) {
-        holder.date.setText(movements.get(position).getFecha());
+        holder.date.setText(movements.get(position).getFecha() + movements.get(position).getID());
         holder.amount.setText("$ " + movements.get(position).getMonto());
         holder.concept.setText(movements.get(position).getConcepto());
         holder.setMovement(movements.get(position));
@@ -108,6 +111,15 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
     {
         movements.add(obj);
         notifyItemInserted(movements.indexOf(obj));
+        int ID = Integer.parseInt(obj.getID());
+        if(minID == 0)
+        {
+            minID = ID;
+        }
+        else if(ID < minID)
+        {
+            minID = ID;
+        }
     }
 
     /**
@@ -115,6 +127,8 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
      */
     public void updateContent(final ProgressBar progressBar)
     {
+        minID = 0;
+        isLoading = true;
         progressBar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
@@ -129,6 +143,29 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
                 comunications.getMovements(Urls.GETMOVEMENTS, paramsMovements, progressBar);
             }
         }).start();
+    }
+
+    public void loadMoreItems(final ProgressBar progressBar)
+    {
+        isLoading = true;
+        progressBar.setVisibility(View.VISIBLE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                UserSessionManager session = new UserSessionManager(context);
+                HashMap<String,String> user = session.getUserDetails();
+                Map<String, String> paramsMovements = new HashMap<String, String>();
+                paramsMovements.put("idUser",user.get(UserSessionManager.KEY_ID));
+                paramsMovements.put("minIdMovement", minID + "");
+                Comunications comunications = new Comunications(context, view);
+                comunications.getMovements(Urls.GETMOVEMENTS, paramsMovements, progressBar);
+            }
+        }).start();
+    }
+
+    public int getId()
+    {
+        return minID;
     }
 
     /**

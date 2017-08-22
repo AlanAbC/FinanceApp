@@ -368,7 +368,7 @@ public class Movimientos extends AppCompatActivity {
         InputMethodManager inputMethodManager =  (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(dateFechaMovimiento.getWindowToken(), 0);
 
-        DatePickerDialog dpd = new DatePickerDialog(Movimientos.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dpd = new DatePickerDialog(Movimientos.this, R.style.Calendar, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 if(year <= ano && month <= mes && dayOfMonth <= dia) {

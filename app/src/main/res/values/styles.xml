@@ -1,29 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlActivated">#216c2a</item>
     </style>
-    <style name="Calendar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Calendar" parent="Theme.AppCompat.Light.Dialog">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">#979797</item>
-        <item name="colorControlActivated">#000</item>
-    </style>
-    <style name="ThemePrincipal" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">#216c2a</item>
-        <item name="colorPrimaryDark">#216c2a</item>
-        <item name="colorAccent">#AAAAAA</item>
-        <item name="colorControlActivated">#949494</item>
-    </style>
-
-    <style name="ProgressBarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorControlActivated">#216c2a</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
 </resources>

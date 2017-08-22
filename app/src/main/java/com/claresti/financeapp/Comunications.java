@@ -66,6 +66,7 @@ public class Comunications {
                     @Override
                     public void onResponse(String response)
                     {
+                        Log.i("JSON", response);
                         try
                         {
                             JSONObject jsonObject = new JSONObject(response);
@@ -80,13 +81,14 @@ public class Comunications {
                                         adapterMovements.addItem(itemsArray[i]);
 
                                     }
-                                    progressBar.setVisibility(View.GONE);
                                     break;
                                 case "0":
                                     String mensaje = jsonObject.getString("message");
-                                    Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(view, mensaje, Snackbar.LENGTH_SHORT).show();
                                     break;
                             }
+                            progressBar.setVisibility(View.GONE);
+                            adapterMovements.isLoading = false;
 
                         }
                         catch(JSONException jsone)
