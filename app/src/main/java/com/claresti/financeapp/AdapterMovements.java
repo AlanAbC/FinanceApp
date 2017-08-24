@@ -1,6 +1,7 @@
 package com.claresti.financeapp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
     private Context context;
     private View view;
     private int minID;
+    private int swipedPosition = -1, lastSwipedPosition = -1;
     public static boolean isLoading = false;
 
     private AdapterMovements(Context context, View view)
@@ -68,21 +70,51 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
      */
     @Override
     public void onBindViewHolder(ViewHolderMovements holder, int position) {
-        holder.date.setText(movements.get(position).getFecha() + movements.get(position).getID());
-        holder.amount.setText("$ " + movements.get(position).getMonto());
-        holder.concept.setText(movements.get(position).getConcepto());
-        holder.setMovement(movements.get(position));
-        if(movements.get(position).getTipo().equals("1")){
-            holder.imageType.setImageResource(R.drawable.arrow_up);
-            holder.type.setText("Ingreso");
-        }else if(movements.get(position).getTipo().equals("2")){
-            holder.imageType.setImageResource(R.drawable.arrow_down);
-            holder.type.setText("Egreso");
-        }else
+        if(position == swipedPosition)
         {
-            holder.imageType.setImageResource(R.drawable.icon_transfer);
-            holder.type.setText("Transferencia");
+            holder.date.setVisibility(View.GONE);
+            holder.amount.setVisibility(View.GONE);
+            holder.concept.setVisibility(View.GONE);
+            holder.type.setVisibility(View.GONE);
+            holder.imageType.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.parseColor("#185e1f"));
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
         }
+        else
+        {
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.WHITE);
+            holder.date.setVisibility(View.VISIBLE);
+            holder.date.setText(movements.get(position).getFecha() + movements.get(position).getID());
+            holder.amount.setVisibility(View.VISIBLE);
+            holder.amount.setText("$ " + movements.get(position).getMonto());
+            holder.concept.setVisibility(View.VISIBLE);
+            holder.concept.setText(movements.get(position).getConcepto());
+            holder.type.setVisibility(View.VISIBLE);
+            holder.imageType.setVisibility(View.VISIBLE);
+            if(movements.get(position).getTipo().equals("1")){
+                holder.imageType.setImageResource(R.drawable.arrow_up);
+                holder.type.setText("Ingreso");
+            }else if(movements.get(position).getTipo().equals("2")){
+                holder.imageType.setImageResource(R.drawable.arrow_down);
+                holder.type.setText("Egreso");
+            }else
+            {
+                holder.imageType.setImageResource(R.drawable.icon_transfer);
+                holder.type.setText("Transferencia");
+            }
+        }
+
+    }
+
+    public void setSwipedPosition(int position)
+    {
+        lastSwipedPosition = swipedPosition;
+        swipedPosition = position;
+        notifyItemChanged(lastSwipedPosition);
+        notifyItemChanged(swipedPosition);
     }
 
     /**
@@ -174,7 +206,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
     public class ViewHolderMovements extends RecyclerView.ViewHolder{
         ObjMovimiento objMovements;
         TextView type, date, amount, concept;
-        ImageView imageType;
+        ImageView imageType, edit, delete;
         public ViewHolderMovements(View itemView) {
             super(itemView);
             imageType = (ImageView) itemView.findViewById(R.id.tipoMovimiento);
@@ -182,16 +214,12 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
             date = (TextView) itemView.findViewById(R.id.txt_fechaMovimiento);
             amount = (TextView) itemView.findViewById(R.id.txt_MontoMovimiento);
             concept = (TextView) itemView.findViewById(R.id.txt_ConceptoMovimiento);
+            edit = (ImageView) itemView.findViewById(R.id.img_movement_edit);
+            delete = (ImageView) itemView.findViewById(R.id.img_movement_delete);
 
         }
 
-        /**
-         * Funcion para establecer el objeto de movimiento de la vista
-         * @param movement
-         */
-        public void setMovement(ObjMovimiento movement)
-        {
-            this.objMovements = movement;
-        }
+
+
     }
 }
