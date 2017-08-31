@@ -53,6 +53,7 @@ public class Comunications {
      * Funcion para obtener todos los movimientos dependiendo de los parametros que reciba
      * @param url - url de la API
      * @param paramsGetData - parametros que se enviaran a la funcion
+     * @param progressBar - spinner que indica que se esta realizando un proces
      */
     public void getMovements(String url, Map<String, String> paramsGetData, final ProgressBar progressBar)
     {
@@ -102,8 +103,8 @@ public class Comunications {
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        Log.e("DCOM", error.getMessage());
                         Snackbar.make(view, "Error de conexion", Snackbar.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
         )
@@ -139,6 +140,7 @@ public class Comunications {
      * Funcion para obtener todas las categorias dependiendo de los parametros que se envien
      * @param url - url de la API
      * @param paramsGetData - parametros que se enviaran a la API
+     * @param progressBar - spinner que indica que se esta realizando el proceso
      */
     public void getCategories(String url, Map<String, String> paramsGetData, final ProgressBar progressBar)
     {
@@ -223,6 +225,7 @@ public class Comunications {
      * Funcion para obtener todas las cuentas dependiendo de los parametros que se envien
      * @param url - url de la API
      * @param paramsGetData - parametros que se enviaran a la API
+     * @param progressBar - spinner que indica que se esta realizando el proceso
      */
     public void getAccounts(String url, Map<String, String> paramsGetData, final ProgressBar progressBar)
     {
@@ -309,8 +312,9 @@ public class Comunications {
      * @param paramsGetData - parametros que se enviaran a la API
      * @param spinner - spinner a llenar
      * @param progressBar - barra de progreso para mostrar que se estan descargando datos
+     * @param id - id de la categoria que se seleccionara al llenar el spinner, valor de -1 para no seleccionar ninguna categoria
      */
-    public void fillSpinnerCategory(String url, Map<String, String> paramsGetData, Spinner spinner, final ProgressBar progressBar)
+    public void fillSpinnerCategory(String url, Map<String, String> paramsGetData, Spinner spinner, final ProgressBar progressBar, final String id)
     {
         progressBar.setVisibility(View.VISIBLE);
         final Gson gson = new Gson();
@@ -333,14 +337,19 @@ public class Comunications {
                                 case "1":
                                     JSONArray items = jsonObject.getJSONArray("items");
                                     ObjCategoria[] itemsArray = gson.fromJson(items.toString(), ObjCategoria[].class);
-
+                                    int position = -1;
                                     final ArrayList<String> textoSpinerCategoria = new ArrayList<String>();
                                     for(int i = 0; i < itemsArray.length; i++)
                                     {
                                         textoSpinerCategoria.add(itemsArray[i].getNombre());
+                                        if(itemsArray[i].getID().equals(id)) position = i;
                                     }
                                     arrayCategoria = itemsArray;
                                     spinnerToFill.setAdapter(new AdaptadorSpinnerMovimientos(context, textoSpinerCategoria));
+                                    if (position != -1)
+                                    {
+                                        spinnerToFill.setSelection(position);
+                                    }
                                     break;
                                 case "0":
                                     String mensaje = jsonObject.getString("message");
@@ -400,8 +409,9 @@ public class Comunications {
      * @param paramsGetData - parametros que se enviaran a la API
      * @param spinner - spinner a llenar
      * @param progressBar - barra de progreso para mostrar que se estan descargando datos
+     * @param id - id de la cuenta que se seleccionara al llenar el spinner, valor de -1 para no seleccionar ninguna cuenta
      */
-    public void fillSpinnerAccount(String url, Map<String, String> paramsGetData, Spinner spinner, final ProgressBar progressBar)
+    public void fillSpinnerAccount(String url, Map<String, String> paramsGetData, Spinner spinner, final ProgressBar progressBar, final String id)
     {
         progressBar.setVisibility(View.VISIBLE);
         final Gson gson = new Gson();
@@ -424,14 +434,19 @@ public class Comunications {
                                 case "1":
                                     JSONArray items = jsonObject.getJSONArray("items");
                                     ObjCuenta[] itemsArray = gson.fromJson(items.toString(), ObjCuenta[].class);
-
+                                    int position = -1;
                                     final ArrayList<String> textoSpinerCategoria = new ArrayList<String>();
                                     for(int i = 0; i < itemsArray.length; i++)
                                     {
                                         textoSpinerCategoria.add(itemsArray[i].getNombre());
+                                        if(itemsArray[i].getID().equals(id)) position = i;
                                     }
                                     arrayCuenta = itemsArray;
                                     spinnerToFill.setAdapter(new AdaptadorSpinnerMovimientos(context, textoSpinerCategoria));
+                                    if (position != -1)
+                                    {
+                                        spinnerToFill.setSelection(position);
+                                    }
                                     break;
                                 case "0":
                                     String mensaje = jsonObject.getString("message");
@@ -489,7 +504,7 @@ public class Comunications {
      * Funcion para hacer un nuevo registro (Movimiento, Categoria, Cuenta)
      * @param url - url de la API
      * @param paramsGetData - parametros que se enviaran a la API
-     * @param progressDialog - barra de progreso
+     * @param progressDialog - barra de progreso que indica que se esta realizando el proceso
      */
     public void newRegister(String url, Map<String, String> paramsGetData, ProgressDialogDenarius progressDialog)
     {

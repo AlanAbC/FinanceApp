@@ -1,6 +1,9 @@
 package com.claresti.financeapp;
 
-public class ObjMovimiento {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class ObjMovimiento implements Serializable{
 
     private String ID;
     private String Monto;
@@ -10,6 +13,7 @@ public class ObjMovimiento {
     private String idCuenta;
     private String idUsuario;
     private String concepto;
+    private String idCuentaTransfer;
 
     public ObjMovimiento(){
 
@@ -24,6 +28,18 @@ public class ObjMovimiento {
         this.idCuenta = idCuenta;
         this.idUsuario = idUsuario;
         this.concepto = concepto;
+    }
+
+    public ObjMovimiento(String ID, String monto, String tipo, String fecha, String idCategoria, String idCuenta, String idUsuario, String concepto, String idCuentaTransfer) {
+        this.ID = ID;
+        Monto = monto;
+        Tipo = tipo;
+        this.fecha = fecha;
+        this.idCategoria = idCategoria;
+        this.idCuenta = idCuenta;
+        this.idUsuario = idUsuario;
+        this.concepto = concepto;
+        this.idCuentaTransfer = idCuentaTransfer;
     }
 
     public String getID() {
@@ -88,5 +104,13 @@ public class ObjMovimiento {
 
     public void setConcepto(String concepto) {
         this.concepto = concepto;
+    }
+
+    public String getIdCuentaTransfer() {
+        return idCuentaTransfer;
+    }
+
+    public void setIdCuentaTransfer(String idCuentaTransfer) {
+        this.idCuentaTransfer = idCuentaTransfer;
     }
 }

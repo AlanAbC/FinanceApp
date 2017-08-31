@@ -124,9 +124,6 @@ public class Denarius extends AppCompatActivity
 
         new_action = (FloatingActionButton) findViewById(R.id.new_action);
 
-
-
-
         recyclerView = (RecyclerView) findViewById(R.id.main_recycler);
         view = (RelativeLayout) findViewById(R.id.l_ventana);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -137,14 +134,16 @@ public class Denarius extends AppCompatActivity
 
         progressBar = (ProgressBar) findViewById(R.id.progressDenarius);
         progressBarLoading = (ProgressBar) findViewById(R.id.progressDenariusLoading);
+
         asignarListeners();
 
         asignarAdaptadores();
 
         setUpRecyclerSwipe();
+
         setUpAnimationDecoratorHelper();
 
-
+        //eliminamos las animaciones del recycler view
         NoAnimationItemAnimator noAnimationItemAnimator = new NoAnimationItemAnimator();
         recyclerView.setItemAnimator(noAnimationItemAnimator);
     }
@@ -210,6 +209,9 @@ public class Denarius extends AppCompatActivity
         });
     }
 
+    /**
+     * Funcion que implementa la animacion del swipe to dismiss
+     */
     public void setUpRecyclerSwipe()
     {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)
@@ -297,8 +299,7 @@ public class Denarius extends AppCompatActivity
     }
 
     /**
-     * We're gonna setup another ItemDecorator that will draw the red background in the empty space while the items are animating to thier new positions
-     * after an item is removed.
+     * Funcion que dibuja un fondo de color cuando un item del recycler view es deslizado
      */
     private void setUpAnimationDecoratorHelper() {
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -383,21 +384,6 @@ public class Denarius extends AppCompatActivity
         recyclerView.setAdapter(adapterMovements);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.filtros, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * Funcion que da funcionalidad al menu
      */
@@ -456,7 +442,5 @@ public class Denarius extends AppCompatActivity
             }
         });
     }
-
-    //SELECT * FROM movimiento where movimiento.idCuenta = 20 and ID < 40 ORDER by fecha DESC LIMIT 0, 5 - Consulta para la carga de datos :v
 
 }

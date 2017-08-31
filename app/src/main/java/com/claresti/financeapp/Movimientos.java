@@ -100,6 +100,10 @@ public class Movimientos extends AppCompatActivity {
     //ProgressDialog
     private ProgressDialogDenarius progressDialog;
 
+    //Bandera de Tipo de movimiento
+    private int flagTipoMovimiento = 0;
+    private String ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,16 +155,25 @@ public class Movimientos extends AppCompatActivity {
         // Llamada a funciones para llenar los spinners y crear los listenrs
         session = new UserSessionManager(getApplicationContext());
         user = session.getUserDetails();
-        Map<String, String> paramsMovements = new HashMap<String, String>();
-        paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
         com = new Comunications(getApplicationContext(), ventana);
-        com.fillSpinnerCategory(Urls.GETCATEGORIES, paramsMovements, spinerCategoria, progreso);
-        com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerCuenta, progreso);
-        com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso);
-        crearListeners();
 
         //Ocultar teclado al iniciar la activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        //En caso de que se llame este activity para modificar un movimiento
+        if(getIntent().getExtras() != null)
+        {
+            modifyMovement();
+        }
+        else
+        {
+            Map<String, String> paramsMovements = new HashMap<String, String>();
+            paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
+            com.fillSpinnerCategory(Urls.GETCATEGORIES, paramsMovements, spinerCategoria, progreso, null);
+            com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerCuenta, progreso, null);
+            com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso, null);
+        }
+        crearListeners();
     }
 
     /**
@@ -338,7 +351,17 @@ public class Movimientos extends AppCompatActivity {
                 {
                     paramsMovements.put("idAccountTransfer", flagCuentaTransfer + "");
                 }
-                com.newRegister(Urls.NEWMOVEMENT, paramsMovements, progressDialog);
+                if(flagTipoMovimiento == 0)
+                {
+                    com.newRegister(Urls.NEWMOVEMENT, paramsMovements, progressDialog);
+                }
+                else
+                {
+
+                    paramsMovements.put("idMovement", ID);
+                    com.newRegister(Urls.UPDATEMOVEMENT, paramsMovements, progressDialog);
+                }
+
             }
         }catch (Exception e){
             Log.e("SFD PARSE", e.toString());
@@ -381,6 +404,82 @@ public class Movimientos extends AppCompatActivity {
         ok.setTextColor(Color.parseColor("#949494"));
         Button cancel = dpd.getButton(DialogInterface.BUTTON_NEGATIVE);
         cancel.setTextColor(Color.parseColor("#949494"));
+    }
+
+    /**
+     * Funcion que rellena los campos con los datos de un movimiento a modificar
+     */
+    private void modifyMovement()
+    {
+        flagTipoMovimiento = 1;
+        ObjMovimiento movement = (ObjMovimiento) getIntent().getExtras().getSerializable("Movimiento");
+        Map<String, String> paramsMovements = new HashMap<String, String>();
+        paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
+        com.fillSpinnerCategory(Urls.GETCATEGORIES, paramsMovements, spinerCategoria, progreso, movement.getIdCategoria());
+        com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerCuenta, progreso, movement.getIdCuenta());
+        try {
+            switch (Integer.parseInt(movement.getTipo())) {
+                case 1:
+                    flagMovimiento = 1;
+                    txtMovimiento.setText("Ingreso");
+                    Log.i("Movimiento", flagMovimiento + "");
+                    //ingreso.setBackgroundResource(R.drawable.img_verde_res);
+                    //egreso.setBackgroundResource(R.drawable.img_roja);
+                    ingreso.setPadding(20,20,20,20);
+                    egreso.setPadding(25,25,25,25);
+                    transfer.setPadding(25,25,25,25);
+                    ingreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    egreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    transfer.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    descriptionAccountTranfer.setVisibility(View.GONE);
+                    spinerAccountTransfer.setVisibility(View.GONE);
+                    txtAccountTransfer.setVisibility(View.GONE);
+                    com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso, null);
+                    break;
+                case 2:
+                    flagMovimiento = 2;
+                    txtMovimiento.setText("Egreso");
+                    Log.i("Movimiento", flagMovimiento + "");
+                    //egreso.setBackgroundResource(R.drawable.img_roja_res);
+                    //ingreso.setBackgroundResource(R.drawable.img_verde);
+                    egreso.setPadding(20,20,20,20);
+                    ingreso.setPadding(25,25,25,25);
+                    transfer.setPadding(25,25,25,25);
+                    ingreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    egreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    transfer.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    descriptionAccountTranfer.setVisibility(View.GONE);
+                    spinerAccountTransfer.setVisibility(View.GONE);
+                    txtAccountTransfer.setVisibility(View.GONE);
+                    com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso, null);
+                    break;
+                case 3:
+                    flagMovimiento = 3;
+                    flagCuentaTransfer = -1;//reseteamos la bandera de cuenta a transferir
+                    txtMovimiento.setText("Transferencia");
+                    transfer.setPadding(10,10,10,10);
+                    ingreso.setPadding(25,25,25,25);
+                    egreso.setPadding(25,25,25,25);
+                    ingreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    egreso.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    transfer.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    descriptionAccountTranfer.setVisibility(View.VISIBLE);
+                    spinerAccountTransfer.setVisibility(View.VISIBLE);
+                    txtAccountTransfer.setVisibility(View.VISIBLE);
+                    com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso, movement.getIdCuentaTransfer());
+                    break;
+            }
+        }
+        catch (NumberFormatException nfe)
+        {
+            finish();
+        }
+        ID = movement.getID();
+        inputMonto.setText(movement.getMonto());
+        conceptoMovimiento.setText(movement.getConcepto());
+        dateFechaMovimiento.setText(movement.getFecha());
+        dateFechaMovimiento.setClickable(false);
+
     }
 
 }

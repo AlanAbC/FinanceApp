@@ -1,9 +1,11 @@
 package com.claresti.financeapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +71,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
      * @param position posicion de el objeto que se mostrara
      */
     @Override
-    public void onBindViewHolder(ViewHolderMovements holder, int position) {
+    public void onBindViewHolder(ViewHolderMovements holder, final int position) {
         if(position == swipedPosition)
         {
             holder.date.setVisibility(View.GONE);
@@ -106,6 +108,16 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
                 holder.type.setText("Transferencia");
             }
         }
+
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newMovement = new Intent(context, Movimientos.class);
+                newMovement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                newMovement.putExtra("Movimiento", movements.get(position));
+                context.startActivity(newMovement);
+            }
+        });
 
     }
 
@@ -156,6 +168,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
 
     /**
      * Funcion para actualizar el contenido de el arraylist
+     * @param progressBar - spinner que indica que se esta realizando el proceso
      */
     public void updateContent(final ProgressBar progressBar)
     {
@@ -177,6 +190,10 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         }).start();
     }
 
+    /**
+     * Funcion que carga mas movimientos al llegar hasta abajo de la pantalla
+     * @param progressBar - spinner que indica que se esta realizando el proceso
+     */
     public void loadMoreItems(final ProgressBar progressBar)
     {
         isLoading = true;
@@ -195,6 +212,10 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         }).start();
     }
 
+    /**
+     * Funcion que retorna el ID minimo del adaptador(cargar mas items)
+     * @return minID - ID minimo del adaptador
+     */
     public int getId()
     {
         return minID;

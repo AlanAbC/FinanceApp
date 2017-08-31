@@ -4,7 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 
 /**
- * Created by smp_3 on 24/08/2017.
+ * Created by CLARESTI on 24/08/2017.
+ * Clase para quitar animaciones de eliminar elemento
  */
 
 public class NoAnimationItemAnimator extends SimpleItemAnimator {
