@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Denarius</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 
     <!--Activity Acerca-->
     <string name="titulo_menu_acerca">Acerca de</string>
@@ -20,6 +23,9 @@
     <string name="nombreCuenta_ACuenta">Nombre de la cuenta</string>
     <string name="descripcionCuenta_ACuenta">Descripción</string>
     <string name="registrarCuenta_ACuenta">Registrar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

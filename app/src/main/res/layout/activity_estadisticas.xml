@@ -170,8 +170,6 @@
             android:layout_marginRight="15dp"
             app:elevation="2dp"/>
 
-        <!-- Bottom Sheet -->
-        <include layout="@layout/bottom_sheet_movimientos" />
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

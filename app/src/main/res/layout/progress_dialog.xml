@@ -21,7 +21,8 @@
                 android:id="@+id/dialogProgressbar"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:indeterminateDrawable="@drawable/custom_progressbar"/>
             <ImageView
                 android:id="@+id/dialogImg"
                 android:layout_width="70dp"

@@ -76,7 +76,7 @@ public class Login extends AppCompatActivity {
          *
          */
         if(session.isUserLoggedIn()){
-            Intent i = new Intent(getApplicationContext(),Denarius.class);
+            Intent i = new Intent(getApplicationContext(),MainDenarius.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
@@ -176,7 +176,7 @@ public class Login extends AppCompatActivity {
 
                                                             session.createUserLoginSession(usuaro.getIdUsuario(), usuaro.getUsuario(), usuaro.getNombre(), usuaro.getCorreo(), usuaro.getSexo(), usuaro.getFecha_Nac());
 
-                                                            Intent i = new Intent(getApplicationContext(), Denarius.class);
+                                                            Intent i = new Intent(getApplicationContext(), MainDenarius.class);
                                                             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                             startActivity(i);

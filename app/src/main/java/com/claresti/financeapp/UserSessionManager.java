@@ -49,7 +49,7 @@ public class UserSessionManager
 
     public boolean checkLogin(){
         if(!this.isUserLoggedIn()){
-            Intent i = new Intent(_context, Denarius.class);
+            Intent i = new Intent(_context, MainDenarius.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             _context.startActivity(i);
