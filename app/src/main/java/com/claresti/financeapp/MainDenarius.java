@@ -20,10 +20,11 @@ import android.view.WindowManager;
  * Created by smp_3 on 04/09/2017.
  */
 
-public class MainDenarius  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentMovimiento.OnFragmentInteractionListener
+public class MainDenarius  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentMovimiento.OnFragmentInteractionListener, FragmentMovimientos.OnFragmentInteractionListener
 {
 
     FragmentMovimiento fragmentMovimiento;
+    FragmentMovimientos fragmentMovimientos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,7 +57,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         //Fragments
 
         fragmentMovimiento = new FragmentMovimiento();
-
+        fragmentMovimientos = new FragmentMovimientos();
         getSupportFragmentManager().beginTransaction().add(R.id.FragmentContent, fragmentMovimiento).commit();
     }
 
@@ -66,12 +67,17 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        //Manejo de Fragments
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
 
         if (id == R.id.opcion1)
         {
+            transaction.replace(R.id.FragmentContent, fragmentMovimiento);
         }
         else if (id == R.id.opcion2)
         {
+            transaction.replace(R.id.FragmentContent, fragmentMovimientos);
         }
         else if (id == R.id.opcion3)
         {
@@ -88,6 +94,8 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         else if (id == R.id.opcion7)
         {
         }
+
+        transaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
