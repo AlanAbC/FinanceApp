@@ -41,8 +41,6 @@ public class Login extends AppCompatActivity {
     private RelativeLayout ventana;
 
     // Declaracion de las variables de clases
-    private BD bd;
-    private ObjUsuario usuario;
     private Urls urls;
 
     //Declaracion de variables para el control de bottom sheet
@@ -64,8 +62,6 @@ public class Login extends AppCompatActivity {
         }
 
         // Declaracion de variables de clases
-        bd = new BD(getApplicationContext());
-        usuario = bd.slectUsuario();
         urls = new Urls();
 
         /*inicio de sesión handler de sesión global*/

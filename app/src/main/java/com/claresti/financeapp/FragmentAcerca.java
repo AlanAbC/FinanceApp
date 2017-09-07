@@ -1,12 +1,15 @@
 package com.claresti.financeapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 /**
@@ -28,6 +31,8 @@ public class FragmentAcerca extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private ImageView acerca, donativo;
 
     public FragmentAcerca() {
         // Required empty public constructor
@@ -64,7 +69,30 @@ public class FragmentAcerca extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_acerca, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_acerca, container, false);
+
+        acerca = (ImageView) view.findViewById(R.id.acerca);
+        donativo = (ImageView) view.findViewById(R.id.btn_donativo);
+
+        acerca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://www.claresti.com");
+                Intent i = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(i);
+            }
+        });
+        donativo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=85QFE5ZJLM4DL");
+                Intent i = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(i);
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

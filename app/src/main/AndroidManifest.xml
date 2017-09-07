@@ -23,11 +23,8 @@
         <activity android:name=".Denarius"/>
         <activity android:name=".Registro" />
         <activity android:name=".Movimientos" />
-        <activity android:name=".Configuracion" />
         <activity android:name=".AgregarCategoria" />
         <activity android:name=".AgregarCuenta" />
-        <activity android:name=".Acerca" />
-        <activity android:name=".DespliegueMovimientos" />
         <activity android:name=".Estadisticas"></activity>
     </application>
 

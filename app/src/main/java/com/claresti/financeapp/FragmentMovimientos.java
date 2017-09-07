@@ -2,17 +2,25 @@ package com.claresti.financeapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 /**
@@ -98,6 +106,8 @@ public class FragmentMovimientos extends Fragment {
         recyclerView.setAdapter(adapterMovements);
 
         asignarListeners();
+
+        setUpRecyclerSwipe(view);
         return view;
     }
 
@@ -168,5 +178,94 @@ public class FragmentMovimientos extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    /**
+     * Funcion que implementa la animacion del swipe to dismiss
+     */
+    public void setUpRecyclerSwipe(final View view)
+    {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)
+        {
+            Drawable background = new ColorDrawable(Color.parseColor("#185e1f"));
+
+            boolean isSwiped = false;
+
+            public void drawSwipedColor()
+            {
+                background = new ColorDrawable(Color.parseColor("#185e1f"));
+            }
+
+            public void drawWhiteColor()
+            {
+                background = new ColorDrawable(Color.WHITE);
+            }
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                Log.i("MOV", viewHolder.itemView.getRight() + "");
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                if(isSwiped)
+                {
+                    Snackbar.make(view, "blanco", Snackbar.LENGTH_SHORT).show();
+                    isSwiped = false;
+                    adapterMovements.setSwipedPosition(-1);
+                }
+                else
+                {
+                    Snackbar.make(view, "Verde", Snackbar.LENGTH_SHORT).show();
+                    isSwiped = true;
+                    adapterMovements.setSwipedPosition(position);
+                }
+
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                View itemView = viewHolder.itemView;
+
+                // not sure why, but this method get's called for viewholder that are already swiped away
+                if (viewHolder.getAdapterPosition() == -1) {
+                    Toast.makeText(context, "lel", Toast.LENGTH_SHORT).show();
+                }
+
+                if(isSwiped)
+                {
+                    drawWhiteColor();
+                }
+                else
+                {
+                    drawSwipedColor();
+                }
+
+
+                // draw red background
+                if(((int) dX) < 0)
+                {
+                    background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    background.draw(c);
+                }
+                else
+                {
+                    background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + (int) dX, itemView.getBottom());
+                    background.draw(c);
+                }
+
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 }

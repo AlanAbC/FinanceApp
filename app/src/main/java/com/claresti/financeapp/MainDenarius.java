@@ -1,5 +1,7 @@
 package com.claresti.financeapp;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,7 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
@@ -28,6 +32,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
     FragmentAccounts fragmentAccounts;
     FragmentCategories fragmentCategories;
     FragmentAcerca fragmentAcerca;
+    private UserSessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,6 +61,11 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Manejo de Session
+        session = new UserSessionManager(getApplicationContext());
+
+        if(!session.isUserLoggedIn()) finish();
 
         //Fragments
 
@@ -103,7 +113,26 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         }
         else if (id == R.id.opcion7)
         {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+            builder.setMessage("¿Deseas Cerrar Sesión?");
+            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    session = new UserSessionManager(getApplicationContext());
+                    session.logoutUser();
+                }
+            })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which){
+                            dialog.cancel();
+                        }
+                    });
+            builder.show();
 
+            /*Intent i = new Intent(MainDenarius.this, Login.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);*/
         }
 
         transaction.commit();

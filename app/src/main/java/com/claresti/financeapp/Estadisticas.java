@@ -737,29 +737,13 @@ public class Estadisticas extends AppCompatActivity {
                 item.setChecked(true);
                 int pos = items.indexOf(item);
                 if(pos == 0){
-                    Intent i = new Intent(Estadisticas.this, Movimientos.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
                 }else if(pos == 1){
-                    Intent i = new Intent(Estadisticas.this, AgregarCategoria.class);
-                    startActivity(i);
                 }else if(pos == 2){
-                    Intent i = new Intent(Estadisticas.this, AgregarCuenta.class);
-                    startActivity(i);
                 }else if(pos == 3) {
-                    Intent i = new Intent(Estadisticas.this, DespliegueMovimientos.class);
-                    startActivity(i);
                 }else if(pos == 4){
 
                 }else if(pos == 5){
-                    Intent i = new Intent(Estadisticas.this, Acerca.class);
-                    startActivity(i);
                 }else if(pos == 6){
-                    if(bd.LogoutUsuario(usuario.getIdUsuario()).equals("1")){
-                        Intent i = new Intent(Estadisticas.this, Login.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(i);
-                    }
                 }
                 drawerLayout.closeDrawer(nav);
                 item.setChecked(false);
