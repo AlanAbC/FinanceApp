@@ -103,6 +103,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
             @Override
             public void run() {
                 accounts.clear();
+                notifyDataSetChanged();
                 UserSessionManager session = new UserSessionManager(context);
                 HashMap<String,String> user = session.getUserDetails();
                 Map<String, String> paramsMovements = new HashMap<String, String>();

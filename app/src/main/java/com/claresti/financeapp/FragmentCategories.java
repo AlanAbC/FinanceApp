@@ -1,7 +1,6 @@
 package com.claresti.financeapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,19 +10,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentMovimientos.OnFragmentInteractionListener} interface
+ * {@link FragmentCategories.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentMovimientos#newInstance} factory method to
+ * Use the {@link FragmentCategories#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentMovimientos extends Fragment {
+public class FragmentCategories extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -45,11 +43,11 @@ public class FragmentMovimientos extends Fragment {
 
     private ProgressBar centerProgress, bottomProgress;
 
-    private AdapterMovements adapterMovements;
+    private AdapterCategories adapterCategories;
 
     private Context context;
 
-    public FragmentMovimientos() {
+    public FragmentCategories() {
         // Required empty public constructor
     }
 
@@ -59,11 +57,11 @@ public class FragmentMovimientos extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentMovimientos.
+     * @return A new instance of fragment FragmentCategories.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentMovimientos newInstance(String param1, String param2) {
-        FragmentMovimientos fragment = new FragmentMovimientos();
+    public static FragmentCategories newInstance(String param1, String param2) {
+        FragmentCategories fragment = new FragmentCategories();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -84,21 +82,22 @@ public class FragmentMovimientos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_movimientos, container, false);
+        View view = inflater.inflate(R.layout.fragment_categories, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_movements);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_categories);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         linearLayout = (LinearLayoutManager) recyclerView.getLayoutManager();
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayoutMovements);
-        centerProgress = (ProgressBar) view.findViewById(R.id.progress_center_movements);
-        bottomProgress = (ProgressBar) view.findViewById(R.id.progress_bottom_movements);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayoutCategories);
+        centerProgress = (ProgressBar) view.findViewById(R.id.progress_center_categories);
+        bottomProgress = (ProgressBar) view.findViewById(R.id.progress_bottom_categories);
 
-        adapterMovements = AdapterMovements.getInstance(context, view);
-        adapterMovements.updateContent(centerProgress);
-        recyclerView.setAdapter(adapterMovements);
+        adapterCategories = AdapterCategories.getInstance(context, view);
+        adapterCategories.updateContent(centerProgress);
+        recyclerView.setAdapter(adapterCategories);
 
         asignarListeners();
         return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -146,7 +145,7 @@ public class FragmentMovimientos extends Fragment {
      */
     private void asignarListeners()
     {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -154,16 +153,16 @@ public class FragmentMovimientos extends Fragment {
                 lastVisibleItem = linearLayout.findLastCompletelyVisibleItemPosition();
                 if(!AdapterMovements.isLoading && totalItemCount == (lastVisibleItem + 1))
                 {
-                    adapterMovements.loadMoreItems(bottomProgress);
+                    adapterCategories.loadMoreItems(bottomProgress);
                 }
             }
-        });
+        });*/
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if(!AdapterMovements.isLoading)
                 {
-                    adapterMovements.updateContent(centerProgress);
+                    adapterCategories.updateContent(centerProgress);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }

@@ -182,7 +182,7 @@ public class FragmentMovimiento extends Fragment {
         com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerCuenta, progreso, null);
         com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso, null);
 
-        //Ocultar teclado al iniciar la activity
+        //Ocultar teclado al iniciar el fragment
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         crearListeners();

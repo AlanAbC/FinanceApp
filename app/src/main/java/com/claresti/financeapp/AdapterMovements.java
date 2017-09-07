@@ -71,7 +71,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
      * @param position posicion de el objeto que se mostrara
      */
     @Override
-    public void onBindViewHolder(ViewHolderMovements holder, final int position) {
+    public void onBindViewHolder(ViewHolderMovements holder, int position) {
         if(position == swipedPosition)
         {
             holder.date.setVisibility(View.GONE);
@@ -109,15 +109,16 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
             }
         }
 
-        holder.edit.setOnClickListener(new View.OnClickListener() {
+        /*holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int positionMovement = position;
                 Intent newMovement = new Intent(context, Movimientos.class);
                 newMovement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                newMovement.putExtra("Movimiento", movements.get(position));
+                newMovement.putExtra("Movimiento", movements.get(positionMovement));
                 context.startActivity(newMovement);
             }
-        });
+        });*/
 
     }
 
@@ -178,8 +179,8 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 movements.clear();
+                notifyDataSetChanged();
                 UserSessionManager session = new UserSessionManager(context);
                 HashMap<String,String> user = session.getUserDetails();
                 Map<String, String> paramsMovements = new HashMap<String, String>();
@@ -219,6 +220,12 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
     public int getId()
     {
         return minID;
+    }
+
+    public void cleanData()
+    {
+        movements.clear();
+        notifyDataSetChanged();
     }
 
     /**

@@ -20,11 +20,14 @@ import android.view.WindowManager;
  * Created by smp_3 on 04/09/2017.
  */
 
-public class MainDenarius  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentMovimiento.OnFragmentInteractionListener, FragmentMovimientos.OnFragmentInteractionListener
+public class MainDenarius  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentMovimiento.OnFragmentInteractionListener, FragmentMovimientos.OnFragmentInteractionListener, FragmentCategories.OnFragmentInteractionListener, FragmentAccounts.OnFragmentInteractionListener, FragmentAcerca.OnFragmentInteractionListener
 {
 
     FragmentMovimiento fragmentMovimiento;
     FragmentMovimientos fragmentMovimientos;
+    FragmentAccounts fragmentAccounts;
+    FragmentCategories fragmentCategories;
+    FragmentAcerca fragmentAcerca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,7 +45,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
-            window.setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
+            //window.setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -58,6 +61,9 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
 
         fragmentMovimiento = new FragmentMovimiento();
         fragmentMovimientos = new FragmentMovimientos();
+        fragmentCategories = new FragmentCategories();
+        fragmentAccounts = new FragmentAccounts();
+        fragmentAcerca = new FragmentAcerca();
         getSupportFragmentManager().beginTransaction().add(R.id.FragmentContent, fragmentMovimiento).commit();
     }
 
@@ -81,18 +87,23 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         }
         else if (id == R.id.opcion3)
         {
+            transaction.replace(R.id.FragmentContent, fragmentCategories);
         }
         else if (id == R.id.opcion4)
         {
+            transaction.replace(R.id.FragmentContent, fragmentAccounts);
         }
         else if (id == R.id.opcion5)
         {
+
         }
         else if (id == R.id.opcion6)
         {
+            transaction.replace(R.id.FragmentContent, fragmentAcerca);
         }
         else if (id == R.id.opcion7)
         {
+
         }
 
         transaction.commit();

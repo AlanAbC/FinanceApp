@@ -102,6 +102,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
             @Override
             public void run() {
                 categories.clear();
+                notifyDataSetChanged();
                 UserSessionManager session = new UserSessionManager(context);
                 HashMap<String,String> user = session.getUserDetails();
                 Map<String, String> paramsMovements = new HashMap<String, String>();
