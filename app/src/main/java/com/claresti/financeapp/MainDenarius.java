@@ -129,10 +129,6 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
                         }
                     });
             builder.show();
-
-            /*Intent i = new Intent(MainDenarius.this, Login.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(i);*/
         }
 
         transaction.commit();

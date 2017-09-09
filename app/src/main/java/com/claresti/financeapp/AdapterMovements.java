@@ -1,5 +1,6 @@
 package com.claresti.financeapp;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -71,7 +72,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
      * @param position posicion de el objeto que se mostrara
      */
     @Override
-    public void onBindViewHolder(ViewHolderMovements holder, int position) {
+    public void onBindViewHolder(final ViewHolderMovements holder, final int position) {
         if(position == swipedPosition)
         {
             holder.date.setVisibility(View.GONE);
@@ -89,7 +90,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
             holder.delete.setVisibility(View.GONE);
             holder.itemView.setBackgroundColor(Color.WHITE);
             holder.date.setVisibility(View.VISIBLE);
-            holder.date.setText(movements.get(position).getFecha() + movements.get(position).getID());
+            holder.date.setText(movements.get(position).getFecha());
             holder.amount.setVisibility(View.VISIBLE);
             holder.amount.setText("$ " + movements.get(position).getMonto());
             holder.concept.setVisibility(View.VISIBLE);
@@ -109,16 +110,25 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
             }
         }
 
-        /*holder.edit.setOnClickListener(new View.OnClickListener() {
+        holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int positionMovement = position;
                 Intent newMovement = new Intent(context, Movimientos.class);
                 newMovement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                newMovement.putExtra("Movimiento", movements.get(positionMovement));
+                newMovement.putExtra("Movimiento", movements.get(position));
                 context.startActivity(newMovement);
+                resetSwipe();
             }
-        });*/
+        });
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAnimation(holder.delete);
+                String id = movements.get(position).getID();
+                deleteItem(position, id);
+            }
+        });
 
     }
 
@@ -128,6 +138,12 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         swipedPosition = position;
         notifyItemChanged(lastSwipedPosition);
         notifyItemChanged(swipedPosition);
+    }
+
+    public void resetSwipe()
+    {
+        lastSwipedPosition = -1;
+        swipedPosition = -1;
     }
 
     /**
@@ -228,6 +244,71 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         notifyDataSetChanged();
     }
 
+
+    public void deleteItem(int position, String id)
+    {
+        Map<String, String> paramsMovements = new HashMap<String, String>();
+        paramsMovements.put("id", id);
+        Comunications comunications = new Comunications(context, view);
+        comunications.deleteItem(Urls.DELETEMOVEMENT, paramsMovements, 1, position);
+    }
+
+    public void deleteItemFromAdapter(int position)
+    {
+        movements.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public int getSwipedPosition()
+    {
+        return swipedPosition;
+    }
+
+    public void addAnimation(final View view)
+    {
+        view.animate().scaleX(1.2f).scaleY(1.2f).setDuration(200).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        addAnimation(view);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+    }
+
     /**
      * Clase que contiene la vista y conexion a el xml
      */
@@ -246,8 +327,5 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
             delete = (ImageView) itemView.findViewById(R.id.img_movement_delete);
 
         }
-
-
-
     }
 }

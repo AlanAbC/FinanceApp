@@ -1,6 +1,9 @@
 package com.claresti.financeapp;
 
+import android.animation.Animator;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +26,16 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     ArrayList<ObjCategoria> categories;
     private Context context;
     private View view;
+    private int minID;
+    private int swipedPosition = -1, lastSwipedPosition = -1;
+    public static boolean isLoading = false;
 
     private AdapterCategories(Context context, View view)
     {
         this.categories = new ArrayList<ObjCategoria>();
         this.context = context;
         this.view = view;
+        this.minID = 0;
     }
 
     public static synchronized AdapterCategories getInstance(Context context, View view)
@@ -58,10 +65,56 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
      * @param position posicion de el objeto que se mostrara
      */
     @Override
-    public void onBindViewHolder(AdapterCategories.ViewHolderCategories holder, int position) {
+    public void onBindViewHolder(final AdapterCategories.ViewHolderCategories holder, int position) {
+        if(position == swipedPosition)
+        {
+            holder.name.setVisibility(View.GONE);
+            holder.description.setVisibility(View.GONE);
+            holder.imageType.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.parseColor("#186e1f"));
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.name.setVisibility(View.VISIBLE);
+            holder.description.setVisibility(View.VISIBLE);
+            holder.imageType.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(Color.WHITE);
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+        }
         holder.name.setText(categories.get(position).getNombre());
         holder.description.setText(categories.get(position).getDescripcion());
         holder.imageType.setImageResource(R.drawable.acategoria);
+
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAnimation(holder.edit);
+            }
+        });
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAnimation(holder.delete);
+            }
+        });
+    }
+
+    public void setSwipedPosition(int position)
+    {
+        lastSwipedPosition = swipedPosition;
+        swipedPosition = position;
+        notifyItemChanged(lastSwipedPosition);
+        notifyItemChanged(swipedPosition);
+    }
+
+    public void resetSwipe()
+    {
+        lastSwipedPosition = -1;
+        swipedPosition = -1;
     }
 
     /**
@@ -90,6 +143,15 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     {
         categories.add(obj);
         notifyItemInserted(categories.indexOf(obj));
+        int ID = Integer.parseInt(obj.getID());
+        if(minID == 0)
+        {
+            minID = ID;
+        }
+        else if(ID < minID)
+        {
+            minID = ID;
+        }
     }
 
     /**
@@ -113,20 +175,76 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         }).start();
     }
 
+    public int getId()
+    {
+        return minID;
+    }
+
+    public int getSwipedPosition()
+    {
+        return swipedPosition;
+    }
+
+    public void addAnimation(final View view)
+    {
+        view.animate().scaleX(1.2f).scaleY(1.2f).setDuration(200).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        addAnimation(view);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+    }
+
     /**
      * Clase que contiene la vista y conexion a el xml
      */
     public class ViewHolderCategories extends RecyclerView.ViewHolder{
         ObjCategoria category;
         TextView name, description;
-        ImageView imageType;
+        ImageView imageType, edit, delete;
 
         public ViewHolderCategories(View itemView) {
             super(itemView);
             imageType = (ImageView) itemView.findViewById(R.id.imgCategory);
             name = (TextView) itemView.findViewById(R.id.txt_nameCategory);
             description = (TextView) itemView.findViewById(R.id.txt_descriptionCategory);
-
+            edit = (ImageView) itemView.findViewById(R.id.img_category_edit);
+            delete = (ImageView) itemView.findViewById(R.id.img_category_delete);
         }
 
         /**

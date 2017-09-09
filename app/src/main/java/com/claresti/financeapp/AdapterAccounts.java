@@ -1,6 +1,8 @@
 package com.claresti.financeapp;
 
+import android.animation.Animator;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +25,16 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
     ArrayList<ObjCuenta> accounts;
     private Context context;
     private View view;
+    private int minID;
+    private int swipedPosition = -1, lastSwipedPosition = -1;
+    public static boolean isLoading = false;
 
     private AdapterAccounts(Context context, View view)
     {
         this.accounts = new ArrayList<ObjCuenta>();
         this.context = context;
         this.view = view;
+        this.minID = 0;
     }
 
     public static synchronized AdapterAccounts getInstance(Context context, View view)
@@ -58,11 +64,59 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
      * @param position posicion de el objeto que se mostrara
      */
     @Override
-    public void onBindViewHolder(AdapterAccounts.ViewHolderAccounts holder, int position) {
+    public void onBindViewHolder(final AdapterAccounts.ViewHolderAccounts holder, int position) {
+        if(position == swipedPosition)
+        {
+            holder.name.setVisibility(View.GONE);
+            holder.description.setVisibility(View.GONE);
+            holder.imageType.setVisibility(View.GONE);
+            holder.money.setVisibility(View.GONE);
+            holder.itemView.setBackgroundColor(Color.parseColor("#186e1f"));
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.name.setVisibility(View.VISIBLE);
+            holder.description.setVisibility(View.VISIBLE);
+            holder.imageType.setVisibility(View.VISIBLE);
+            holder.money.setVisibility(View.VISIBLE);
+            holder.itemView.setBackgroundColor(Color.WHITE);
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+        }
         holder.name.setText(accounts.get(position).getNombre());
         holder.description.setText(accounts.get(position).getDescripcion());
         holder.imageType.setImageResource(R.drawable.acuenta);
         holder.money.setText("$ " + accounts.get(position).getDinero());
+
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAnimation(holder.edit);
+            }
+        });
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addAnimation(holder.delete);
+            }
+        });
+    }
+
+    public void setSwipedPosition(int position)
+    {
+        lastSwipedPosition = swipedPosition;
+        swipedPosition = position;
+        notifyItemChanged(lastSwipedPosition);
+        notifyItemChanged(swipedPosition);
+    }
+
+    public void resetSwipe()
+    {
+        lastSwipedPosition = -1;
+        swipedPosition = -1;
     }
 
     /**
@@ -91,6 +145,15 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
     {
         accounts.add(obj);
         notifyItemInserted(accounts.indexOf(obj));
+        int ID = Integer.parseInt(obj.getID());
+        if(minID == 0)
+        {
+            minID = ID;
+        }
+        else if(ID < minID)
+        {
+            minID = ID;
+        }
     }
 
     /**
@@ -114,13 +177,68 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
         }).start();
     }
 
+    public int getId()
+    {
+        return minID;
+    }
+
+    public int getSwipedPosition()
+    {
+        return swipedPosition;
+    }
+
+    public void addAnimation(final View view)
+    {
+        view.animate().scaleX(1.2f).scaleY(1.2f).setDuration(200).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+                        addAnimation(view);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+    }
+
     /**
      * Clase que contiene la vista y conexion a el xml
      */
     public class ViewHolderAccounts extends RecyclerView.ViewHolder{
         ObjCuenta account;
         TextView name, money, description;
-        ImageView imageType;
+        ImageView imageType, edit, delete;
 
         public ViewHolderAccounts(View itemView) {
             super(itemView);
@@ -128,7 +246,8 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
             name = (TextView) itemView.findViewById(R.id.txt_nameAccount);
             money = (TextView) itemView.findViewById(R.id.txt_moneyAccount);
             description = (TextView) itemView.findViewById(R.id.txt_descriptionAccount);
-
+            edit = (ImageView) itemView.findViewById(R.id.img_account_edit);
+            delete = (ImageView) itemView.findViewById(R.id.img_account_delete);
         }
 
         /**

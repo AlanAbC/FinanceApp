@@ -22,7 +22,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Denarius"/>
         <activity android:name=".Registro" />
-        <activity android:name=".Movimientos" />
+        <activity android:name=".Movimientos"
+            android:label="Modificar Movimiento"/>
         <activity android:name=".AgregarCategoria"
             android:label="Agregar Categoria"/>
         <activity android:name=".AgregarCuenta" />

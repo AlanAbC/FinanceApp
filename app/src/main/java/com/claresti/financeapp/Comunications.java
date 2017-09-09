@@ -576,4 +576,92 @@ public class Comunications {
         requestQueue.add(stringRequest);
     }
 
+
+    /**
+     * Funcion para eliminar un item
+     * @param url - url de la API
+     * @param paramsGetData - parametros que se enviaran a la API
+     * @param adapter - adaptador del que se eliminara el movimiento
+     * @param position - posicion del item que se eliminara
+     */
+    public void deleteItem(String url, Map<String, String> paramsGetData, int adapter, int position)
+    {
+        final int adapterRemove = adapter;
+        final int itemPosition = position;
+        final Map<String, String> paramsMap = paramsGetData;
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Log.i("RES", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String res = jsonObject.getString("estado");
+                            switch(res){
+                                case "1":
+                                    switch (adapterRemove)
+                                    {
+                                        case 1://Movimientos
+                                            adapterMovements.deleteItemFromAdapter(itemPosition);
+                                            adapterMovements.resetSwipe();
+                                            break;
+                                        case 2://Categorias
+                                            break;
+                                        case 3://Cuentas
+                                            break;
+                                    }
+                                    break;
+                                case "0":
+                                    Snackbar.make(view, jsonObject.getString("mensaje"), Snackbar.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Snackbar.make(view, "No se ha podido reaizar la acción", Snackbar.LENGTH_SHORT).show();
+                                    break;
+                            }
+                        }catch(JSONException json){
+                            Log.e("JSON", json.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("DCOM", error.getMessage());
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = paramsMap;
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(stringRequest);
+    }
+
 }

@@ -364,7 +364,25 @@ public class FragmentMovimiento extends Fragment {
             public void onDismiss(DialogInterface dialogInterface) {
                 if(progressDialog.getState())
                 {
-                    //funcion para limpiar y resetear todos las cosas del fragment
+                    //Limpiamos los datos
+                    flagMovimiento = 5;
+                    flagCuentaTransfer = -1;
+                    flagCuenta = -1;
+                    flagCategoria = -1;
+                    ingreso.setSelected(false);
+                    egreso.setSelected(false);
+                    transfer.setSelected(false);
+
+                    spinerCategoria.setSelection(0);
+                    spinerCuenta.setSelection(0);
+                    spinerAccountTransfer.setSelection(0);
+
+                    txtMovimiento.setText("Tipo de movimiento que realizaras");
+
+                    inputMonto.setText("");
+                    dateFechaMovimiento.setText("");
+                    conceptoMovimiento.setText("");
+
                 }
             }
         });

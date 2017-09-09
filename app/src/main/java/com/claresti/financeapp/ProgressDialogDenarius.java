@@ -108,7 +108,7 @@ public class ProgressDialogDenarius extends Dialog {
                 dialogImage.setScaleY(0.1f);
                 dialogImage.setImageResource(R.drawable.iconerror);
                 dialogImage.setVisibility(View.VISIBLE);
-                dialogImage.animate().scaleX(1.0f).scaleY(1.0f).setDuration(1500).setListener(new Animator.AnimatorListener() {
+                dialogImage.animate().scaleX(1.0f).scaleY(1.0f).setDuration(1000).setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
 

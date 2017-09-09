@@ -101,13 +101,11 @@ public class Movimientos extends AppCompatActivity {
     private ProgressDialogDenarius progressDialog;
 
     //Bandera de Tipo de movimiento
-    private int flagTipoMovimiento = 0;
     private String ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_movimientos);
 
         //Cambiar el color en la barra de notificaciones (Solo funciona de lollipop hacia arriba)
@@ -160,19 +158,9 @@ public class Movimientos extends AppCompatActivity {
         //Ocultar teclado al iniciar la activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        //En caso de que se llame este activity para modificar un movimiento
-        if(getIntent().getExtras() != null)
-        {
-            modifyMovement();
-        }
-        else
-        {
-            Map<String, String> paramsMovements = new HashMap<String, String>();
-            paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
-            com.fillSpinnerCategory(Urls.GETCATEGORIES, paramsMovements, spinerCategoria, progreso, null);
-            com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerCuenta, progreso, null);
-            com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso, null);
-        }
+
+        modifyMovement();
+
         crearListeners();
     }
 
@@ -351,16 +339,8 @@ public class Movimientos extends AppCompatActivity {
                 {
                     paramsMovements.put("idAccountTransfer", flagCuentaTransfer + "");
                 }
-                if(flagTipoMovimiento == 0)
-                {
-                    com.newRegister(Urls.NEWMOVEMENT, paramsMovements, progressDialog);
-                }
-                else
-                {
-
-                    paramsMovements.put("idMovement", ID);
-                    com.newRegister(Urls.UPDATEMOVEMENT, paramsMovements, progressDialog);
-                }
+                paramsMovements.put("idMovement", ID);
+                com.newRegister(Urls.UPDATEMOVEMENT, paramsMovements, progressDialog);
 
             }
         }catch (Exception e){
@@ -411,7 +391,6 @@ public class Movimientos extends AppCompatActivity {
      */
     private void modifyMovement()
     {
-        flagTipoMovimiento = 1;
         ObjMovimiento movement = (ObjMovimiento) getIntent().getExtras().getSerializable("Movimiento");
         Map<String, String> paramsMovements = new HashMap<String, String>();
         paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
