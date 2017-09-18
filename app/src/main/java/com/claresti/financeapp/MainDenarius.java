@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -33,6 +35,8 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
     FragmentCategories fragmentCategories;
     FragmentAcerca fragmentAcerca;
     private UserSessionManager session;
+
+    FloatingActionButton buttonAdds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -62,6 +66,8 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        buttonAdds = (FloatingActionButton) findViewById(R.id.new_action);
+
         //Manejo de Session
         session = new UserSessionManager(getApplicationContext());
 
@@ -90,18 +96,22 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         if (id == R.id.opcion1)
         {
             transaction.replace(R.id.FragmentContent, fragmentMovimiento);
+            buttonAdds.setVisibility(View.GONE);
         }
         else if (id == R.id.opcion2)
         {
             transaction.replace(R.id.FragmentContent, fragmentMovimientos);
+            buttonAdds.setVisibility(View.GONE);
         }
         else if (id == R.id.opcion3)
         {
             transaction.replace(R.id.FragmentContent, fragmentCategories);
+            buttonAdds.setVisibility(View.VISIBLE);
         }
         else if (id == R.id.opcion4)
         {
             transaction.replace(R.id.FragmentContent, fragmentAccounts);
+            buttonAdds.setVisibility(View.VISIBLE);
         }
         else if (id == R.id.opcion5)
         {
@@ -110,6 +120,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         else if (id == R.id.opcion6)
         {
             transaction.replace(R.id.FragmentContent, fragmentAcerca);
+            buttonAdds.setVisibility(View.GONE);
         }
         else if (id == R.id.opcion7)
         {

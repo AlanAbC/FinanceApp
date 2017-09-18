@@ -43,6 +43,21 @@
 
         </LinearLayout>
 
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/new_action"
+            app:backgroundTint="#FF216C2A"
+            android:src="@drawable/ic_add"
+            app:fabSize="normal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|right|end"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            app:elevation="2dp"/>
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
