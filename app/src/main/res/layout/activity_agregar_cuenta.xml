@@ -19,37 +19,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="8dp"
-                android:background= "#216c2a"
-                android:id="@+id/menu"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:padding="20dp"
-                    android:src="@drawable/menu"
-                    android:id="@+id/Btnmenu"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/Btnmenu"
-                    android:text="@string/titulo_menu_ACuenta"
-                    android:textColor="#FFFFFF"
-                    android:textSize="22dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="20dp"/>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/menu"
                 android:id="@+id/contenedor">
 
                 <android.support.design.widget.TextInputLayout
@@ -115,15 +85,5 @@
 
         </RelativeLayout>
     </ScrollView>
-
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/menu_principal"
-        app:itemTextColor="#898989"
-        app:headerLayout="@layout/header_menu"/>
 
 </android.support.v4.widget.DrawerLayout>

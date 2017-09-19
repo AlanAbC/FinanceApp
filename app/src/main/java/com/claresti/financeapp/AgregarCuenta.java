@@ -38,7 +38,7 @@ public class AgregarCuenta extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         setContentView(R.layout.activity_agregar_cuenta);
 
         //Cambiar el color en la barra de notificaciones (Solo funciona de lollipop hacia arriba)
@@ -67,6 +67,11 @@ public class AgregarCuenta extends AppCompatActivity {
         session = new UserSessionManager(getApplicationContext());
         user = session.getUserDetails();
         com = new Comunications(getApplicationContext(), ventana);
+
+        if(getIntent().hasExtra("Account"))
+        {
+            modificarAccount();
+        }
     }
 
     /**
@@ -121,5 +126,13 @@ public class AgregarCuenta extends AppCompatActivity {
 
             }
         }).show();
+    }
+
+    private void modificarAccount()
+    {
+        ObjCuenta account = (ObjCuenta) getIntent().getExtras().getSerializable("Account");
+
+        inputCuenta.setText(account.getNombre());
+        inputDescripcion.setText(account.getDescripcion());
     }
 }

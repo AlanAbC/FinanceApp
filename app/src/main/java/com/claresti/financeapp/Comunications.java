@@ -610,8 +610,12 @@ public class Comunications {
                                             adapterMovements.resetSwipe();
                                             break;
                                         case 2://Categorias
+                                            adapterCategories.deleteItemFromAdapter(itemPosition);
+                                            adapterCategories.resetSwipe();
                                             break;
                                         case 3://Cuentas
+                                            adapterAccounts.deleteItemFromAdapter(itemPosition);
+                                            adapterAccounts.resetSwipe();
                                             break;
                                     }
                                     break;

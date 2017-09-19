@@ -1,6 +1,9 @@
 package com.claresti.financeapp;
 
-public class ObjCategoria {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class ObjCategoria implements Serializable{
 
     private String ID;
     private String Nombre;

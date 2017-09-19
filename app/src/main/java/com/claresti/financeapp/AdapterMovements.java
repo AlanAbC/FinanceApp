@@ -113,6 +113,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addAnimation(holder.edit);
                 Intent newMovement = new Intent(context, Movimientos.class);
                 newMovement.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 newMovement.putExtra("Movimiento", movements.get(position));

@@ -29,14 +29,16 @@ import android.view.WindowManager;
 public class MainDenarius  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentMovimiento.OnFragmentInteractionListener, FragmentMovimientos.OnFragmentInteractionListener, FragmentCategories.OnFragmentInteractionListener, FragmentAccounts.OnFragmentInteractionListener, FragmentAcerca.OnFragmentInteractionListener
 {
 
-    FragmentMovimiento fragmentMovimiento;
-    FragmentMovimientos fragmentMovimientos;
-    FragmentAccounts fragmentAccounts;
-    FragmentCategories fragmentCategories;
-    FragmentAcerca fragmentAcerca;
+    private FragmentMovimiento fragmentMovimiento;
+    private FragmentMovimientos fragmentMovimientos;
+    private FragmentAccounts fragmentAccounts;
+    private FragmentCategories fragmentCategories;
+    private FragmentAcerca fragmentAcerca;
     private UserSessionManager session;
 
-    FloatingActionButton buttonAdds;
+    private int flagAdaptador = -1;
+
+    private FloatingActionButton buttonAdds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,6 +70,8 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
 
         buttonAdds = (FloatingActionButton) findViewById(R.id.new_action);
 
+        agregarListeners();
+
         //Manejo de Session
         session = new UserSessionManager(getApplicationContext());
 
@@ -97,33 +101,39 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         {
             transaction.replace(R.id.FragmentContent, fragmentMovimiento);
             buttonAdds.setVisibility(View.GONE);
+            flagAdaptador = 1;
         }
         else if (id == R.id.opcion2)
         {
             transaction.replace(R.id.FragmentContent, fragmentMovimientos);
             buttonAdds.setVisibility(View.GONE);
+            flagAdaptador = 2;
         }
         else if (id == R.id.opcion3)
         {
             transaction.replace(R.id.FragmentContent, fragmentCategories);
             buttonAdds.setVisibility(View.VISIBLE);
+            flagAdaptador = 3;
         }
         else if (id == R.id.opcion4)
         {
             transaction.replace(R.id.FragmentContent, fragmentAccounts);
             buttonAdds.setVisibility(View.VISIBLE);
+            flagAdaptador = 4;
         }
         else if (id == R.id.opcion5)
         {
-
+            flagAdaptador = 5;
         }
         else if (id == R.id.opcion6)
         {
             transaction.replace(R.id.FragmentContent, fragmentAcerca);
             buttonAdds.setVisibility(View.GONE);
+            flagAdaptador = 6;
         }
         else if (id == R.id.opcion7)
         {
+            flagAdaptador = 7;
             AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
             builder.setMessage("¿Deseas Cerrar Sesión?");
             builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
@@ -152,5 +162,26 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+
+    private void agregarListeners()
+    {
+        buttonAdds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (flagAdaptador)
+                {
+                    case 3:
+                        Intent newCategory = new Intent(MainDenarius.this, AgregarCategoria.class);
+                        startActivity(newCategory);
+                        break;
+                    case 4:
+                        Intent newAccount = new Intent(MainDenarius.this, AgregarCuenta.class);
+                        startActivity(newAccount);
+                        break;
+                }
+            }
+        });
     }
 }

@@ -2,6 +2,7 @@ package com.claresti.financeapp;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,7 +65,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
      * @param position posicion de el objeto que se mostrara
      */
     @Override
-    public void onBindViewHolder(final AdapterAccounts.ViewHolderAccounts holder, int position) {
+    public void onBindViewHolder(final AdapterAccounts.ViewHolderAccounts holder, final int position) {
         if(position == swipedPosition)
         {
             holder.name.setVisibility(View.GONE);
@@ -94,6 +95,11 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
             @Override
             public void onClick(View view) {
                 addAnimation(holder.edit);
+                Intent newAccount = new Intent(context, AgregarCuenta.class);
+                newAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                newAccount.putExtra("Account", accounts.get(position));
+                context.startActivity(newAccount);
+                resetSwipe();
             }
         });
 
@@ -101,6 +107,8 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
             @Override
             public void onClick(View view) {
                 addAnimation(holder.delete);
+                String id = accounts.get(position).getID();
+                deleteItem(position, id);
             }
         });
     }
@@ -231,6 +239,21 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
             }
         });
     }
+
+    public void deleteItemFromAdapter(int position)
+    {
+        accounts.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void deleteItem(int position, String id)
+    {
+        Map<String, String> paramsAccounts = new HashMap<String, String>();
+        paramsAccounts.put("id", id);
+        Comunications comunications = new Comunications(context, view);
+        comunications.deleteItem(Urls.DELETEACCOUNT, paramsAccounts, 3, position);
+    }
+
 
     /**
      * Clase que contiene la vista y conexion a el xml

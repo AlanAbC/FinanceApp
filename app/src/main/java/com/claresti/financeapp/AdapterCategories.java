@@ -65,7 +65,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
      * @param position posicion de el objeto que se mostrara
      */
     @Override
-    public void onBindViewHolder(final AdapterCategories.ViewHolderCategories holder, int position) {
+    public void onBindViewHolder(final AdapterCategories.ViewHolderCategories holder, final int position) {
         if(position == swipedPosition)
         {
             holder.name.setVisibility(View.GONE);
@@ -92,6 +92,11 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
             @Override
             public void onClick(View view) {
                 addAnimation(holder.edit);
+                Intent newCategory = new Intent(context, AgregarCategoria.class);
+                newCategory.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                newCategory.putExtra("Category", categories.get(position));
+                context.startActivity(newCategory);
+                resetSwipe();
             }
         });
 
@@ -99,6 +104,8 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
             @Override
             public void onClick(View view) {
                 addAnimation(holder.delete);
+                String id = categories.get(position).getID();
+                deleteItem(position, id);
             }
         });
     }
@@ -228,6 +235,20 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
 
             }
         });
+    }
+
+    public void deleteItemFromAdapter(int position)
+    {
+        categories.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void deleteItem(int position, String id)
+    {
+        Map<String, String> paramsCategory = new HashMap<String, String>();
+        paramsCategory.put("id", id);
+        Comunications comunications = new Comunications(context, view);
+        comunications.deleteItem(Urls.DELETECATEGORY, paramsCategory, 2, position);
     }
 
     /**

@@ -37,7 +37,7 @@ public class AgregarCategoria extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         setContentView(R.layout.activity_agregar_categoria);
 
         //Cambiar el color en la barra de notificaciones (Solo funciona de lollipop hacia arriba)
@@ -66,6 +66,12 @@ public class AgregarCategoria extends AppCompatActivity {
         session = new UserSessionManager(getApplicationContext());
         user = session.getUserDetails();
         com = new Comunications(getApplicationContext(), ventana);
+
+        //Recogemos datos si se manda a modificar la categoria
+        if(getIntent().hasExtra("Category"))
+        {
+            modificarCategoria();
+        }
     }
 
     /**
@@ -120,5 +126,13 @@ public class AgregarCategoria extends AppCompatActivity {
 
             }
         }).show();
+    }
+
+    private void modificarCategoria()
+    {
+        ObjCategoria category = (ObjCategoria) getIntent().getExtras().getSerializable("Category");
+
+        inputCategoria.setText(category.getNombre());
+        inputDescripcion.setText(category.getDescripcion());
     }
 }
