@@ -34,6 +34,9 @@ public class AgregarCategoria extends AppCompatActivity {
     //ProgressDialog
     private ProgressDialogDenarius progressDialog;
 
+    private int flagTipoMovimiento = 1;
+    private ObjCategoria category;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +74,7 @@ public class AgregarCategoria extends AppCompatActivity {
         if(getIntent().hasExtra("Category"))
         {
             modificarCategoria();
+            flagTipoMovimiento = 2;
         }
     }
 
@@ -108,10 +112,18 @@ public class AgregarCategoria extends AppCompatActivity {
         }else{
             progressDialog.show();
             Map<String, String> paramsMovements = new HashMap<String, String>();
-            paramsMovements.put("idUser",user.get(UserSessionManager.KEY_ID));
             paramsMovements.put("name", inputCategoria.getText().toString());
             paramsMovements.put("description", inputDescripcion.getText().toString());
-            com.newRegister(Urls.NEWCATEGORY, paramsMovements, progressDialog);
+            if(flagTipoMovimiento == 2)
+            {
+                paramsMovements.put("id", category.getID());
+                com.newRegister(Urls.UPDATECATEGORY, paramsMovements, progressDialog);
+            }
+            else
+            {
+                paramsMovements.put("idUser",user.get(UserSessionManager.KEY_ID));
+                com.newRegister(Urls.NEWCATEGORY, paramsMovements, progressDialog);
+            }
         }
     }
 
@@ -130,9 +142,10 @@ public class AgregarCategoria extends AppCompatActivity {
 
     private void modificarCategoria()
     {
-        ObjCategoria category = (ObjCategoria) getIntent().getExtras().getSerializable("Category");
+        category = (ObjCategoria) getIntent().getExtras().getSerializable("Category");
 
         inputCategoria.setText(category.getNombre());
         inputDescripcion.setText(category.getDescripcion());
+        btnRegistrarCategoria.setText("Modificar");
     }
 }

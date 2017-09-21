@@ -1,5 +1,6 @@
 package com.claresti.financeapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.BottomSheetBehavior;
@@ -30,6 +31,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Login extends AppCompatActivity {
 
     // Declaracion de variables del layout
@@ -46,6 +50,9 @@ public class Login extends AppCompatActivity {
     //Declaracion de variables para el control de bottom sheet
     private Button btnConBottomSheet;
     private LinearLayout bottomSheet;
+
+    private Comunications com;
+    private DialogSession dialogSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +94,10 @@ public class Login extends AppCompatActivity {
         progreso = (ProgressBar)findViewById(R.id.progress);
         ventana = (RelativeLayout)findViewById(R.id.l_ventana);
 
+        com = new Comunications(this, ventana);
+        dialogSession = new DialogSession(this);
+        dialogSession.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
         // Declaracion de los listeners
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,8 +128,12 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        agregarListeners();
+
         //Ocultar teclado al iniciar la activity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
     }
 
     /**
@@ -134,92 +149,12 @@ public class Login extends AppCompatActivity {
         }else if(pass.equals("")){
             msg("Ingrese su contraseña");
         }else{
-            login(correo, pass);
+            dialogSession.show();
+            Map<String, String> paramsMovements = new HashMap<String, String>();
+            paramsMovements.put("identificador", correo);
+            paramsMovements.put("password", pass);
+            com.login(Urls.LOGIN, paramsMovements, dialogSession);
         }
-    }
-
-    /**
-     * Funcion que solicita a la api los datos del login y los valida si existe
-     * el usuario en caso de existir guarda la informacion en la base de
-     * datos local y en caso contrario marca mensaje de que no existe el
-     * usuario o contraseña incorrecta
-     * @param correo correo del usuario
-     * @param pass contraseña del usuario
-     */
-    private void login(String correo, String pass) {
-        progreso.setVisibility(View.VISIBLE);
-        final Gson gson = new Gson();
-        JsonObjectRequest request;
-        VolleySingleton.getInstance(Login.this).
-                addToRequestQueue(
-                        request = new JsonObjectRequest(
-                                Request.Method.GET,
-                                urls.getLogin() + "identificador=" + correo + "&password=" + pass,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        try {
-                                            String res = response.getString("estado");
-                                            switch(res){
-                                                case "1":
-                                                    JSONArray jArrayMarcadores = response.getJSONArray("usuario");
-                                                    ObjUsuario[] arrayUsuario = gson.fromJson(jArrayMarcadores.toString(), ObjUsuario[].class);
-                                                    if(arrayUsuario.length == 1) {
-                                                        for (ObjUsuario usuaro : arrayUsuario) {
-                                                            //crear base de datos local i guardar la informacion del objeto
-                                                            UserSessionManager session;
-                                                            session = new UserSessionManager(getApplicationContext());
-
-                                                            session.createUserLoginSession(usuaro.getIdUsuario(), usuaro.getUsuario(), usuaro.getNombre(), usuaro.getCorreo(), usuaro.getSexo(), usuaro.getFecha_Nac());
-
-                                                            Intent i = new Intent(getApplicationContext(), MainDenarius.class);
-                                                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                            startActivity(i);
-                                                            finish();
-                                                        }
-                                                    }
-                                                    progreso.setVisibility(View.GONE);
-                                                    break;
-                                                case "0":
-                                                    //Regresar mensaje de que no hay registros
-                                                    progreso.setVisibility(View.GONE);
-                                                    mostrarBottom();
-                                                    break;
-                                                default:
-                                                    progreso.setVisibility(View.GONE);
-                                                    msg("Ocurrio un problema al conectarse con el sertvidor");
-                                                    break;
-                                            }
-                                        }catch(JSONException json){
-                                            Log.e("JSON", json.toString());
-                                        }
-                                    }
-                                },
-                                new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                    }
-                                }
-                        )
-                );
-        request.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 50000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });
     }
 
     /**
@@ -243,5 +178,26 @@ public class Login extends AppCompatActivity {
 
             }
         }).show();
+    }
+
+    private void agregarListeners()
+    {
+        dialogSession.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(dialogSession.getState() == 2)
+                {
+                    msg("No existe el usuario y/o contraseña");
+                }
+                else if(dialogSession.getState() == 3)
+                {
+                    msg("No hay conexion a internet");
+                }
+                else
+                {
+                    finish();
+                }
+            }
+        });
     }
 }

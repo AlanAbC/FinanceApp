@@ -2,8 +2,10 @@ package com.claresti.financeapp;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,9 +108,22 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addAnimation(holder.delete);
-                String id = accounts.get(position).getID();
-                deleteItem(position, id);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
+                builder.setMessage("Se eliminaran todos los movimientos asociados con esta cuenta");
+                builder.setPositiveButton("Acepto", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        addAnimation(holder.delete);
+                        String id = accounts.get(position).getID();
+                        deleteItem(position, id);
+                    }
+                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which){
+                                dialog.cancel();
+                            }
+                        });
+                builder.show();
             }
         });
     }

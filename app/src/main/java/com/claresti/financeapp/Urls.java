@@ -10,9 +10,12 @@ public class Urls {
     public static final String NEWCATEGORY = clares + "insert_category.php";
     public static final String NEWACCOUNT = clares + "insert_account.php";
     public static final String UPDATEMOVEMENT = clares + "update_movement.php";
+    public static final String UPDATEACCOUNT = clares + "modificar_cuenta.php";
+    public static final String UPDATECATEGORY = clares + "modificar_categoria.php";
     public static final String DELETEMOVEMENT = clares + "eliminar_movimiento.php";
     public static final String DELETEACCOUNT = clares + "eliminar_cuenta.php";
     public static final String DELETECATEGORY = clares + "eliminar_categoria.php";
+    public static final String LOGIN = clares + "login.php";
 
     private String login;
     private String registro;

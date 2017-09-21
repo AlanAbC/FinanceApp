@@ -35,6 +35,9 @@ public class AgregarCuenta extends AppCompatActivity {
     //ProgressDialog
     private ProgressDialogDenarius progressDialog;
 
+    private int flagTipoMovimiento = 1;
+    private ObjCuenta account;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,7 @@ public class AgregarCuenta extends AppCompatActivity {
 
         if(getIntent().hasExtra("Account"))
         {
+            flagTipoMovimiento = 2;
             modificarAccount();
         }
     }
@@ -108,10 +112,19 @@ public class AgregarCuenta extends AppCompatActivity {
         }else{
             progressDialog.show();
             Map<String, String> paramsMovements = new HashMap<String, String>();
-            paramsMovements.put("idUser",user.get(UserSessionManager.KEY_ID));
             paramsMovements.put("name", inputCuenta.getText().toString());
             paramsMovements.put("description", inputDescripcion.getText().toString());
-            com.newRegister(Urls.NEWACCOUNT, paramsMovements, progressDialog);
+
+            if(flagTipoMovimiento == 2)
+            {
+                paramsMovements.put("id", account.getID());
+                com.newRegister(Urls.UPDATEACCOUNT, paramsMovements, progressDialog);
+            }
+            else
+            {
+                paramsMovements.put("idUser",user.get(UserSessionManager.KEY_ID));
+                com.newRegister(Urls.NEWACCOUNT, paramsMovements, progressDialog);
+            }
         }
     }
 
@@ -130,9 +143,10 @@ public class AgregarCuenta extends AppCompatActivity {
 
     private void modificarAccount()
     {
-        ObjCuenta account = (ObjCuenta) getIntent().getExtras().getSerializable("Account");
+        account = (ObjCuenta) getIntent().getExtras().getSerializable("Account");
 
         inputCuenta.setText(account.getNombre());
         inputDescripcion.setText(account.getDescripcion());
+        btnRegistrarCategoria.setText("Modificar");
     }
 }

@@ -2,6 +2,7 @@ package com.claresti.financeapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -645,6 +647,103 @@ public class Comunications {
             protected Map<String, String> getParams()
             {
                 Map<String, String> params = paramsMap;
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+        requestQueue.add(stringRequest);
+    }
+
+    /**
+     * Funcion que solicita a la api los datos del login y los valida si existe
+     * el usuario en caso de existir guarda la informacion en la base de
+     * datos local y en caso contrario marca mensaje de que no existe el
+     * usuario o contraseña incorrecta
+     * @param url url a donde se accedera para el login
+     * @param paramsGetData parametros para enviar
+     * @param dialog que se manejara para ver estado del inicio de sesion
+     */
+    public void login(String url, final Map<String, String> paramsGetData, final DialogSession dialog) {
+        final DialogSession dialogSession = dialog;
+        final Map<String, String> params = paramsGetData;
+        final Gson gson = new Gson();
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String res = jsonObject.getString("estado");
+                            switch(res){
+                                case "1":
+                                    JSONArray jArrayMarcadores = jsonObject.getJSONArray("usuario");
+                                    ObjUsuario[] arrayUsuario = gson.fromJson(jArrayMarcadores.toString(), ObjUsuario[].class);
+                                    if(arrayUsuario.length == 1) {
+                                        for (ObjUsuario usuario : arrayUsuario) {
+                                            dialog.setActionLogged();
+                                            UserSessionManager session;
+                                            session = new UserSessionManager(context);
+
+                                            session.createUserLoginSession(usuario.getIdUsuario(), usuario.getUsuario(), usuario.getNombre(), usuario.getCorreo(), usuario.getSexo(), usuario.getFecha_Nac());
+
+                                            Intent i = new Intent(context, MainDenarius.class);
+                                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            context.startActivity(i);
+                                        }
+                                    }
+                                    dialog.dismiss();
+                                    break;
+                                case "0":
+                                    //Regresar mensaje de que no hay registros
+                                    dialog.setActionNotUser();
+                                    break;
+                                default:
+                                    dialog.dismiss();
+                                    break;
+                            }
+                        }catch(JSONException json){
+                            Log.e("JSON", json.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("DCOM", error.getMessage());
+                        dialog.setState(3);
+                        dialog.dismiss();
+                    }
+                }
+        )
+        {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String> params = paramsGetData;
                 return params;
             }
         };
