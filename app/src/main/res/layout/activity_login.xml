@@ -26,8 +26,9 @@
                 android:scaleType="centerInside"
                 android:id="@+id/logo"
                 android:src="@drawable/d"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="60dp"/>
+                android:layout_marginTop="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_user"
@@ -91,15 +92,20 @@
                 android:textColor="#fff"
                 android:layout_centerHorizontal="true"/>
 
-        </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="Iniciando Sesión..."
+                android:layout_below="@+id/logo"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="70dp"
+                android:id="@+id/msg_session"
+                android:textColor="#fff"
+                android:layout_centerHorizontal="true"
+                android:textSize="20dp"
+                android:alpha="0"/>
 
-        <ProgressBar
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone"
-            android:id="@+id/progress"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 

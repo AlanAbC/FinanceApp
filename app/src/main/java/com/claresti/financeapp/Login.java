@@ -1,10 +1,12 @@
 package com.claresti.financeapp;
 
+import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -37,12 +40,14 @@ import java.util.Map;
 public class Login extends AppCompatActivity {
 
     // Declaracion de variables del layout
-    private TextView btnRegistro;
-    private EditText inputUsuario;
-    private EditText inputPassword;
-    private Button btnIngresar;
-    private ProgressBar progreso;
-    private RelativeLayout ventana;
+    private static TextView btnRegistro, msgLogin;
+    private static TextInputLayout textInputLayoutUsuario;
+    private static EditText inputUsuario;
+    private static TextInputLayout textInputLayoutPassword;
+    private static EditText inputPassword;
+    private static Button btnIngresar;
+    private static RelativeLayout ventana;
+    private static ImageView logo;
 
     // Declaracion de las variables de clases
     private Urls urls;
@@ -52,7 +57,6 @@ public class Login extends AppCompatActivity {
     private LinearLayout bottomSheet;
 
     private Comunications com;
-    private DialogSession dialogSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +71,6 @@ public class Login extends AppCompatActivity {
             window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
             window.setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
         }
-
-        // Declaracion de variables de clases
-        urls = new Urls();
 
         /*inicio de sesión handler de sesión global*/
         UserSessionManager session;
@@ -87,16 +88,17 @@ public class Login extends AppCompatActivity {
         }
 
         // Asignacion de variables del layout
+        logo = (ImageView) findViewById(R.id.logo);
+        msgLogin = (TextView) findViewById(R.id.msg_session);
         btnRegistro = (TextView)findViewById(R.id.btn_registro);
+        textInputLayoutUsuario = (TextInputLayout) findViewById(R.id.input_layout_user);
         inputUsuario = (EditText)findViewById(R.id.input_user);
+        textInputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password);
         inputPassword = (EditText)findViewById(R.id.input_password);
         btnIngresar = (Button)findViewById(R.id.btn_ingresar);
-        progreso = (ProgressBar)findViewById(R.id.progress);
         ventana = (RelativeLayout)findViewById(R.id.l_ventana);
 
         com = new Comunications(this, ventana);
-        dialogSession = new DialogSession(this);
-        dialogSession.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         // Declaracion de los listeners
         btnRegistro.setOnClickListener(new View.OnClickListener() {
@@ -149,29 +151,19 @@ public class Login extends AppCompatActivity {
         }else if(pass.equals("")){
             msg("Ingrese su contraseña");
         }else{
-            dialogSession.show();
             Map<String, String> paramsMovements = new HashMap<String, String>();
             paramsMovements.put("identificador", correo);
             paramsMovements.put("password", pass);
-            com.login(Urls.LOGIN, paramsMovements, dialogSession);
+            com.login(Urls.LOGIN, paramsMovements);
+            loginAnimation();
         }
-    }
-
-    /**
-     * Funcion encargada de mostrar el BottomSheet con el mensaje de que
-     * el usuario o contraseña son incorrectos
-     */
-    private void mostrarBottom(){
-        final BottomSheetBehavior bsb = BottomSheetBehavior.from(bottomSheet);
-        //funcion para expandir bottomsheet en cuanto inicia la app
-        bsb.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
     /**
      * funcion encargada de crear un snackbar con un mensaje y un boton de aceptar para ocultarla
      * @param msg String que contiene el mensaje
      */
-    private void msg(String msg){
+    private static void msg(String msg){
         Snackbar.make(ventana, msg, Snackbar.LENGTH_LONG).setAction("Aceptar", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,21 +174,82 @@ public class Login extends AppCompatActivity {
 
     private void agregarListeners()
     {
-        dialogSession.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+    }
+
+    private void loginAnimation()
+    {
+        textInputLayoutUsuario.animate().alpha(0f).setDuration(800);
+        inputUsuario.animate().alpha(0f).setDuration(800);
+        textInputLayoutPassword.animate().alpha(0f).setDuration(800);
+        inputPassword.animate().alpha(0f).setDuration(800);
+        btnIngresar.animate().alpha(0f).setDuration(800);
+        btnRegistro.animate().alpha(0f).setDuration(800);
+        msgLogin.animate().alpha(1f).setDuration(800);
+        showDenariusLogo();
+    }
+
+    public static void errorAnimation(String errorMessage)
+    {
+        textInputLayoutUsuario.animate().alpha(1f).setDuration(800);
+        inputUsuario.animate().alpha(1f).setDuration(800);
+        textInputLayoutPassword.animate().alpha(1f).setDuration(800);
+        inputPassword.animate().alpha(1f).setDuration(800);
+        btnIngresar.animate().alpha(1f).setDuration(800);
+        btnRegistro.animate().alpha(1f).setDuration(800);
+        msgLogin.animate().alpha(0f).setDuration(800);
+        logo.animate().setListener(null);
+        logo.clearAnimation();
+        logo.animate().alpha(1f);
+        msg(errorMessage);
+    }
+
+    private void showDenariusLogo()
+    {
+        logo.animate().alpha(0.1f).setDuration(900).setListener(new Animator.AnimatorListener() {
             @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                if(dialogSession.getState() == 2)
-                {
-                    msg("No existe el usuario y/o contraseña");
-                }
-                else if(dialogSession.getState() == 3)
-                {
-                    msg("No hay conexion a internet");
-                }
-                else
-                {
-                    finish();
-                }
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                dismissDenariusLogo();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+    }
+
+    private void dismissDenariusLogo()
+    {
+        logo.animate().alpha(1f).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                showDenariusLogo();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
             }
         });
     }

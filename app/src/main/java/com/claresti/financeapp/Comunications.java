@@ -677,10 +677,8 @@ public class Comunications {
      * usuario o contraseña incorrecta
      * @param url url a donde se accedera para el login
      * @param paramsGetData parametros para enviar
-     * @param dialog que se manejara para ver estado del inicio de sesion
      */
-    public void login(String url, final Map<String, String> paramsGetData, final DialogSession dialog) {
-        final DialogSession dialogSession = dialog;
+    public void login(String url, final Map<String, String> paramsGetData) {
         final Map<String, String> params = paramsGetData;
         final Gson gson = new Gson();
 
@@ -701,7 +699,6 @@ public class Comunications {
                                     ObjUsuario[] arrayUsuario = gson.fromJson(jArrayMarcadores.toString(), ObjUsuario[].class);
                                     if(arrayUsuario.length == 1) {
                                         for (ObjUsuario usuario : arrayUsuario) {
-                                            dialog.setActionLogged();
                                             UserSessionManager session;
                                             session = new UserSessionManager(context);
 
@@ -713,14 +710,10 @@ public class Comunications {
                                             context.startActivity(i);
                                         }
                                     }
-                                    dialog.dismiss();
                                     break;
                                 case "0":
                                     //Regresar mensaje de que no hay registros
-                                    dialog.setActionNotUser();
-                                    break;
-                                default:
-                                    dialog.dismiss();
+                                    Login.errorAnimation("Error, usuario y/o contraseña incorrectos");
                                     break;
                             }
                         }catch(JSONException json){
@@ -734,8 +727,7 @@ public class Comunications {
                     public void onErrorResponse(VolleyError error)
                     {
                         Log.e("DCOM", error.getMessage());
-                        dialog.setState(3);
-                        dialog.dismiss();
+                        Login.errorAnimation("Error, no hay conexión a internet");
                     }
                 }
         )
