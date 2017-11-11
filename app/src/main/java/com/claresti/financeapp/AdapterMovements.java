@@ -82,7 +82,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
             holder.concept.setVisibility(View.GONE);
             holder.type.setVisibility(View.GONE);
             holder.imageType.setVisibility(View.GONE);
-            holder.itemView.setBackgroundColor(Color.parseColor("#185e1f"));
+            holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             holder.edit.setVisibility(View.VISIBLE);
             holder.delete.setVisibility(View.VISIBLE);
         }

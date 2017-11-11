@@ -193,13 +193,13 @@ public class FragmentMovimientos extends Fragment {
     {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)
         {
-            Drawable background = new ColorDrawable(Color.parseColor("#185e1f"));
+            Drawable background = new ColorDrawable(context.getResources().getColor(R.color.colorPrimary));
 
             boolean isSwiped = false;
 
             public void drawSwipedColor()
             {
-                background = new ColorDrawable(Color.parseColor("#185e1f"));
+                background = new ColorDrawable(context.getResources().getColor(R.color.colorPrimary));
             }
 
             public void drawWhiteColor()
