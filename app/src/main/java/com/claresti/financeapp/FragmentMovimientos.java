@@ -55,8 +55,6 @@ public class FragmentMovimientos extends Fragment {
 
     private AdapterMovements adapterMovements;
 
-    private Context context;
-
     public FragmentMovimientos() {
         // Required empty public constructor
     }
@@ -101,7 +99,7 @@ public class FragmentMovimientos extends Fragment {
         centerProgress = (ProgressBar) view.findViewById(R.id.progress_center_movements);
         bottomProgress = (ProgressBar) view.findViewById(R.id.progress_bottom_movements);
 
-        adapterMovements = AdapterMovements.getInstance(context, view);
+        adapterMovements = AdapterMovements.getInstance(getActivity(), view);
         adapterMovements.updateContent(centerProgress);
         recyclerView.setAdapter(adapterMovements);
 
@@ -127,7 +125,6 @@ public class FragmentMovimientos extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -193,13 +190,13 @@ public class FragmentMovimientos extends Fragment {
     {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)
         {
-            Drawable background = new ColorDrawable(context.getResources().getColor(R.color.colorPrimary));
+            Drawable background = new ColorDrawable(getActivity().getResources().getColor(R.color.colorPrimary));
 
             boolean isSwiped = false;
 
             public void drawSwipedColor()
             {
-                background = new ColorDrawable(context.getResources().getColor(R.color.colorPrimary));
+                background = new ColorDrawable(getActivity().getResources().getColor(R.color.colorPrimary));
             }
 
             public void drawWhiteColor()
@@ -248,7 +245,7 @@ public class FragmentMovimientos extends Fragment {
 
                 // not sure why, but this method get's called for viewholder that are already swiped away
                 if (viewHolder.getAdapterPosition() == -1) {
-                    Toast.makeText(context, "lel", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "lel", Toast.LENGTH_SHORT).show();
                 }
 
                 if(isSwiped)

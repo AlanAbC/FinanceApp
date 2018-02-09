@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/ventana_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <TextView
+            android:id="@+id/alert_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iniciando Sesión"
+            android:textColor="@color/text_color"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/alert_dialog_mensaje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mensaje"
+            android:textColor="@color/text_color"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/alert_dialog_title"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/alert_dialog_btn_aceptar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="Aceptar"
+            android:textColor="@color/hint_color"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            />
+
+        <Button
+            android:id="@+id/alert_dialog_btn_cencelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/alert_dialog_btn_aceptar"
+            android:text="Cancelar"
+            android:textColor="@color/hint_color"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -40,7 +40,8 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="5dp"
                     android:textColorHint="#FFFFFF"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
                     <EditText
                         android:id="@+id/input_user"
@@ -50,7 +51,9 @@
                         android:textColor="#fff"
                         android:textColorHint="#ffffff"
                         android:textSize="15sp"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:theme="@style/EditText"
+                        />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -60,7 +63,9 @@
                     android:layout_marginTop="5dp"
                     android:textColorHint="#fff"
                     android:layout_below="@id/input_layout_user"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/AppTheme.FloatingLabel"
+                    >
 
                     <EditText
                         android:id="@+id/input_password"
@@ -71,7 +76,9 @@
                         android:inputType="textPassword"
                         android:textColorHint="#ffffff"
                         android:textSize="15sp"
-                        android:singleLine="true"/>
+                        android:singleLine="true"
+                        android:theme="@style/EditText"
+                        />
 
                 </android.support.design.widget.TextInputLayout>
 
