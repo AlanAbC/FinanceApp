@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#4e9455"
     android:id="@+id/lay_principal">
 
@@ -17,8 +15,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            >
 
             <ImageView
                 android:layout_width="80dp"
@@ -34,7 +33,9 @@
                 android:layout_below="@id/logo"
                 android:layout_marginTop="10dp"
                 android:textColorHint="#FFFFFF"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel"
+                >
 
                 <EditText
                     android:id="@+id/input_name"
@@ -43,7 +44,9 @@
                     android:textColor="#fff"
                     android:textColorHint="#ffffff"
                     android:hint="Nombre"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:theme="@style/EditText"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -53,7 +56,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/input_layout_name"
                 android:textColorHint="#FFFFFF"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel"
+                >
 
                 <EditText
                     android:id="@+id/input_email"
@@ -63,7 +68,9 @@
                     android:inputType="textEmailAddress"
                     android:textColorHint="#ffffff"
                     android:hint="Correo"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:theme="@style/EditText"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -73,7 +80,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/input_layout_email"
                 android:textColorHint="#FFFFFF"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel"
+                >
 
                 <EditText
                     android:id="@+id/input_user"
@@ -83,7 +92,9 @@
                     android:inputType="textEmailAddress"
                     android:textColor="#fff"
                     android:textColorHint="#ffffff"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:theme="@style/EditText"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -93,7 +104,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/input_layout_user"
                 android:textColorHint="#FFFFFF"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel"
+                >
 
                 <EditText
                     android:id="@+id/input_password"
@@ -103,7 +116,9 @@
                     android:textColorHint="#ffffff"
                     android:inputType="textPassword"
                     android:hint="Contraseña"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:theme="@style/EditText"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -113,7 +128,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/input_layout_password"
                 android:textColorHint="#FFFFFF"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel"
+                >
 
                 <EditText
                     android:id="@+id/input_valid_password"
@@ -123,7 +140,9 @@
                     android:textColorHint="#ffffff"
                     android:inputType="textPassword"
                     android:hint="Confirmar Contraseña"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:theme="@style/EditText"
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -147,7 +166,9 @@
                 android:calendarTextColor="#FFFFFF"
                 android:layout_marginTop="15dp"
                 android:calendarViewShown="false"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:theme="@style/PickerDialog"
+                />
 
             <TextView
                 android:layout_width="match_parent"

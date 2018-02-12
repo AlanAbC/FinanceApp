@@ -1,90 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:minHeight="60dp"
-    android:background="@drawable/background_border"
-    android:padding="0dp"
-    android:orientation="vertical"
-    android:gravity="bottom"
-    android:layout_marginBottom="10dp">
-
-    <ImageView
-        android:layout_width="25dp"
-        android:id="@+id/tipoMovimiento"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_height="25dp" />
+    android:layout_height="88dp"
+    android:minHeight="88dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    >
 
     <ImageView
         android:layout_width="30dp"
+        android:id="@+id/tipoMovimiento"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_height="30dp" />
+
+    <ImageView
+        android:layout_width="50dp"
         android:id="@+id/img_movement_delete"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_height="30dp"
-        android:src="@drawable/delete"
-        android:layout_alignBottom="@id/tipoMovimiento"/>
+        android:layout_marginRight="16dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/delete"/>
 
     <ImageView
-        android:layout_width="30dp"
+        android:layout_width="50dp"
         android:id="@+id/img_movement_edit"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/img_movement_delete"
         android:src="@drawable/edit"/>
-
-    <TextView
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/txt_tipoMovimiento"
-        android:paddingLeft="12dp"
-        android:textColor="#191919"
-        android:text="Tipo de movimiento"
-        android:layout_alignBaseline="@+id/txt_fechaMovimiento"
-        android:layout_alignBottom="@+id/txt_fechaMovimiento"
-        android:layout_alignStart="@+id/txt_MontoMovimiento"/>
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:layout_toRightOf="@id/txt_tipoMovimiento"
-        android:gravity="center_vertical"
-        android:layout_marginTop="2dp"
-        android:id="@+id/txt_fechaMovimiento"
-        android:paddingLeft="10dp"
-        android:textColor="#191919"
-        android:text="DD/MM/AAAA" />
-    <TextView
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:layout_toRightOf="@id/tipoMovimiento"
-        android:layout_below="@id/txt_tipoMovimiento"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
-        android:id="@+id/txt_MontoMovimiento"
-        android:paddingLeft="25dp"
-        android:textColor="#191919"
-        android:text="$0000000.00000"/>
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:layout_toRightOf="@id/tipoMovimiento"
-        android:layout_below="@id/txt_MontoMovimiento"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginRight="3dp"
-        android:id="@+id/txt_ConceptoMovimiento"
-        android:paddingLeft="25dp"
-        android:textColor="#191919"
-        android:text="Concepto" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:id="@+id/txt_tipoMovimiento"
+            android:textColor="@color/text_color"
+            android:text="Tipo de movimiento" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_toRightOf="@id/txt_tipoMovimiento"
+            android:id="@+id/txt_fechaMovimiento"
+            android:textColor="@color/hint_color"
+            android:text="DD/MM/AAAA"
+            android:textAlignment="textEnd"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_below="@id/txt_tipoMovimiento"
+            android:id="@+id/txt_MontoMovimiento"
+            android:textColor="@color/hint_color"
+            android:text="$0000000.00000"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:layout_below="@id/txt_MontoMovimiento"
+            android:id="@+id/txt_ConceptoMovimiento"
+            android:textColor="@color/hint_color"
+            android:text="Concepto" />
+
+    </RelativeLayout>
 </RelativeLayout>

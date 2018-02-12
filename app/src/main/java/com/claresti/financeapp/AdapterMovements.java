@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.Image;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +31,7 @@ import java.util.Map;
  * Created by CLARESTI on 01/08/2017.
  */
 
-public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.ViewHolderMovements>
+public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.ViewHolderMovements> implements DialogAlert.DialogAlertInterface
 {
     private static AdapterMovements adapter;
     ArrayList<ObjMovimiento> movements;
@@ -38,6 +40,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
     private int minID;
     private int swipedPosition = -1, lastSwipedPosition = -1;
     public static boolean isLoading = false;
+    private Handler handler;
 
     private AdapterMovements(Context context, View view)
     {
@@ -45,6 +48,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         this.context = context;
         this.view = view;
         this.minID = 0;
+        handler = new Handler();
     }
 
     public static synchronized AdapterMovements getInstance(Context context, View view)
@@ -82,7 +86,7 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
             holder.concept.setVisibility(View.GONE);
             holder.type.setVisibility(View.GONE);
             holder.imageType.setVisibility(View.GONE);
-            holder.itemView.setBackgroundColor(Color.parseColor("#185e1f"));
+            holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             holder.edit.setVisibility(View.VISIBLE);
             holder.delete.setVisibility(View.VISIBLE);
         }
@@ -127,22 +131,13 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
-                builder.setMessage("¿Deseas eliminar este movimiento?");
-                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        addAnimation(holder.delete);
-                        String id = movements.get(position).getID();
-                        deleteItem(position, id);
-                    }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialog, int which){
-                                dialog.cancel();
-                            }
-                        });
-                builder.show();
+                addAnimation(holder.delete);
+                DialogAlert dialogAlert = new DialogAlert(context);
+                dialogAlert.setTitle("Atención");
+                dialogAlert.setMessage("¿Deseas eliminar este movimiento?");
+                dialogAlert.setId(position);
+                dialogAlert.show();
+
             }
         });
 
@@ -323,6 +318,18 @@ public class AdapterMovements extends RecyclerView.Adapter<AdapterMovements.View
 
             }
         });
+    }
+
+    @Override
+    public void acceptDialog(int position) {
+
+        String id = movements.get(position).getID();
+        deleteItem(position, id);
+    }
+
+    @Override
+    public void cancelDialog() {
+
     }
 
     /**
