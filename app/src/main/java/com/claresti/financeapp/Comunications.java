@@ -41,7 +41,6 @@ public class Comunications {
     private AdapterAccounts adapterAccounts;
     public static ObjCategoria[] arrayCategoria;
     public static ObjCuenta[] arrayCuenta;
-
     public Comunications(Context context, View view)
     {
         this.context = context;

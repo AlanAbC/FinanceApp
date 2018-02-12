@@ -26,7 +26,12 @@ import android.view.WindowManager;
  * Created by smp_3 on 04/09/2017.
  */
 
-public class MainDenarius  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentMovimiento.OnFragmentInteractionListener, FragmentMovimientos.OnFragmentInteractionListener, FragmentCategories.OnFragmentInteractionListener, FragmentAccounts.OnFragmentInteractionListener, FragmentAcerca.OnFragmentInteractionListener
+public class MainDenarius  extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        FragmentMovimiento.OnFragmentInteractionListener,
+        FragmentMovimientos.OnFragmentInteractionListener,
+        FragmentCategories.OnFragmentInteractionListener,
+        FragmentAccounts.OnFragmentInteractionListener,
+        FragmentAcerca.OnFragmentInteractionListener
 {
 
     private FragmentMovimiento fragmentMovimiento;
@@ -36,7 +41,8 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
     private FragmentAcerca fragmentAcerca;
     private UserSessionManager session;
 
-    private int flagAdaptador = -1;
+    //Identificador para los fragments
+    private int id;
 
     private FloatingActionButton buttonAdds;
 
@@ -55,7 +61,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
+            window.setStatusBarColor(ContextCompat.getColor(MainDenarius.this, R.color.top));
             //window.setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
         }
 
@@ -73,7 +79,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         agregarListeners();
 
         //Manejo de Session
-        session = new UserSessionManager(getApplicationContext());
+        session = new UserSessionManager(MainDenarius.this);
 
         if(!session.isUserLoggedIn()) finish();
 
@@ -87,11 +93,13 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         getSupportFragmentManager().beginTransaction().add(R.id.FragmentContent, fragmentMovimiento).commit();
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
+        id = item.getItemId();
 
         //Manejo de Fragments
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -101,45 +109,38 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         {
             transaction.replace(R.id.FragmentContent, fragmentMovimiento);
             buttonAdds.setVisibility(View.GONE);
-            flagAdaptador = 1;
         }
         else if (id == R.id.opcion2)
         {
             transaction.replace(R.id.FragmentContent, fragmentMovimientos);
             buttonAdds.setVisibility(View.GONE);
-            flagAdaptador = 2;
         }
         else if (id == R.id.opcion3)
         {
             transaction.replace(R.id.FragmentContent, fragmentCategories);
             buttonAdds.setVisibility(View.VISIBLE);
-            flagAdaptador = 3;
         }
         else if (id == R.id.opcion4)
         {
             transaction.replace(R.id.FragmentContent, fragmentAccounts);
             buttonAdds.setVisibility(View.VISIBLE);
-            flagAdaptador = 4;
         }
         else if (id == R.id.opcion5)
         {
-            flagAdaptador = 5;
         }
         else if (id == R.id.opcion6)
         {
             transaction.replace(R.id.FragmentContent, fragmentAcerca);
             buttonAdds.setVisibility(View.GONE);
-            flagAdaptador = 6;
         }
         else if (id == R.id.opcion7)
         {
-            flagAdaptador = 7;
             AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
             builder.setMessage("¿Deseas Cerrar Sesión?");
             builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    session = new UserSessionManager(getApplicationContext());
+                    session = new UserSessionManager(MainDenarius.this);
                     session.logoutUser();
                 }
             })
@@ -170,18 +171,106 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         buttonAdds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (flagAdaptador)
+
+                if (id == R.id.opcion3)
                 {
-                    case 3:
-                        Intent newCategory = new Intent(MainDenarius.this, AgregarCategoria.class);
-                        startActivity(newCategory);
-                        break;
-                    case 4:
-                        Intent newAccount = new Intent(MainDenarius.this, AgregarCuenta.class);
-                        startActivity(newAccount);
-                        break;
+                    Intent newCategory = new Intent(MainDenarius.this, AgregarCategoria.class);
+                    startActivity(newCategory);
+                }
+                else if (id == R.id.opcion4)
+                {
+                    Intent newAccount = new Intent(MainDenarius.this, AgregarCuenta.class);
+                    startActivity(newAccount);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("id", id);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        id = savedInstanceState.getInt("id");
+        //Manejo de Fragments
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+
+        if (id == R.id.opcion1)
+        {
+            transaction.replace(R.id.FragmentContent, fragmentMovimiento);
+            buttonAdds.setVisibility(View.GONE);
+        }
+        else if (id == R.id.opcion2)
+        {
+            transaction.replace(R.id.FragmentContent, fragmentMovimientos);
+            buttonAdds.setVisibility(View.GONE);
+        }
+        else if (id == R.id.opcion3)
+        {
+            transaction.replace(R.id.FragmentContent, fragmentCategories);
+            buttonAdds.setVisibility(View.VISIBLE);
+        }
+        else if (id == R.id.opcion4)
+        {
+            transaction.replace(R.id.FragmentContent, fragmentAccounts);
+            buttonAdds.setVisibility(View.VISIBLE);
+        }
+        else if (id == R.id.opcion5)
+        {
+        }
+        else if (id == R.id.opcion6)
+        {
+            transaction.replace(R.id.FragmentContent, fragmentAcerca);
+            buttonAdds.setVisibility(View.GONE);
+        }
+        else if (id == R.id.opcion7)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+            builder.setMessage("¿Deseas Cerrar Sesión?");
+            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    session = new UserSessionManager(MainDenarius.this);
+                    session.logoutUser();
+                }
+            })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialog, int which){
+                            dialog.cancel();
+                        }
+                    });
+            builder.show();
+        }
+
+        transaction.commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    /**
+     * Dispatch onPause() to fragments.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
     }
 }
