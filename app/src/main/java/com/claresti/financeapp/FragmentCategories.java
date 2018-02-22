@@ -7,6 +7,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,13 +31,11 @@ import android.widget.Toast;
  * Use the {@link FragmentCategories#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentCategories extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+public class FragmentCategories extends Fragment implements InterfaceDataTransfer, DialogAlert.DialogAlertInterface{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -54,6 +55,8 @@ public class FragmentCategories extends Fragment {
 
     private Context context;
 
+    private boolean showNotes = false;
+
     public FragmentCategories() {
         // Required empty public constructor
     }
@@ -66,7 +69,6 @@ public class FragmentCategories extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment FragmentCategories.
      */
-    // TODO: Rename and change types and number of parameters
     public static FragmentCategories newInstance(String param1, String param2) {
         FragmentCategories fragment = new FragmentCategories();
         Bundle args = new Bundle();
@@ -91,32 +93,35 @@ public class FragmentCategories extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_categories, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_categories);
+        recyclerView = view.findViewById(R.id.recycler_categories);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         linearLayout = (LinearLayoutManager) recyclerView.getLayoutManager();
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayoutCategories);
-        centerProgress = (ProgressBar) view.findViewById(R.id.progress_center_categories);
-        bottomProgress = (ProgressBar) view.findViewById(R.id.progress_bottom_categories);
-
-        adapterCategories = AdapterCategories.getInstance(context, view);
-        adapterCategories.updateContent(centerProgress);
-        recyclerView.setAdapter(adapterCategories);
-
-        asignarListeners();
-
-        setUpRecyclerSwipe(view);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutCategories);
+        centerProgress = view.findViewById(R.id.progress_center_categories);
+        bottomProgress = view.findViewById(R.id.progress_bottom_categories);
 
         //eliminamos las animaciones del recycler view
         NoAnimationItemAnimator noAnimationItemAnimator = new NoAnimationItemAnimator();
         recyclerView.setItemAnimator(noAnimationItemAnimator);
 
-        setUpAnimationDecoratorHelper();
-
         return view;
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setUpRecyclerSwipe(view);
+        setUpAnimationDecoratorHelper();
+
+        adapterCategories = AdapterCategories.getInstance(context, this);
+        adapterCategories.updateContent();
+        recyclerView.setAdapter(adapterCategories);
+
+        asignarListeners();
+        showNotes = true;
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -141,6 +146,64 @@ public class FragmentCategories extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void showDeleteAlert(int position, String titulo, String mensaje) {
+        DialogAlert dialogAlert = new DialogAlert(getActivity(), this);
+        dialogAlert.show();
+        dialogAlert.setTitulo(titulo);
+        dialogAlert.setMessage(mensaje);
+        dialogAlert.setId(position);
+    }
+
+    @Override
+    public void showProgressBar(int state) {
+        switch (state){
+            case 0:{
+                break;
+            }
+            case 1:{
+                centerProgress.setVisibility(View.VISIBLE);
+                break;
+            }
+            case 2:{
+                bottomProgress.setVisibility(View.VISIBLE);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void hideProgressBar(int state) {
+        switch (state){
+            case 0:{
+                break;
+            }
+            case 1:{
+                centerProgress.setVisibility(View.GONE);
+                break;
+            }
+            case 2:{
+                bottomProgress.setVisibility(View.GONE);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void showSnackbar(String mensaje) {
+        if(showNotes)Snackbar.make(getView(), mensaje, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void acceptDialog(int position) {
+        AdapterCategories.getInstance(getActivity(), this).deleteItem(position);
+    }
+
+    @Override
+    public void cancelDialog() {
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -157,7 +220,7 @@ public class FragmentCategories extends Fragment {
     }
 
     /**
-     * Funcion en la que se asignaran los listener a os objetos que se requieran
+     * Funcion en la que se asignaran los listener a los objetos que se requieran
      */
     private void asignarListeners()
     {
@@ -178,7 +241,7 @@ public class FragmentCategories extends Fragment {
             public void onRefresh() {
                 if(!AdapterMovements.isLoading)
                 {
-                    adapterCategories.updateContent(centerProgress);
+                    adapterCategories.updateContent();
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }

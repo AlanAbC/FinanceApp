@@ -19,11 +19,11 @@ public class DialogAlert extends Dialog
     private Button aceptar, cancelar;
     private int position;
 
-    private DialogAlertInterface listener;
+    private DialogAlertInterface mListener;
 
-    public DialogAlert(Context context) {
-        super(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-        create();
+    public DialogAlert(Context context, DialogAlertInterface listener) {
+        super(context);
+        mListener = listener;
     }
 
     @Override
@@ -32,10 +32,10 @@ public class DialogAlert extends Dialog
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.alert_dialog);
-        titulo = (TextView) findViewById(R.id.alert_dialog_title);
-        mensaje = (TextView) findViewById(R.id.alert_dialog_mensaje);
-        aceptar = (Button) findViewById(R.id.alert_dialog_btn_aceptar);
-        cancelar = (Button) findViewById(R.id.alert_dialog_btn_cencelar);
+        titulo = findViewById(R.id.alert_dialog_title);
+        mensaje = findViewById(R.id.alert_dialog_mensaje);
+        aceptar = findViewById(R.id.alert_dialog_btn_aceptar);
+        cancelar = findViewById(R.id.alert_dialog_btn_cencelar);
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,13 +47,15 @@ public class DialogAlert extends Dialog
         aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.acceptDialog(position);
+                mListener.acceptDialog(position);
                 dismiss();
             }
         });
     }
 
-    public void setTitle(String titulo){
+
+
+    public void setTitulo(String titulo){
         this.titulo.setText(titulo);
     }
 

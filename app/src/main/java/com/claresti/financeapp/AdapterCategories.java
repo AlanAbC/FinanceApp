@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,29 +30,38 @@ import java.util.Map;
  * Created by CLARESTI on 04/08/2017.
  */
 
-public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.ViewHolderCategories>
+public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.ViewHolderCategories> implements Comunications.ComunicationsInterface
 {
     private static AdapterCategories adapter;
     ArrayList<ObjCategoria> categories;
     private Context context;
-    private View view;
     private int minID;
     private int swipedPosition = -1, lastSwipedPosition = -1;
     public static boolean isLoading = false;
 
-    private AdapterCategories(Context context, View view)
+    /**
+     * Estados para mostrar los diferentes progress y comportamientos mientras se descargan datos
+     * 0 - nada
+     * 1 - actualizando contenido
+     * 2 - cargando mas datos
+     */
+    private int state = 0;
+
+    private InterfaceDataTransfer mListener;
+
+    private AdapterCategories(Context context, InterfaceDataTransfer listener)
     {
-        this.categories = new ArrayList<ObjCategoria>();
+        this.categories = new ArrayList<>();
         this.context = context;
-        this.view = view;
+        mListener = listener;
         this.minID = 0;
     }
 
-    public static synchronized AdapterCategories getInstance(Context context, View view)
+    public static synchronized AdapterCategories getInstance(Context context, InterfaceDataTransfer listener)
     {
         if(adapter == null)
         {
-            adapter = new AdapterCategories(context, view);
+            adapter = new AdapterCategories(context, listener);
         }
         return adapter;
     }
@@ -105,22 +122,8 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
-                builder.setMessage("Se eliminaran todos los movimientos asociados con esta categoria");
-                builder.setPositiveButton("Acepto", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        addAnimation(holder.delete);
-                        String id = categories.get(position).getID();
-                        deleteItem(position, id);
-                    }
-                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialog, int which){
-                                dialog.cancel();
-                            }
-                        });
-                builder.show();
+                addAnimation(holder.delete);
+                mListener.showDeleteAlert(position, "Atención", "Se eliminaran todos los movimientos asociados con esta categoria");
             }
         });
     }
@@ -179,9 +182,10 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     /**
      * Funcion para actualizar el contenido de el arraylist
      */
-    public void updateContent(final ProgressBar progressBar)
+    public void updateContent()
     {
-        progressBar.setVisibility(View.VISIBLE);
+        state = 1;
+        mListener.showProgressBar(state);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -191,8 +195,8 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
                 HashMap<String,String> user = session.getUserDetails();
                 Map<String, String> paramsMovements = new HashMap<String, String>();
                 paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
-                Comunications comunications = new Comunications(context, view);
-                comunications.getCategories(Urls.GETCATEGORIES, paramsMovements, progressBar);
+                Comunications comunications = new Comunications(context, AdapterCategories.this);
+                comunications.getCategories(Urls.GETCATEGORIES, paramsMovements);
             }
         }).start();
     }
@@ -258,12 +262,60 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         notifyItemRemoved(position);
     }
 
-    public void deleteItem(int position, String id)
+    public void deleteItem(int position)
     {
-        Map<String, String> paramsCategory = new HashMap<String, String>();
-        paramsCategory.put("id", id);
-        Comunications comunications = new Comunications(context, view);
+        Map<String, String> paramsCategory = new HashMap<>();
+        paramsCategory.put("id", categories.get(position).getID());
+        Comunications comunications = new Comunications(context, this);
         comunications.deleteItem(Urls.DELETECATEGORY, paramsCategory, 2, position);
+    }
+
+    @Override
+    public void showData(String response) {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(response);
+            String state = jsonObject.getString("state");
+            Gson gson = new Gson();
+            switch(state)
+            {
+                case "1":
+                    JSONArray items = jsonObject.getJSONArray("items");
+                    ObjCategoria[] itemsArray = gson.fromJson(items.toString(), ObjCategoria[].class);
+                    for(int i = 0; i < itemsArray.length; i++)
+                    {
+                        addItem(itemsArray[i]);
+
+                    }
+                    break;
+                case "0":
+                    String mensaje = jsonObject.getString("message");
+                    mListener.showSnackbar(mensaje);
+                    break;
+            }
+            mListener.hideProgressBar(this.state);
+            isLoading = false;
+
+        }
+        catch(JSONException jsone)
+        {
+            mListener.showSnackbar("No se han podido cargar las categorias");
+        }
+    }
+
+    @Override
+    public void errorResponse() {
+        mListener.hideProgressBar(this.state);
+    }
+
+    @Override
+    public void deleteItemOnAdapter(int position) {
+        deleteItemFromAdapter(position);
+    }
+
+    @Override
+    public void showSnackBarFromComunications(String mensaje) {
+        mListener.showSnackbar(mensaje);
     }
 
     /**

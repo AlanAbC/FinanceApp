@@ -14,6 +14,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,29 +28,38 @@ import java.util.Map;
  * Created by CLARESTI on 04/08/2017.
  */
 
-public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHolderAccounts>
+public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHolderAccounts> implements Comunications.ComunicationsInterface
 {
     private static AdapterAccounts adapter;
     ArrayList<ObjCuenta> accounts;
     private Context context;
-    private View view;
     private int minID;
     private int swipedPosition = -1, lastSwipedPosition = -1;
     public static boolean isLoading = false;
 
-    private AdapterAccounts(Context context, View view)
+    /**
+     * Estados para mostrar los diferentes progress y comportamientos mientras se descargan datos
+     * 0 - nada
+     * 1 - actualizando contenido
+     * 2 - cargando mas datos
+     */
+    private int state = 0;
+
+    private InterfaceDataTransfer mListener;
+
+    private AdapterAccounts(Context context, InterfaceDataTransfer listener)
     {
         this.accounts = new ArrayList<ObjCuenta>();
         this.context = context;
-        this.view = view;
         this.minID = 0;
+        mListener = listener;
     }
 
-    public static synchronized AdapterAccounts getInstance(Context context, View view)
+    public static synchronized AdapterAccounts getInstance(Context context, InterfaceDataTransfer listener)
     {
         if(adapter == null)
         {
-            adapter = new AdapterAccounts(context, view);
+            adapter = new AdapterAccounts(context, listener);
         }
         return adapter;
     }
@@ -108,22 +123,8 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
-                builder.setMessage("Se eliminaran todos los movimientos asociados con esta cuenta");
-                builder.setPositiveButton("Acepto", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        addAnimation(holder.delete);
-                        String id = accounts.get(position).getID();
-                        deleteItem(position, id);
-                    }
-                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialog, int which){
-                                dialog.cancel();
-                            }
-                        });
-                builder.show();
+                addAnimation(holder.edit);
+                mListener.showDeleteAlert(position, "Atención", "¿Deseas eliminar esta cuenta?");
             }
         });
     }
@@ -182,9 +183,12 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
     /**
      * Funcion para actualizar el contenido de el arraylist
      */
-    public void updateContent(final ProgressBar progressBar)
+    public void updateContent()
     {
-        progressBar.setVisibility(View.VISIBLE);
+        minID = 0;
+        state = 1;
+        isLoading = true;
+        mListener.showProgressBar(state);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -194,8 +198,8 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
                 HashMap<String,String> user = session.getUserDetails();
                 Map<String, String> paramsMovements = new HashMap<String, String>();
                 paramsMovements.put("username",user.get(UserSessionManager.KEY_USER));
-                Comunications comunications = new Comunications(context, view);
-                comunications.getAccounts(Urls.GETACCOUNTS, paramsMovements, progressBar);
+                Comunications comunications = new Comunications(context, AdapterAccounts.this);
+                comunications.getAccounts(Urls.GETACCOUNTS, paramsMovements);
             }
         }).start();
     }
@@ -265,8 +269,56 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
     {
         Map<String, String> paramsAccounts = new HashMap<String, String>();
         paramsAccounts.put("id", id);
-        Comunications comunications = new Comunications(context, view);
+        Comunications comunications = new Comunications(context, AdapterAccounts.this);
         comunications.deleteItem(Urls.DELETEACCOUNT, paramsAccounts, 3, position);
+    }
+
+    @Override
+    public void showData(String response) {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(response);
+            String state = jsonObject.getString("state");
+            Gson gson = new Gson();
+            switch(state)
+            {
+                case "1":
+                    JSONArray items = jsonObject.getJSONArray("items");
+                    ObjCuenta[] itemsArray = gson.fromJson(items.toString(), ObjCuenta[].class);
+                    for(int i = 0; i < itemsArray.length; i++)
+                    {
+                        addItem(itemsArray[i]);
+
+                    }
+                    break;
+                case "0":
+                    String mensaje = jsonObject.getString("message");
+                    mListener.showSnackbar(mensaje);
+                    break;
+            }
+            mListener.hideProgressBar(this.state);
+            isLoading = false;
+
+        }
+        catch(JSONException jsone)
+        {
+            mListener.showSnackbar("No se han podido cargar las cuentas");
+        }
+    }
+
+    @Override
+    public void errorResponse() {
+        mListener.hideProgressBar(this.state);
+    }
+
+    @Override
+    public void deleteItemOnAdapter(int position) {
+        deleteItemFromAdapter(position);
+    }
+
+    @Override
+    public void showSnackBarFromComunications(String mensaje) {
+        mListener.showSnackbar(mensaje);
     }
 
 
@@ -274,27 +326,17 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
      * Clase que contiene la vista y conexion a el xml
      */
     public class ViewHolderAccounts extends RecyclerView.ViewHolder{
-        ObjCuenta account;
         TextView name, money, description;
         ImageView imageType, edit, delete;
 
         public ViewHolderAccounts(View itemView) {
             super(itemView);
-            imageType = (ImageView) itemView.findViewById(R.id.imgAccount);
-            name = (TextView) itemView.findViewById(R.id.txt_nameAccount);
-            money = (TextView) itemView.findViewById(R.id.txt_moneyAccount);
-            description = (TextView) itemView.findViewById(R.id.txt_descriptionAccount);
-            edit = (ImageView) itemView.findViewById(R.id.img_account_edit);
-            delete = (ImageView) itemView.findViewById(R.id.img_account_delete);
-        }
-
-        /**
-         * Funcion para establecer el objeto de cuenta de la vista
-         * @param account
-         */
-        public void setAccount(ObjCuenta account)
-        {
-            this.account = account;
+            imageType = itemView.findViewById(R.id.imgAccount);
+            name = itemView.findViewById(R.id.txt_nameAccount);
+            money = itemView.findViewById(R.id.txt_moneyAccount);
+            description = itemView.findViewById(R.id.txt_descriptionAccount);
+            edit = itemView.findViewById(R.id.img_account_edit);
+            delete = itemView.findViewById(R.id.img_account_delete);
         }
     }
 }

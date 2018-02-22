@@ -54,7 +54,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         setContentView(R.layout.activity_main_denarius);
 
         //Implementacion de toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Cambiar el color en la barra de notificaciones (Solo funciona de lollipop hacia arriba)

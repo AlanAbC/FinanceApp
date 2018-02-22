@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,6 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,15 +36,7 @@ import android.widget.Toast;
  * Use the {@link FragmentMovimientos#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentMovimientos extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class FragmentMovimientos extends Fragment implements InterfaceDataTransfer, DialogAlert.DialogAlertInterface{
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,6 +52,8 @@ public class FragmentMovimientos extends Fragment {
 
     private AdapterMovements adapterMovements;
 
+    private boolean showNotes = false;
+
     public FragmentMovimientos() {
         // Required empty public constructor
     }
@@ -63,16 +62,11 @@ public class FragmentMovimientos extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment FragmentMovimientos.
      */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentMovimientos newInstance(String param1, String param2) {
+    public static FragmentMovimientos newInstance() {
         FragmentMovimientos fragment = new FragmentMovimientos();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,10 +74,6 @@ public class FragmentMovimientos extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -92,34 +82,40 @@ public class FragmentMovimientos extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_movimientos, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_movements);
+        recyclerView = view.findViewById(R.id.recycler_movements);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         linearLayout = (LinearLayoutManager) recyclerView.getLayoutManager();
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayoutMovements);
-        centerProgress = (ProgressBar) view.findViewById(R.id.progress_center_movements);
-        bottomProgress = (ProgressBar) view.findViewById(R.id.progress_bottom_movements);
-
-        adapterMovements = AdapterMovements.getInstance(getActivity(), view);
-        adapterMovements.updateContent(centerProgress);
-        recyclerView.setAdapter(adapterMovements);
-
-        asignarListeners();
-
-        setUpRecyclerSwipe(view);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutMovements);
+        centerProgress = view.findViewById(R.id.progress_center_movements);
+        bottomProgress = view.findViewById(R.id.progress_bottom_movements);
 
         //eliminamos las animaciones del recycler view
         NoAnimationItemAnimator noAnimationItemAnimator = new NoAnimationItemAnimator();
         recyclerView.setItemAnimator(noAnimationItemAnimator);
 
-        setUpAnimationDecoratorHelper();
+
+
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    /**
+     * Con este metodo realizamos acciones una vez que la vista se haya creado y renderizadp
+     * @param view
+     * @param savedInstanceState
+     */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setUpRecyclerSwipe(view);
+
+        setUpAnimationDecoratorHelper();
+
+        adapterMovements = AdapterMovements.getInstance(getActivity(), this);
+        adapterMovements.updateContent();
+        recyclerView.setAdapter(adapterMovements);
+
+        asignarListeners();
+        showNotes = true;
     }
 
     @Override
@@ -138,6 +134,73 @@ public class FragmentMovimientos extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+    /**
+     * Interface de AdapterMovements para mostrar dialogs y asi evitar errores
+     * @param position
+     */
+    @Override
+    public void showDeleteAlert(int position, String titulo, String mensaje) {
+        DialogAlert dialogAlert = new DialogAlert(getActivity(), this);
+        dialogAlert.show();
+        dialogAlert.setTitulo(titulo);
+        dialogAlert.setMessage(mensaje);
+        dialogAlert.setId(position);
+    }
+
+    @Override
+    public void showProgressBar(int state) {
+        switch (state){
+            case 0:{
+                break;
+            }
+            case 1:{
+                centerProgress.setVisibility(View.VISIBLE);
+                break;
+            }
+            case 2:{
+                bottomProgress.setVisibility(View.VISIBLE);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void hideProgressBar(int state) {
+        switch (state){
+            case 0:{
+                break;
+            }
+            case 1:{
+                centerProgress.setVisibility(View.GONE);
+                break;
+            }
+            case 2:{
+                bottomProgress.setVisibility(View.GONE);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void acceptDialog(int position) {
+        AdapterMovements.getInstance(getActivity(), this).deleteItem(position);
+    }
+
+    @Override
+    public void cancelDialog() {
+
+    }
+
+    @Override
+    public void showSnackbar(String mensaje) {
+        if(showNotes)Snackbar.make(getView(), mensaje, Snackbar.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Interface de Comunicaciones, todas las vistas las maneja el Fragment, asi evitamos pasar vistas entre clases
+     */
 
     /**
      * This interface must be implemented by activities that contain this
@@ -167,7 +230,7 @@ public class FragmentMovimientos extends Fragment {
                 lastVisibleItem = linearLayout.findLastCompletelyVisibleItemPosition();
                 if(!AdapterMovements.isLoading && totalItemCount == (lastVisibleItem + 1))
                 {
-                    adapterMovements.loadMoreItems(bottomProgress);
+                    adapterMovements.loadMoreItems();
                 }
             }
         });
@@ -176,7 +239,7 @@ public class FragmentMovimientos extends Fragment {
             public void onRefresh() {
                 if(!AdapterMovements.isLoading)
                 {
-                    adapterMovements.updateContent(centerProgress);
+                    adapterMovements.updateContent();
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
