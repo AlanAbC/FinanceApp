@@ -27,30 +27,22 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentMovimientos.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentMovimientos#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentMovimientos extends Fragment implements InterfaceDataTransfer, DialogAlert.DialogAlertInterface{
 
     private OnFragmentInteractionListener mListener;
 
     //RecyclerView
-    private RecyclerView recyclerView;
-
+    private View parent_view;
     //variables para carga de items y actualizaciones
     private int lastVisibleItem, totalItemCount;
-    private LinearLayoutManager linearLayout;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ProgressBar centerProgress, bottomProgress;
 
-    private AdapterMovements adapterMovements;
+    private RecyclerView recyclerView;
+    private AdapterListSwipe mAdapter;
+    private ItemTouchHelper mItemTouchHelper;
+    private LinearLayoutManager linearLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private boolean showNotes = false;
 
@@ -83,15 +75,16 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
         View view = inflater.inflate(R.layout.fragment_movimientos, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_movements);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
         linearLayout = (LinearLayoutManager) recyclerView.getLayoutManager();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutMovements);
         centerProgress = view.findViewById(R.id.progress_center_movements);
         bottomProgress = view.findViewById(R.id.progress_bottom_movements);
 
-        //eliminamos las animaciones del recycler view
+        /*//eliminamos las animaciones del recycler view
         NoAnimationItemAnimator noAnimationItemAnimator = new NoAnimationItemAnimator();
-        recyclerView.setItemAnimator(noAnimationItemAnimator);
+        recyclerView.setItemAnimator(noAnimationItemAnimator);*/
 
 
 
@@ -106,13 +99,23 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUpRecyclerSwipe(view);
+        /*setUpRecyclerSwipe(view);
 
         setUpAnimationDecoratorHelper();
 
         adapterMovements = AdapterMovements.getInstance(getActivity(), this);
         adapterMovements.updateContent();
-        recyclerView.setAdapter(adapterMovements);
+        recyclerView.setAdapter(adapterMovements);*/
+
+        //set data and list adapter
+        mAdapter = new AdapterListSwipe(getActivity());
+        mAdapter.setInterfaceDataTransfer(this);
+        mAdapter.updateContent();
+        recyclerView.setAdapter(mAdapter);
+
+        ItemTouchHelper.Callback callback = new SwipeItemTouchHelper(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
 
         asignarListeners();
         showNotes = true;
@@ -201,17 +204,6 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
     /**
      * Interface de Comunicaciones, todas las vistas las maneja el Fragment, asi evitamos pasar vistas entre clases
      */
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -228,18 +220,18 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
                 super.onScrolled(recyclerView, dx, dy);
                 totalItemCount = linearLayout.getItemCount();
                 lastVisibleItem = linearLayout.findLastCompletelyVisibleItemPosition();
-                if(!AdapterMovements.isLoading && totalItemCount == (lastVisibleItem + 1))
+                if(!mAdapter.isLoading && totalItemCount == (lastVisibleItem + 1))
                 {
-                    adapterMovements.loadMoreItems();
+                    mAdapter.loadMoreItems();
                 }
             }
         });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(!AdapterMovements.isLoading)
+                if(!mAdapter.isLoading)
                 {
-                    adapterMovements.updateContent();
+                    mAdapter.updateContent();
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -248,7 +240,7 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
 
     /**
      * Funcion que implementa la animacion del swipe to dismiss
-     */
+     *
     public void setUpRecyclerSwipe(final View view)
     {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)
@@ -350,7 +342,7 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
 
     /**
      * Funcion que dibuja un fondo de color cuando un item del recycler view es deslizado
-     */
+     *
     private void setUpAnimationDecoratorHelper() {
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
 
@@ -420,4 +412,5 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
 
         });
     }
+            */
 }

@@ -4,11 +4,16 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,23 +39,8 @@ import java.util.Map;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentMovimiento.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentMovimiento#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentMovimiento extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class FragmentMovimiento extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,20 +48,15 @@ public class FragmentMovimiento extends Fragment {
     private Spinner spinerCategoria;
     private Spinner spinerCuenta;
     private Spinner spinerAccountTransfer;
-    private TextView txtCategoria;
-    private TextView txtCuenta;
-    private TextView txtMovimiento;
-    private TextView txtAccountTransfer;
-    private TextView descriptionAccountTranfer;
-    private ImageView ingreso;
-    private ImageView egreso;
-    private ImageView transfer;
     private EditText inputMonto;
     private EditText dateFechaMovimiento;
     private EditText conceptoMovimiento;
     private ImageButton calendarPicker;
     private Button btnRegistrarMovimiento;
     private ProgressBar progreso;
+    private TabLayout tabLayout;
+    private TextView textTransfer;
+    private static final String TAG = "MOVIMIENTO";
 
     //Declaracion de banderas de variables
     private int flagMovimiento;
@@ -105,16 +90,11 @@ public class FragmentMovimiento extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment FragmentMovimiento.
      */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentMovimiento newInstance(String param1, String param2) {
+    public static FragmentMovimiento newInstance() {
         FragmentMovimiento fragment = new FragmentMovimiento();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -122,12 +102,6 @@ public class FragmentMovimiento extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
     }
 
     @Override
@@ -137,23 +111,17 @@ public class FragmentMovimiento extends Fragment {
         View view = inflater.inflate(R.layout.fragment_movimiento, container, false);
 
         // Asignacion variables layout
-        spinerCategoria = (Spinner)view.findViewById(R.id.spin_categoria);
-        spinerCuenta = (Spinner)view.findViewById(R.id.spin_cuenta);
-        spinerAccountTransfer = (Spinner)view.findViewById(R.id.spin_accountTransfer);
-        inputMonto = (EditText)view.findViewById(R.id.input_monto);
-        txtCategoria = (TextView)view.findViewById(R.id.txt_categoria);
-        txtCuenta = (TextView)view.findViewById(R.id.txt_cuenta);
-        txtAccountTransfer = (TextView)view.findViewById(R.id.txt_accountTransfer);
-        descriptionAccountTranfer = (TextView)view.findViewById(R.id.tv_accountTransfer);
-        txtMovimiento = (TextView)view.findViewById(R.id.tv_tipomov);
-        ingreso = (ImageView)view.findViewById(R.id.img_mas);
-        egreso = (ImageView)view.findViewById(R.id.img_menos);
-        transfer = (ImageView) view.findViewById(R.id.img_transfer);
-        dateFechaMovimiento = (EditText) view.findViewById(R.id.input_fecha);
-        conceptoMovimiento = (EditText) view.findViewById(R.id.input_concepto);
-        btnRegistrarMovimiento = (Button)view.findViewById(R.id.btn_registrar);
-        progreso = (ProgressBar) view.findViewById(R.id.progress);
-        calendarPicker= (ImageButton) view.findViewById(R.id.calendar);
+        spinerCategoria = view.findViewById(R.id.spin_categoria);
+        spinerCuenta = view.findViewById(R.id.spin_cuenta);
+        spinerAccountTransfer = view.findViewById(R.id.spin_accountTransfer);
+        inputMonto = view.findViewById(R.id.input_monto);
+        dateFechaMovimiento = view.findViewById(R.id.input_fecha);
+        conceptoMovimiento = view.findViewById(R.id.input_concepto);
+        btnRegistrarMovimiento = view.findViewById(R.id.btn_registrar);
+        calendarPicker = view.findViewById(R.id.calendar);
+        progreso = view.findViewById(R.id.progress);
+        textTransfer = view.findViewById(R.id.text_cuenta_destino);
+        tabLayout = view.findViewById(R.id.tab_layout);
 
         vista = getActivity().findViewById(android.R.id.content);
 
@@ -190,11 +158,42 @@ public class FragmentMovimiento extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tabLayout.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tab.getIcon().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+                Log.i(TAG, tabLayout.getSelectedTabPosition() + "");
+                flagMovimiento = tabLayout.getSelectedTabPosition() + 1;
+                switch (flagMovimiento){
+                    case 1:
+                        spinerAccountTransfer.setVisibility(View.GONE);
+                        textTransfer.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        spinerAccountTransfer.setVisibility(View.GONE);
+                        textTransfer.setVisibility(View.GONE);
+                        break;
+                    case 3:
+                        spinerAccountTransfer.setVisibility(View.VISIBLE);
+                        textTransfer.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                tab.getIcon().setColorFilter(getResources().getColor(R.color.grey_60), PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -215,18 +214,7 @@ public class FragmentMovimiento extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -234,7 +222,7 @@ public class FragmentMovimiento extends Fragment {
      * Funcion encargada de crear los listeners de los objetos del layout
      */
     private void crearListeners() {
-        ingreso.setOnClickListener(new View.OnClickListener() {
+        /*ingreso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 flagMovimiento = 1;
@@ -289,7 +277,7 @@ public class FragmentMovimiento extends Fragment {
                 spinerAccountTransfer.setVisibility(View.VISIBLE);
                 txtAccountTransfer.setVisibility(View.VISIBLE);
             }
-        });
+        });*/
         btnRegistrarMovimiento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,7 +313,6 @@ public class FragmentMovimiento extends Fragment {
         spinerCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                txtCategoria.setText(Comunications.arrayCategoria[position].getNombre());
                 flagCategoria = Integer.parseInt(Comunications.arrayCategoria[position].getID());
             }
 
@@ -337,7 +324,6 @@ public class FragmentMovimiento extends Fragment {
         spinerAccountTransfer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                txtAccountTransfer.setText(Comunications.arrayCuenta[position].getNombre());
                 flagCuentaTransfer = Integer.parseInt(Comunications.arrayCuenta[position].getID());
             }
 
@@ -349,7 +335,6 @@ public class FragmentMovimiento extends Fragment {
         spinerCuenta.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                txtCuenta.setText(Comunications.arrayCuenta[position].getNombre());
                 flagCuenta = Integer.parseInt(Comunications.arrayCuenta[position].getID());
             }
 
@@ -369,15 +354,10 @@ public class FragmentMovimiento extends Fragment {
                     flagCuentaTransfer = -1;
                     flagCuenta = -1;
                     flagCategoria = -1;
-                    ingreso.setSelected(false);
-                    egreso.setSelected(false);
-                    transfer.setSelected(false);
 
                     spinerCategoria.setSelection(0);
                     spinerCuenta.setSelection(0);
                     spinerAccountTransfer.setSelection(0);
-
-                    txtMovimiento.setText("Tipo de movimiento que realizaras");
 
                     inputMonto.setText("");
                     dateFechaMovimiento.setText("");
@@ -424,11 +404,11 @@ public class FragmentMovimiento extends Fragment {
             Date fecha = sdf.parse(dateFechaMovimiento.getText().toString());
             if (flagMovimiento == 5) {
                 msg("Selecciona que tipo de movimiento desea realizar");
-            } else if (inputMonto.getText().toString().equals("")) {
+            } else if (TextUtils.isEmpty(inputMonto.getText().toString())) {
                 msg("Ingresa la cantidad del movimiento");
             } else if (fechaActual.before(fecha)){
                 msg("Ingrese una fecha que ya haya pasado");
-            } else if (conceptoMovimiento.getText().toString().equals("")){
+            } else if (TextUtils.isEmpty(conceptoMovimiento.getText().toString())){
                 msg("Ingrese el concepto del movimiento a realizar");
             } else if (flagMovimiento == 3 && flagCuentaTransfer == -1) {
                 msg("Selecciona una cuenta para la transferencia");
@@ -448,6 +428,7 @@ public class FragmentMovimiento extends Fragment {
                 {
                     paramsMovements.put("idAccountTransfer", flagCuentaTransfer + "");
                 }
+                Log.i(TAG, paramsMovements.toString());
                 com.newRegister(Urls.NEWMOVEMENT, paramsMovements, progressDialog);
 
             }

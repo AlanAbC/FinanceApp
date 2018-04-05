@@ -1,0 +1,19 @@
+{
+  "categorias":
+  [
+  {
+    "id":1,
+    "nombre":"Salidas",
+    "values":[
+      {
+        "1":1,
+        "nombre":"comidas"
+      },
+      {
+        "id":2,
+        "nombre":"otra"
+      }
+    ]
+  }
+  ]
+}

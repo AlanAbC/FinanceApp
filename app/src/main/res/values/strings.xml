@@ -27,5 +27,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Fragmento de Movimiento -->
+    <string name="movimiento_concepto">Concepto del monto</string>
+    <string name="movimiento_categoria">Categoria</string>
+    <string name="movimiento_cuenta">Cuenta</string>
+    <string name="movimiento_cuenta_destino">Cuenta Destino</string>
+    <string name="movimiento_monto">Monto</string>
+    <string name="movimiento_fecha">Fecha de registro</string>
+    <string name="movimiento_button_registro">Registrar</string>
+    <string name="movimiento_ingreso">Ingreso</string>
+    <string name="movimiento_egreso">Egreso</string>
+    <string name="movimiento_transferencia">Transferencia</string>
+
 
 </resources>

@@ -121,14 +121,6 @@ public class Movimientos extends AppCompatActivity {
         spinerAccountTransfer = (Spinner)findViewById(R.id.spin_accountTransfer);
         inputMonto = (EditText)findViewById(R.id.input_monto);
         ventana = (RelativeLayout)findViewById(R.id.l_ventana);
-        txtCategoria = (TextView)findViewById(R.id.txt_categoria);
-        txtCuenta = (TextView)findViewById(R.id.txt_cuenta);
-        txtAccountTransfer = (TextView)findViewById(R.id.txt_accountTransfer);
-        descriptionAccountTranfer = (TextView)findViewById(R.id.tv_accountTransfer);
-        txtMovimiento = (TextView)findViewById(R.id.tv_tipomov);
-        ingreso = (ImageView)findViewById(R.id.img_mas);
-        egreso = (ImageView)findViewById(R.id.img_menos);
-        transfer = (ImageView) findViewById(R.id.img_transfer);
         dateFechaMovimiento = (EditText) findViewById(R.id.input_fecha);
         conceptoMovimiento = (EditText) findViewById(R.id.input_concepto);
         btnRegistrarMovimiento = (Button)findViewById(R.id.btn_registrar);

@@ -14,6 +14,7 @@ public class ObjMovimiento implements Serializable{
     private String idUsuario;
     private String concepto;
     private String idCuentaTransfer;
+    private boolean swiped = false;
 
     public ObjMovimiento(){
 
@@ -112,5 +113,13 @@ public class ObjMovimiento implements Serializable{
 
     public void setIdCuentaTransfer(String idCuentaTransfer) {
         this.idCuentaTransfer = idCuentaTransfer;
+    }
+
+    public boolean isSwiped() {
+        return swiped;
+    }
+
+    public void setSwiped(boolean swiped) {
+        this.swiped = swiped;
     }
 }
