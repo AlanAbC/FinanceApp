@@ -76,7 +76,6 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
 
         recyclerView = view.findViewById(R.id.recycler_movements);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setHasFixedSize(true);
         linearLayout = (LinearLayoutManager) recyclerView.getLayoutManager();
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutMovements);
         centerProgress = view.findViewById(R.id.progress_center_movements);

@@ -116,7 +116,6 @@ public class Movimientos extends AppCompatActivity {
         }
 
         // Asignacion variables layout
-        spinerCategoria = (Spinner)findViewById(R.id.spin_categoria);
         spinerCuenta = (Spinner)findViewById(R.id.spin_cuenta);
         spinerAccountTransfer = (Spinner)findViewById(R.id.spin_accountTransfer);
         inputMonto = (EditText)findViewById(R.id.input_monto);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
+    android:id="@+id/movimiento_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_10"
@@ -54,190 +54,197 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_color"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
-        <ProgressBar
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerInParent="true"
-            android:id="@+id/progress"
-            android:indeterminateDrawable="@drawable/custom_progressbar"
-            />
-
-        <android.support.v4.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_horizontal_forms"
+            android:layout_marginStart="@dimen/margin_horizontal_forms"
+            android:layout_marginRight="@dimen/margin_horizontal_forms"
+            android:layout_marginEnd="@dimen/margin_horizontal_forms"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
             >
 
-            <LinearLayout
-                android:id="@+id/l_ventana"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_monto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_horizontal_forms"
-                android:layout_marginStart="@dimen/margin_horizontal_forms"
-                android:layout_marginRight="@dimen/margin_horizontal_forms"
-                android:layout_marginEnd="@dimen/margin_horizontal_forms"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                app:hintTextAppearance="@style/TextLabel"
                 >
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_concepto"
+                <EditText
+                    android:id="@+id/input_monto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/TextLabel"
-                    >
-
-                    <EditText
-                        android:id="@+id/input_concepto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/movimiento_concepto"
-                        android:textColor="@color/text_color"
-                        android:inputType="text"
-                        android:textSize="16sp"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_inputs_forms"
-                    android:text="@string/movimiento_categoria"
-                    android:textColor="@color/hint_color"
-                    android:textSize="15sp"
-                    />
-
-                <Spinner
-                    android:id="@+id/spin_categoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dialog"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_inputs_forms"
-                    android:text="@string/movimiento_cuenta"
-                    android:textColor="@color/hint_color"
-                    android:textSize="15sp"
-                    />
-
-                <Spinner
-                    android:id="@+id/spin_cuenta"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dialog"
-                    />
-
-                <TextView
-                    android:id="@+id/text_cuenta_destino"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_inputs_forms"
-                    android:text="@string/movimiento_cuenta_destino"
-                    android:textColor="@color/hint_color"
-                    android:textSize="15sp"
-                    android:visibility="gone"
-                    />
-
-                <Spinner
-                    android:id="@+id/spin_accountTransfer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dialog"
-                    android:visibility="gone"
-                    />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_monto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_inputs_forms"
-                    app:hintTextAppearance="@style/TextLabel"
-                    >
-
-                    <EditText
-                        android:id="@+id/input_monto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/text_color"
-                        android:hint="@string/movimiento_monto"
-                        android:inputType="numberDecimal"
-                        android:textSize="16sp"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_inputs_forms"
-                    >
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_fecha"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/calendar"
-                        app:hintTextAppearance="@style/TextLabel"
-                        >
-
-                        <EditText
-                            android:id="@+id/input_fecha"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text_color"
-                            android:hint="@string/movimiento_fecha"
-                            android:inputType="text"
-                            android:textSize="16sp"/>
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <ImageButton
-                        android:id="@+id/calendar"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/calendario"
-                        android:src="@drawable/calendar"
-                        android:padding="5dp"
-                        android:scaleType="centerInside"/>
-
-                </RelativeLayout>
-
-                <Button
-                    android:id="@+id/btn_registrar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_inputs_forms"
-                    android:text="@string/movimiento_button_registro"
-                    android:background="@color/colorPrimary"
-                    android:textColor="#fff"
+                    android:textColor="@color/text_color"
+                    android:hint="@string/movimiento_monto"
+                    android:inputType="numberDecimal"
                     android:textSize="16sp"
                     />
 
-                <LinearLayout
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_concepto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/TextLabel"
+                >
+
+                <EditText
+                    android:id="@+id/input_concepto"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="wrap_content"
+                    android:hint="@string/movimiento_concepto"
+                    android:textColor="@color/text_color"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    />
 
-                </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                >
+
+                <ImageView
+                    android:id="@+id/movimiento_categoria_icono"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/icono_categoria"
+                    android:src="@drawable/calendar"
+                    android:padding="7dp"
+                    android:scaleType="centerInside"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_categoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/movimiento_categoria_icono"
+                    app:hintTextAppearance="@style/TextLabel"
+                    >
+
+                    <EditText
+                        android:id="@+id/input_categoria"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:hint="@string/movimiento_categoria"
+                        android:inputType="text"
+                        android:textSize="16sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                android:text="@string/movimiento_cuenta"
+                android:textColor="@color/hint_color"
+                android:textSize="15sp"
+                />
+
+            <Spinner
+                android:id="@+id/spin_cuenta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                />
+
+            <TextView
+                android:id="@+id/text_cuenta_destino"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                android:text="@string/movimiento_cuenta_destino"
+                android:textColor="@color/hint_color"
+                android:textSize="15sp"
+                android:visibility="gone"
+                />
+
+            <Spinner
+                android:id="@+id/spin_accountTransfer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                android:visibility="gone"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                >
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_fecha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/calendar"
+                    app:hintTextAppearance="@style/TextLabel"
+                    >
+
+                    <EditText
+                        android:id="@+id/input_fecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color"
+                        android:hint="@string/movimiento_fecha"
+                        android:inputType="text"
+                        android:textSize="16sp"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/calendar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/calendario"
+                    android:src="@drawable/calendar"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_registrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                android:text="@string/movimiento_button_registro"
+                android:background="@color/colorPrimary"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
 
-    </RelativeLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

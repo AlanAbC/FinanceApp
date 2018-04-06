@@ -28,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.claresti.financeapp.Activities.Splash;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -80,7 +81,7 @@ public class Login extends AppCompatActivity {
          *
          */
         if(session.isUserLoggedIn()){
-            Intent i = new Intent(getApplicationContext(),MainDenarius.class);
+            Intent i = new Intent(getApplicationContext(),Splash.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);

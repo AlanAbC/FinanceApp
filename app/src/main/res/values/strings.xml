@@ -38,6 +38,25 @@
     <string name="movimiento_ingreso">Ingreso</string>
     <string name="movimiento_egreso">Egreso</string>
     <string name="movimiento_transferencia">Transferencia</string>
+    <string name="title_activity_splash">Splash</string>
+    <string name="error_input_vacio">Campo Requerido</string>
+
+    <!-- Strings dialog categorias -->
+    <string name="dialog_categorias_titulo">Categorias</string>
+    <string name="dialog_categorias_button">Cerrar</string>
+
+    <!-- Strings para comunicaciones -->
+    <string name="comunicaciones_error_404">Elemento no encontrado</string>
+    <string name="comunicaciones_error_403">No tiene permiso para acceder a este elemento</string>
+    <string name="comunicaciones_error_401">Error de autenticación, el usuario y/o contraseña son incorrectos</string>
+    <string name="comunicaciones_error_400">Ingresa tus datos correctamente</string>
+    <string name="comunicaciones_error_500">Error del servidor</string>
+    <string name="comunicaciones_error_no_connection">No hay conexión con el servidor.</string>
+    <string name="comunicaciones_error">Ha ocurrido un error</string>
+
+    <!-- Strings Dialog -->
+    <string name="dialog_cargando">Cargando</string>
+    <string name="dialog_button_ok">Aceptar</string>
 
 
 </resources>

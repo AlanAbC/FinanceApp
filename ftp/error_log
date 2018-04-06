@@ -1,0 +1,268 @@
+[06-Jul-2017 06:23:27 America/Chicago] PHP Strict Standards:  Non-static method Database::getInstance() should not be called statically in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 141
+[06-Jul-2017 06:24:35 America/Chicago] PHP Strict Standards:  Non-static method Database::getInstance() should not be called statically in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 141
+[06-Jul-2017 06:24:41 America/Chicago] PHP Strict Standards:  Non-static method Database::getInstance() should not be called statically in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 141
+[06-Jul-2017 06:25:52 America/Chicago] PHP Strict Standards:  Non-static method Finanzas::getUsuarios() should not be called statically in /home/ztekcomm/cpmx.claresti.com/getUsuarios.php on line 11
+[06-Jul-2017 06:25:52 America/Chicago] PHP Strict Standards:  Non-static method Database::getInstance() should not be called statically in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 141
+[06-Jul-2017 06:27:53 America/Chicago] PHP Strict Standards:  Non-static method Finanzas::getUsuarios() should not be called statically in /home/ztekcomm/cpmx.claresti.com/getUsuarios.php on line 11
+[06-Jul-2017 06:27:53 America/Chicago] PHP Strict Standards:  Non-static method Database::getInstance() should not be called statically in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 141
+[06-Jul-2017 06:29:28 America/Chicago] PHP Strict Standards:  Non-static method Finanzas::getUsuarios() should not be called statically in /home/ztekcomm/cpmx.claresti.com/getUsuarios.php on line 11
+[06-Jul-2017 06:29:28 America/Chicago] PHP Strict Standards:  Non-static method Database::getInstance() should not be called statically in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 141
+[06-Jul-2017 06:32:10 America/Chicago] PHP Strict Standards:  Non-static method Finanzas::getUsuarios() should not be called statically in /home/ztekcomm/cpmx.claresti.com/getUsuarios.php on line 11
+[06-Jul-2017 06:35:58 America/Chicago] PHP Strict Standards:  Non-static method Finanzas::getUsuarios() should not be called statically in /home/ztekcomm/cpmx.claresti.com/getUsuarios.php on line 11
+[06-Jul-2017 06:37:07 America/Chicago] PHP Strict Standards:  Non-static method Finanzas::getUsuarios() should not be called statically in /home/ztekcomm/cpmx.claresti.com/getUsuarios.php on line 11
+[06-Jul-2017 06:37:10 America/Chicago] PHP Strict Standards:  Non-static method Finanzas::getUsuarios() should not be called statically in /home/ztekcomm/cpmx.claresti.com/getUsuarios.php on line 11
+[06-Jul-2017 06:37:11 America/Chicago] PHP Strict Standards:  Non-static method Finanzas::getUsuarios() should not be called statically in /home/ztekcomm/cpmx.claresti.com/getUsuarios.php on line 11
+[06-Jul-2017 09:48:08 America/Chicago] PHP Fatal error:  Call to undefined function getIdUser() in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 79
+[06-Jul-2017 09:50:25 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 1364 Field 'ID' doesn't have a default value' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:94
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(94): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('leosdasd2sa1')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 94
+[06-Jul-2017 09:51:52 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 1364 Field 'ID' doesn't have a default value' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:96
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(96): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('leosdsadasd2sa1')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 96
+[06-Jul-2017 09:52:47 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 1364 Field 'ID' doesn't have a default value' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:96
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(96): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('leossaddsadasd2...')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 96
+[06-Jul-2017 09:53:05 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 1364 Field 'ID' doesn't have a default value' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:97
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(97): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('leossaddsadassd...')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 97
+[06-Jul-2017 09:54:24 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 1364 Field 'ID' doesn't have a default value' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:97
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(97): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('leonardo')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 97
+[06-Jul-2017 09:56:48 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '1990-12 - 18' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:54
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(54): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('Ricardo Pizano', 'theprap', '12345', 'pizano@claresti...', '1', '1990-12 - 18')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 54
+[06-Jul-2017 09:58:46 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '1990-12 - 18' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:54
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(54): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('Ricardo Pizano', 'theprap', '12345', 'pizano@claresti...', '1', '1990-12 - 18')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 54
+[06-Jul-2017 10:02:14 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2000-7 - 6' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:54
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(54): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('hsjsi', 'jdjs', '1234', 'jsjw@jsjdj.kd', '1', '2000-7 - 6')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 54
+[06-Jul-2017 11:33:24 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2003-7' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:65
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(65): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('U', 'u', 'u', 'u', '1', '2003-7')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 65
+[06-Jul-2017 11:33:47 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2001-12' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:65
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(65): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('Hshdhd', 'nxnxjx', '1', 'ndndjx', '1', '2001-12')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 65
+[06-Jul-2017 11:39:51 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2007-7' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:65
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(65): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('F', 'f', 'f', 'f', '1', '2007-7')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 65
+[06-Jul-2017 11:40:36 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2007-7' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:65
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(65): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('F', 'f', 'f', 'f', '1', '2007-7')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 65
+[06-Jul-2017 11:42:02 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2007-7' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:65
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(65): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('F', 'f', 'f', 'f', '1', '2007-7')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 65
+[06-Jul-2017 11:44:02 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2007-7' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:65
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(65): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('F', 'f', 'f', 'f', '1', '2007-7')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 65
+[06-Jul-2017 11:45:14 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2009-7 - 6' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:65
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(65): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('gg', 'g', 'g', 'g', '1', '2009-7 - 6')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 65
+[06-Jul-2017 11:47:21 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2006-7 - 6' for column 'Fecha_Nac' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:65
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(65): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(25): Finanzas::insertar_usuario('g', 'g', 'g', 'g', '1', '2006-7 - 6')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 65
+[06-Jul-2017 11:57:23 America/Chicago] PHP Fatal error:  Call to a member function error() on a non-object in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 70
+[06-Jul-2017 12:02:06 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 5' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:108
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(108): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('g')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 108
+[06-Jul-2017 12:02:56 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 5' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:108
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(108): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('g')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 108
+[06-Jul-2017 12:04:31 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 5' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:109
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(109): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('hila')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 109
+[06-Jul-2017 12:04:55 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 5' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:109
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(109): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('hila')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 109
+[06-Jul-2017 12:05:51 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 5' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:109
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(109): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/registro_usuario.php(31): Finanzas::crearCuenta('hal')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 109
+[06-Jul-2017 13:05:08 America/Chicago] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 271
+[06-Jul-2017 23:01:05 America/Chicago] PHP Warning:  Missing argument 4 for Finanzas::nuevoMovimiento(), called in /home/ztekcomm/cpmx.claresti.com/nueva_categoria.php on line 17 and defined in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 144
+[06-Jul-2017 23:01:05 America/Chicago] PHP Warning:  Missing argument 5 for Finanzas::nuevoMovimiento(), called in /home/ztekcomm/cpmx.claresti.com/nueva_categoria.php on line 17 and defined in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 144
+[07-Jul-2017 00:01:16 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 1364 Field 'fecha' doesn't have a default value' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:187
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(187): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/nuevo_movimiento.php(13): Finanzas::nuevoMovimiento('16', '1', '1000', '1', '1')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 187
+[07-Jul-2017 00:07:56 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Monto' in 'field list'' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:368
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(368): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/modificar_movimiento.php(12): Finanzas::modificarMovimiento('1', '1000', '1', '2017-07-07')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 368
+[07-Jul-2017 00:08:30 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Monto' in 'field list'' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:368
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(368): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/modificar_movimiento.php(12): Finanzas::modificarMovimiento('1', '1000', '1', '2017-07-07')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 368
+[07-Jul-2017 01:08:45 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '16)' at line 5' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:179
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(179): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/nueva_cuenta.php(14): Finanzas::nuevaCuenta('16', 'Mi Cuenta2', 'XD')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 179
+[07-Jul-2017 02:54:00 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[HY000]: General error: 1366 Incorrect string value: '\xF0\x9F\x92\xB0' for column 'Descripcion' at row 1' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:305
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(305): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/nueva_categoria.php(14): Finanzas::nuevaCategoria('25', 'efectivo', 'dinero morral l...')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 305
+[07-Jul-2017 09:24:23 America/Chicago] PHP Parse error:  syntax error, unexpected ':' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 989
+[07-Jul-2017 10:45:57 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 982
+[07-Jul-2017 10:46:11 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 982
+[07-Jul-2017 10:46:12 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 982
+[07-Jul-2017 10:46:13 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 982
+[07-Jul-2017 10:46:14 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 982
+[07-Jul-2017 10:46:25 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 982
+[07-Jul-2017 10:46:26 America/Chicago] PHP Parse error:  syntax error, unexpected ';' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 982
+[07-Jul-2017 10:48:45 America/Chicago] PHP Fatal error:  Call to undefined function push() in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 983
+[07-Jul-2017 10:49:50 America/Chicago] PHP Fatal error:  Class 'Finanzas' not found in /home/ztekcomm/cpmx.claresti.com/login.php on line 13
+[07-Jul-2017 10:52:34 America/Chicago] PHP Warning:  PDO::prepare() expects parameter 1 to be string, array given in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 984
+[07-Jul-2017 10:52:34 America/Chicago] PHP Fatal error:  Call to a member function execute() on a non-object in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 985
+[07-Jul-2017 12:31:28 America/Chicago] PHP Parse error:  syntax error, unexpected '&' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1039
+[07-Jul-2017 12:35:20 America/Chicago] PHP Warning:  Missing argument 2 for Finanzas::statsCategorias(), called in /home/ztekcomm/cpmx.claresti.com/statsCategoria.php on line 13 and defined in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1037
+[07-Jul-2017 13:04:30 America/Chicago] PHP Warning:  Illegal offset type in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1054
+[07-Jul-2017 13:04:30 America/Chicago] PHP Warning:  Illegal offset type in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1055
+[07-Jul-2017 13:04:30 America/Chicago] PHP Warning:  Illegal offset type in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1054
+[07-Jul-2017 13:04:30 America/Chicago] PHP Warning:  Illegal offset type in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1055
+[07-Jul-2017 13:32:55 America/Chicago] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE), expecting function (T_FUNCTION) in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1046
+[07-Jul-2017 13:32:57 America/Chicago] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE), expecting function (T_FUNCTION) in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1046
+[07-Jul-2017 13:33:06 America/Chicago] PHP Parse error:  syntax error, unexpected '}' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1074
+[07-Jul-2017 13:33:25 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:1059
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(1059): PDOStatement->execute()
+#1 /home/ztekcomm/cpmx.claresti.com/statsCategoria.php(14): Finanzas::statsCategorias('25', 'm')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1059
+[07-Jul-2017 13:34:54 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:1059
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(1059): PDOStatement->execute()
+#1 /home/ztekcomm/cpmx.claresti.com/statsCategoria.php(14): Finanzas::statsCategorias('25', 'm')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1059
+[07-Jul-2017 13:34:55 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:1059
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(1059): PDOStatement->execute()
+#1 /home/ztekcomm/cpmx.claresti.com/statsCategoria.php(14): Finanzas::statsCategorias('25', 'm')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1059
+[07-Jul-2017 13:36:37 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1065 Query was empty' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:1059
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(1059): PDOStatement->execute()
+#1 /home/ztekcomm/cpmx.claresti.com/statsCategoria.php(14): Finanzas::statsCategorias('25', 'm')
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1059
+[07-Jul-2017 13:44:34 America/Chicago] PHP Fatal error:  Unsupported operand types in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1067
+[07-Jul-2017 13:54:36 America/Chicago] PHP Parse error:  syntax error, unexpected '{', expecting ']' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1077
+[07-Jul-2017 13:57:58 America/Chicago] PHP Parse error:  syntax error, unexpected '{', expecting ']' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1075
+[07-Jul-2017 14:01:09 America/Chicago] PHP Warning:  Missing argument 2 for Finanzas::statsCuentas(), called in /home/ztekcomm/cpmx.claresti.com/statsCuenta.php on line 14 and defined in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1096
+[07-Jul-2017 14:01:23 America/Chicago] PHP Warning:  Missing argument 2 for Finanzas::statsCuentas(), called in /home/ztekcomm/cpmx.claresti.com/statsCuenta.php on line 14 and defined in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1096
+[07-Jul-2017 14:38:35 America/Chicago] PHP Warning:  array_merge(): Argument #3 is not an array in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1065
+[07-Jul-2017 14:38:48 America/Chicago] PHP Parse error:  syntax error, unexpected ':', expecting ']' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1062
+[07-Jul-2017 14:39:25 America/Chicago] PHP Warning:  array_merge(): Argument #3 is not an array in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1065
+[07-Jul-2017 14:40:18 America/Chicago] PHP Warning:  json_decode() expects parameter 1 to be string, array given in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1062
+[07-Jul-2017 14:43:54 America/Chicago] PHP Parse error:  syntax error, unexpected 'print' (T_PRINT) in /home/ztekcomm/cpmx.claresti.com/statsCategoria.php on line 19
+[08-Jul-2017 18:34:27 America/Chicago] PHP Parse error:  syntax error, unexpected ')' in /home/ztekcomm/cpmx.claresti.com/grafica_categoria.php on line 22
+[08-Jul-2017 18:35:12 America/Chicago] PHP Parse error:  syntax error, unexpected ')' in /home/ztekcomm/cpmx.claresti.com/grafica_categoria.php on line 22
+[08-Jul-2017 18:35:38 America/Chicago] PHP Parse error:  syntax error, unexpected ':' in /home/ztekcomm/cpmx.claresti.com/grafica_categoria.php on line 22
+[08-Jul-2017 18:35:54 America/Chicago] PHP Parse error:  syntax error, unexpected 'in' (T_STRING) in /home/ztekcomm/cpmx.claresti.com/grafica_categoria.php on line 22
+[08-Jul-2017 18:43:23 America/Chicago] PHP Parse error:  syntax error, unexpected '=' in /home/ztekcomm/cpmx.claresti.com/grafica_categoria.php on line 24
+[08-Jul-2017 19:00:55 America/Chicago] PHP Parse error:  syntax error, unexpected '$json' (T_VARIABLE) in /home/ztekcomm/cpmx.claresti.com/grafica_categoria.php on line 27
+[08-Jul-2017 19:05:36 America/Chicago] PHP Parse error:  syntax error, unexpected '' (T_ENCAPSED_AND_WHITESPACE), expecting identifier (T_STRING) or variable (T_VARIABLE) or number (T_NUM_STRING) in /home/ztekcomm/cpmx.claresti.com/grafica_categoria.php on line 32
+[08-Jul-2017 19:32:41 America/Chicago] PHP Parse error:  syntax error, unexpected 'is' (T_STRING) in /home/ztekcomm/cpmx.claresti.com/statsCategoria.php on line 16
+[08-Jul-2017 19:32:50 America/Chicago] PHP Parse error:  syntax error, unexpected 'is' (T_STRING) in /home/ztekcomm/cpmx.claresti.com/statsCategoriaRango.php on line 16
+[08-Jul-2017 19:33:02 America/Chicago] PHP Parse error:  syntax error, unexpected 'is' (T_STRING) in /home/ztekcomm/cpmx.claresti.com/statsCategoria.php on line 16
+[01-Aug-2017 18:10:07 America/Chicago] PHP Parse error:  syntax error, unexpected '}' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1373
+[15-Aug-2017 00:46:26 America/Chicago] PHP Parse error:  syntax error, unexpected 'print' (T_PRINT) in /home/ztekcomm/cpmx.claresti.com/insert_movement.php on line 19
+[15-Aug-2017 01:40:49 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '
+			,
+			,
+			,
+			'',
+			'',
+			'')' at line 3' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:1415
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(1415): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/insert_movement.php(91): Finanzas::nuevoMovimiento(NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1415
+[15-Aug-2017 01:42:49 America/Chicago] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '
+			,
+			,
+			,
+			'',
+			'',
+			'')' at line 3' in /home/ztekcomm/cpmx.claresti.com/Finanzas.php:1415
+Stack trace:
+#0 /home/ztekcomm/cpmx.claresti.com/Finanzas.php(1415): PDOStatement->execute(Array)
+#1 /home/ztekcomm/cpmx.claresti.com/insert_movement.php(91): Finanzas::nuevoMovimiento(NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+#2 {main}
+  thrown in /home/ztekcomm/cpmx.claresti.com/Finanzas.php on line 1415
+[15-Aug-2017 01:51:55 America/Chicago] PHP Fatal error:  Unsupported operand types in /home/ztekcomm/cpmx.claresti.com/insert_movement.php on line 64
+[15-Aug-2017 01:55:21 America/Chicago] PHP Fatal error:  Unsupported operand types in /home/ztekcomm/cpmx.claresti.com/insert_movement.php on line 64
