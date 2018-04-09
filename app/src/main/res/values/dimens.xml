@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_inputs_forms">10dp</dimen>
+    <dimen name="margin_important_forms">23dp</dimen>
     <dimen name="margin_horizontal_forms">20dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Dimens Globales -->
+    <dimen name="margin_forms">35dp</dimen>
+    <dimen name="text_size_forms">15sp</dimen>
+    <dimen name="text_size_buttons_forms">15sp</dimen>
+    <dimen name="height_buttons_submit">45sp</dimen>
+
+    <!-- Dimensiones de Login -->
+    <dimen name="login_margin_card">15dp</dimen>
+    <dimen name="login_margin_logo">50dp</dimen>
+    <dimen name="login_padding_card">10dp</dimen>
+    <dimen name="login_text_size_titulo">24sp</dimen>
 </resources>

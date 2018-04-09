@@ -22,7 +22,7 @@
             android:name=".MainDenarius"
             android:label="Denarius"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Registro" />
+        <activity android:name=".Activities.Registro" />
         <activity
             android:name=".Movimientos"
             android:label="Modificar Movimiento" />

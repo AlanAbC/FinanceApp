@@ -102,11 +102,6 @@ public class FragmentMovimiento extends Fragment {
         }
 
         @Override
-        public void mostrarDatos(String response) {
-
-        }
-
-        @Override
         public void setError(String mensaje) {
 
         }

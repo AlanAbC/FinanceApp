@@ -3,6 +3,59 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="error_input_vacio">Campo Requerido</string>
+
+    <!-- Fragmento de Movimiento -->
+    <string name="movimiento_concepto">Concepto del monto</string>
+    <string name="movimiento_categoria">Categoria</string>
+    <string name="movimiento_cuenta">Cuenta</string>
+    <string name="movimiento_cuenta_destino">Cuenta Destino</string>
+    <string name="movimiento_monto">Monto</string>
+    <string name="movimiento_fecha">Fecha de registro</string>
+    <string name="movimiento_button_registro">Registrar</string>
+    <string name="movimiento_ingreso">Ingreso</string>
+    <string name="movimiento_egreso">Egreso</string>
+    <string name="movimiento_transferencia">Transferencia</string>
+    <string name="title_activity_splash">Splash</string>
+
+    <!-- Strings dialog categorias -->
+    <string name="dialog_categorias_titulo">Categorias</string>
+    <string name="dialog_categorias_button">Cerrar</string>
+
+    <!-- Strings para comunicaciones -->
+    <string name="comunicaciones_error_404">Elemento no encontrado</string>
+    <string name="comunicaciones_error_403">No tiene permiso para acceder a este elemento</string>
+    <string name="comunicaciones_error_401">Error de autenticación, el usuario y/o contraseña son incorrectos</string>
+    <string name="comunicaciones_error_400">Ingresa tus datos correctamente</string>
+    <string name="comunicaciones_error_500">Error del servidor</string>
+    <string name="comunicaciones_error_no_connection">No hay conexión con el servidor.</string>
+    <string name="comunicaciones_error">Ha ocurrido un error</string>
+
+    <!-- Strings Dialog -->
+    <string name="dialog_cargando">Cargando</string>
+    <string name="dialog_button_ok">Aceptar</string>
+
+    <!-- Strings Registro -->
+    <string name="registro_nombre">Nombre</string>
+    <string name="registro_correo">Correo</string>
+    <string name="registro_usuario">Nombre de Usuario</string>
+    <string name="registro_pass">Contraseña</string>
+    <string name="registro_passc">Confirmar Contraseña</string>
+    <string name="registro_fechanac">Fecha de Nacimiento</string>
+    <string name="registro_genero">Género</string>
+    <string name="registro_genero_masculino">Masculino</string>
+    <string name="registro_genero_femenino">Femenino</string>
+    <string name="registro_error_pass">Registrar</string>
+    <string name="registro_registrar">Registrar</string>
+    <string name="error_correo_invalido">Correo inválido</string>
+    <string name="registro_exitoso">Registro exitoso</string>
+
+    <!-- Strings del login -->
+    <string name="login_label_inicio">Inicio de Sesión</string>
+    <string name="login_label_registro">¿Eres Nuevo? Registrate Aquí</string>
+    <string name="login_label_usuario">Usuario</string>
+    <string name="login_label_password">Contraseña</string>
+    <string name="login_button_inicio">Iniciar</string>
 
 
     <!--Activity Acerca-->
@@ -26,37 +79,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- Fragmento de Movimiento -->
-    <string name="movimiento_concepto">Concepto del monto</string>
-    <string name="movimiento_categoria">Categoria</string>
-    <string name="movimiento_cuenta">Cuenta</string>
-    <string name="movimiento_cuenta_destino">Cuenta Destino</string>
-    <string name="movimiento_monto">Monto</string>
-    <string name="movimiento_fecha">Fecha de registro</string>
-    <string name="movimiento_button_registro">Registrar</string>
-    <string name="movimiento_ingreso">Ingreso</string>
-    <string name="movimiento_egreso">Egreso</string>
-    <string name="movimiento_transferencia">Transferencia</string>
-    <string name="title_activity_splash">Splash</string>
-    <string name="error_input_vacio">Campo Requerido</string>
-
-    <!-- Strings dialog categorias -->
-    <string name="dialog_categorias_titulo">Categorias</string>
-    <string name="dialog_categorias_button">Cerrar</string>
-
-    <!-- Strings para comunicaciones -->
-    <string name="comunicaciones_error_404">Elemento no encontrado</string>
-    <string name="comunicaciones_error_403">No tiene permiso para acceder a este elemento</string>
-    <string name="comunicaciones_error_401">Error de autenticación, el usuario y/o contraseña son incorrectos</string>
-    <string name="comunicaciones_error_400">Ingresa tus datos correctamente</string>
-    <string name="comunicaciones_error_500">Error del servidor</string>
-    <string name="comunicaciones_error_no_connection">No hay conexión con el servidor.</string>
-    <string name="comunicaciones_error">Ha ocurrido un error</string>
-
-    <!-- Strings Dialog -->
-    <string name="dialog_cargando">Cargando</string>
-    <string name="dialog_button_ok">Aceptar</string>
 
 
 </resources>

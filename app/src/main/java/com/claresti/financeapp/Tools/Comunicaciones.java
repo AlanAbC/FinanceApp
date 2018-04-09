@@ -100,12 +100,13 @@ public class Comunicaciones {
                 String responseString = "";
                 if (response != null) {
                     responseString = String.valueOf(response.statusCode);
-                    Log.i(TAG, response.data.toString());
-                    if(responseString.equals("201")){
+                    Log.i(TAG, responseString + "\n" + response.data.toString());
+                    if(responseString.equals("200")){
                         try{
                             return Response.success(new JSONObject(response.data.toString()), HttpHeaderParser.parseCacheHeaders(response));
-                        } catch (JSONException jsone) {
-                            Log.e(TAG, jsone.getMessage());
+                        } catch (Exception e) {
+                            Log.e(TAG, e.getMessage());
+                            return Response.success(new JSONObject(), HttpHeaderParser.parseCacheHeaders(response));
                         }
                     }
                 }
@@ -119,7 +120,6 @@ public class Comunicaciones {
 
     public interface ResultadosInterface{
         void mostrarDatos(JSONObject json);
-        void mostrarDatos(String response);
         void setError(String mensaje);
     }
 }

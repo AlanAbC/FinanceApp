@@ -26,6 +26,7 @@ public class DialogProgress extends DialogFragment {
     private ProgressBar progress;
     private String msgDialog;
     private RelativeLayout layoutMensaje;
+    private OnDismissListener onDismissListener;
 
     public DialogProgress() {
         super();
@@ -57,6 +58,7 @@ public class DialogProgress extends DialogFragment {
             @Override
             public void onClick(View view) {
                 dismiss();
+                if(onDismissListener != null) onDismissListener.onDismiss();
             }
         });
         if(msgDialog != null) mensaje.setText(msgDialog);
@@ -97,4 +99,12 @@ public class DialogProgress extends DialogFragment {
         mensaje.setText(msg);
         progress.setVisibility(View.GONE);
     }//fin setError
+
+    public void setOnDismissListener(OnDismissListener onDismissListener){
+        this.onDismissListener = onDismissListener;
+    }
+
+    public interface OnDismissListener{
+        void onDismiss();
+    }
 }

@@ -600,7 +600,6 @@ public class Comunications {
                                     break;
                                 case "0":
                                     //Regresar mensaje de que no hay registros
-                                    Login.errorAnimation("Error, usuario y/o contraseña incorrectos");
                                     break;
                             }
                         }catch(JSONException json){
@@ -614,7 +613,6 @@ public class Comunications {
                     public void onErrorResponse(VolleyError error)
                     {
                         Log.e("DCOM", error.getMessage());
-                        Login.errorAnimation("Error, no hay conexión a internet");
                     }
                 }
         )

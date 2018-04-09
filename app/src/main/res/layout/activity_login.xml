@@ -1,128 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/grey_10"
+    android:id="@+id/login_ventana">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorPrimary"
+        />
+
+    <RelativeLayout
+        android:id="@+id/login_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#4e9455"
-        android:id="@+id/l_ventana">
+        android:layout_marginTop="200dp"
+        android:visibility="gone"
+        >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_centerVertical="true">
-
-            <ImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:scaleType="centerInside"
-                android:id="@+id/logo"
-                android:src="@drawable/d"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-            <LinearLayout
-                android:id="@+id/layout_formulario_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@id/logo">
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_user"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:textColorHint="#FFFFFF"
-                    android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/AppTheme.FloatingLabel">
-
-                    <EditText
-                        android:id="@+id/input_user"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="E-mail o Usuario"
-                        android:textColor="#fff"
-                        android:textColorHint="#ffffff"
-                        android:textSize="15sp"
-                        android:singleLine="true"
-                        android:theme="@style/EditText"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_password"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="5dp"
-                    android:textColorHint="#fff"
-                    android:layout_below="@id/input_layout_user"
-                    android:layout_height="wrap_content"
-                    app:hintTextAppearance="@style/AppTheme.FloatingLabel"
-                    >
-
-                    <EditText
-                        android:id="@+id/input_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Contraseña"
-                        android:textColor="#fff"
-                        android:inputType="textPassword"
-                        android:textColorHint="#ffffff"
-                        android:textSize="15sp"
-                        android:singleLine="true"
-                        android:theme="@style/EditText"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/input_layout_password"
-                    android:layout_marginTop="5dp"
-                    android:textColor="#ffffff"
-                    android:background="#216c2a"
-                    android:text="Ingresar"
-                    android:id="@+id/btn_ingresar"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:text="¿Eres Nuevo? Registrate Aqui"
-                android:layout_below="@id/layout_formulario_login"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:id="@+id/btn_registro"
-                android:textColor="#fff"
-                android:layout_centerHorizontal="true"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="Iniciando Sesión..."
-                android:layout_below="@+id/logo"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="70dp"
-                android:id="@+id/msg_session"
-                android:textColor="#fff"
-                android:layout_centerHorizontal="true"
-                android:textSize="20dp"
-                android:alpha="0"/>
-
-        </RelativeLayout>
+        <com.claresti.financeapp.Tools.ViewLoadingDotsGrow
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:background="@color/colorPrimary" />
 
     </RelativeLayout>
 
-    <!-- Bottom Sheet -->
-    <include layout="@layout/bottom_sheet_login" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</android.support.design.widget.CoordinatorLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/login_margin_card"
+            android:layout_marginRight="@dimen/login_margin_card"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="@dimen/login_margin_logo"
+                android:scaleType="centerInside"
+                android:src="@drawable/d"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/login_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/login_margin_card"
+                android:layout_marginRight="@dimen/login_margin_card"
+                android:layout_marginTop="@dimen/login_margin_card"
+                android:layout_marginBottom="@dimen/login_margin_card"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/login_padding_card"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_important_forms"
+                        android:text="@string/login_label_inicio"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/login_text_size_titulo"
+                        />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_important_forms"
+                        app:hintTextAppearance="@style/TextLabel"
+                        >
+
+                        <EditText
+                            android:id="@+id/login_input_user"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_color"
+                            android:hint="@string/login_label_usuario"
+                            android:inputType="text"
+                            android:textSize="@dimen/text_size_forms"
+                            />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_inputs_forms"
+                        android:layout_marginBottom="@dimen/margin_inputs_forms"
+                        app:hintTextAppearance="@style/TextLabel"
+                        >
+
+                        <EditText
+                            android:id="@+id/login_input_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_color"
+                            android:hint="@string/login_label_password"
+                            android:inputType="textPassword"
+                            android:textSize="@dimen/text_size_forms"
+                            />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/login_button_ingresar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_buttons_submit"
+                        android:layout_marginTop="@dimen/margin_important_forms"
+                        android:layout_marginBottom="@dimen/margin_important_forms"
+                        android:textColor="@color/white_color"
+                        android:background="@drawable/background_buttons_colored"
+                        android:text="@string/login_button_inicio"
+                        android:textSize="@dimen/text_size_buttons_forms"
+                        />
+
+                    <TextView
+                        android:id="@+id/login_label_registro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_important_forms"
+                        android:text="@string/login_label_registro"
+                        android:textAlignment="center"
+                        />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
