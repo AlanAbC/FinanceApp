@@ -17,8 +17,9 @@ public class Urls {
     public static final String DELETECATEGORY = clares + "eliminar_categoria.php";
     public static final String LOGIN = clares + "login.php";
 
-    public static final String HOST = "http://10.42.0.1:8000/api/";
+    public static final String HOST = "http://192.168.1.69:8000/api/";
     public static final String REGISTRO = HOST + "users/register_user/";
+    public static final String NEWLOGIN = HOST + "users/login/";
 
     private String login;
     private String registro;

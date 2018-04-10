@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.claresti.financeapp.R;
+import com.claresti.financeapp.Tools.ViewLoadingDotsGrow;
 
 /**
  * Clase para mostrar un dialog de retroalimentacion de el usuario
@@ -23,7 +24,7 @@ import com.claresti.financeapp.R;
 public class DialogProgress extends DialogFragment {
     private TextView mensaje;
     private Button buttonAceptar;
-    private ProgressBar progress;
+    private ViewLoadingDotsGrow progress;
     private String msgDialog;
     private RelativeLayout layoutMensaje;
     private OnDismissListener onDismissListener;
@@ -46,7 +47,6 @@ public class DialogProgress extends DialogFragment {
         buttonAceptar = view.findViewById(R.id.dialog_button_aceptar);
         progress = view.findViewById(R.id.dialog_progress);
         layoutMensaje = view.findViewById(R.id.dialog_layout_mensaje);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setCancelable(false);
         return view;
     }

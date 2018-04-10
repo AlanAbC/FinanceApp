@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_10"
-    android:id="@+id/login_ventana">
+    android:id="@+id/login_ventana"
+    android:animateLayoutChanges="true"
+    >
 
     <View
         android:layout_width="match_parent"

@@ -1,11 +1,8 @@
-package com.claresti.financeapp;
+package com.claresti.financeapp.Activities;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,19 +16,22 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.claresti.financeapp.Activities.Registro;
-import com.claresti.financeapp.Activities.Splash;
+import com.android.volley.Request;
+import com.claresti.financeapp.R;
+import com.claresti.financeapp.Tools.Comunicaciones;
+import com.claresti.financeapp.Urls;
+import com.claresti.financeapp.UserSessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.view.View.GONE;
 
 public class Login extends AppCompatActivity {
 
@@ -44,6 +44,44 @@ public class Login extends AppCompatActivity {
     private CardView card;
     private JSONObject json;
     private static final String TAG = "LOGIN";
+    private UserSessionManager sessionManager;
+
+    private Comunicaciones.ResultadosInterface resultadosInterface = new Comunicaciones.ResultadosInterface() {
+        @Override
+        public void mostrarDatos(JSONObject json) {
+            Log.i(TAG, json.toString());
+            sessionManager = new UserSessionManager(Login.this);
+            try{
+                sessionManager.createUserLoginSession(
+                        json.getString("id"),
+                        json.getString("nickname"),
+                        json.getString("full_name"),
+                        json.getString("email"),
+                        json.getString("gender"),
+                        json.getString("birth_date")
+                );
+                Intent i = new Intent(Login.this, Splash.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Login.this.startActivity(i);
+            } catch (JSONException jsone) {
+                msg(getString(R.string.comunicaciones_error));
+                card.setVisibility(View.VISIBLE);
+                Animation centerHide = AnimationUtils.loadAnimation(Login.this, R.anim.animation_center);
+                card.startAnimation(centerHide);
+                progress.setVisibility(GONE);
+            }
+        }
+
+        @Override
+        public void setError(String mensaje) {
+            msg(mensaje);
+            card.setVisibility(View.VISIBLE);
+            Animation centerHide = AnimationUtils.loadAnimation(Login.this, R.anim.animation_center);
+            card.startAnimation(centerHide);
+            progress.setVisibility(GONE);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +148,7 @@ public class Login extends AppCompatActivity {
 
         json = new JSONObject();
         try {
-            json.put("user", correo);
+            json.put("nickname", correo);
             json.put("password", pass);
         } catch(JSONException jsone) {
             Log.e(TAG, jsone.toString());
@@ -150,10 +188,32 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validarLogin()) {
-                    progress.setVisibility(View.VISIBLE);
                     Animation centerHide = AnimationUtils.loadAnimation(Login.this, R.anim.animation_center_hide);
+                    centerHide.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            card.setVisibility(GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
                     card.startAnimation(centerHide);
-                    card.setVisibility(View.GONE);
+                    progress.setVisibility(View.VISIBLE);
+
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-type", "application/json");
+
+                    Comunicaciones com = new Comunicaciones(Login.this, resultadosInterface);
+                    com.peticionJSON(Urls.NEWLOGIN, Request.Method.POST, json, headers);
+
                 }
             }
         });

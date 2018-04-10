@@ -23,6 +23,7 @@
     <string name="dialog_categorias_button">Cerrar</string>
 
     <!-- Strings para comunicaciones -->
+    <string name="comunicaciones_error_302">Elemento existente</string>
     <string name="comunicaciones_error_404">Elemento no encontrado</string>
     <string name="comunicaciones_error_403">No tiene permiso para acceder a este elemento</string>
     <string name="comunicaciones_error_401">Error de autenticación, el usuario y/o contraseña son incorrectos</string>

@@ -52,6 +52,7 @@ public class Registro extends AppCompatActivity {
     Comunicaciones.ResultadosInterface resultadosListener = new Comunicaciones.ResultadosInterface() {
         @Override
         public void mostrarDatos(JSONObject json) {
+            progress.dismiss();
             Log.i(TAG, json.toString());
             msg(getString(R.string.registro_exitoso));
             finish();
@@ -59,7 +60,9 @@ public class Registro extends AppCompatActivity {
 
         @Override
         public void setError(String mensaje) {
-
+            Log.i(TAG, "Error registrado" + mensaje);
+            progress.dismiss();
+            msg(mensaje);
         }
     };
 
@@ -145,6 +148,7 @@ public class Registro extends AppCompatActivity {
         }
         if(!correo.contains("@") || !correo.contains(".")){
             inputCorreo.setError(getString(R.string.error_correo_invalido));
+            return false;
         }
         if(TextUtils.isEmpty(usuario)){
             inputUsuario.setError(getString(R.string.error_input_vacio));

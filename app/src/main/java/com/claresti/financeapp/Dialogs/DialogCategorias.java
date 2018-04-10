@@ -10,8 +10,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.claresti.financeapp.Adapters.AdaptadorSpinnerCategorias;
-import com.claresti.financeapp.Modelos.Categorias;
 import com.claresti.financeapp.R;
 
 /**

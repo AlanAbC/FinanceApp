@@ -1,6 +1,7 @@
 package com.claresti.financeapp.Tools;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -77,6 +78,7 @@ public class Comunicaciones {
 
                         //Verificamos la respuesta que nos de el servidor
                         if(error.networkResponse != null){
+                            if(error.networkResponse.statusCode == 302)mListener.setError(context.getString(R.string.comunicaciones_error_302));//Existente
                             if(error.networkResponse.statusCode == 404)mListener.setError(context.getString(R.string.comunicaciones_error_404));//No se ha encontrado
                             if(error.networkResponse.statusCode == 403)mListener.setError(context.getString(R.string.comunicaciones_error_403));//No hay permisos para acceder a este elemento
                             if(error.networkResponse.statusCode == 401)mListener.setError(context.getString(R.string.comunicaciones_error_401));//No se han autentificado aún o la sesion ha caducado
@@ -100,14 +102,15 @@ public class Comunicaciones {
                 String responseString = "";
                 if (response != null) {
                     responseString = String.valueOf(response.statusCode);
-                    Log.i(TAG, responseString + "\n" + response.data.toString());
-                    if(responseString.equals("200")){
+                    Log.i(TAG, new String(response.data));
+                    responseString = new String(response.data);
+                    if(responseString.length() > 0  || !TextUtils.isEmpty(responseString)){
                         try{
-                            return Response.success(new JSONObject(response.data.toString()), HttpHeaderParser.parseCacheHeaders(response));
+                            return Response.success(new JSONObject(responseString), HttpHeaderParser.parseCacheHeaders(response));
                         } catch (Exception e) {
-                            Log.e(TAG, e.getMessage());
-                            return Response.success(new JSONObject(), HttpHeaderParser.parseCacheHeaders(response));
+                            Log.e(TAG, "Mal Parseo" +  e.getMessage());
                         }
+                        return Response.success(new JSONObject(), HttpHeaderParser.parseCacheHeaders(response));
                     }
                 }
                 return super.parseNetworkResponse(response);

@@ -98,15 +98,6 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*setUpRecyclerSwipe(view);
-
-        setUpAnimationDecoratorHelper();
-
-        adapterMovements = AdapterMovements.getInstance(getActivity(), this);
-        adapterMovements.updateContent();
-        recyclerView.setAdapter(adapterMovements);*/
-
-        //set data and list adapter
         mAdapter = new AdapterListSwipe(getActivity());
         mAdapter.setInterfaceDataTransfer(this);
         mAdapter.updateContent();

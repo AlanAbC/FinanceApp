@@ -3,7 +3,6 @@ package com.claresti.financeapp.Tools;
 import android.content.Context;
 import android.util.Log;
 
-import com.claresti.financeapp.Modelos.CatCategorias;
 import com.claresti.financeapp.Modelos.Categorias;
 import com.claresti.financeapp.R;
 import com.google.gson.Gson;

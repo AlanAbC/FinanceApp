@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -21,19 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.claresti.financeapp.Adapters.AdaptadorSpinnerCategorias;
 import com.claresti.financeapp.Dialogs.DialogCategorias;
 import com.claresti.financeapp.Modelos.Categorias;
 import com.claresti.financeapp.Tools.Comunicaciones;
@@ -41,13 +34,9 @@ import com.claresti.financeapp.Tools.Comunicaciones;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
