@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="65dp"
+android:minHeight="65dp"
+android:background="@android:color/white">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="10dp"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/txt_nameAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Nombre de la Cuenta"
+        />
+
+    <TextView
+        android:id="@+id/txt_moneyAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:text="Dinero en la cuenta: $0.0"/>
+    <TextView
+        android:id="@+id/txt_descriptionAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="Descripcion" />
+
+</LinearLayout>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0.5dp"
+    android:background="@color/grey_40"
+    android:layout_alignParentBottom="true"
+    >
+</LinearLayout>
+
+</RelativeLayout>

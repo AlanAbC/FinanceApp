@@ -3,7 +3,7 @@ package com.claresti.financeapp.Tools;
 import android.content.Context;
 import android.util.Log;
 
-import com.claresti.financeapp.Modelos.Categorias;
+import com.claresti.financeapp.Modelos.Categoria;
 import com.claresti.financeapp.R;
 import com.google.gson.Gson;
 
@@ -21,8 +21,8 @@ public class CatalogosUsuario {
     private Context context;
     private static CatalogosUsuario singleton;
     private final static String TAG = "Catalogos";
-    public static ArrayList<CatCategorias> catCategorias;
-    public static ArrayList<Categorias> categorias;
+    public static ArrayList<Categoria> catCategorias;
+    public static ArrayList<Categoria> categorias;
 
     private CatalogosUsuario(Context context)
     {
@@ -45,19 +45,19 @@ public class CatalogosUsuario {
         return singleton;
     }
 
-    public static ArrayList<CatCategorias> getCatCategorias() {
+    public static ArrayList<Categoria> getCatCategorias() {
         return catCategorias;
     }
 
-    public static void setCatCategorias(ArrayList<CatCategorias> catCategorias) {
+    public static void setCatCategorias(ArrayList<Categoria> catCategorias) {
         CatalogosUsuario.catCategorias = catCategorias;
     }
 
-    public static ArrayList<Categorias> getCategorias() {
+    public static ArrayList<Categoria> getCategorias() {
         return categorias;
     }
 
-    public static void setCategorias(ArrayList<Categorias> categorias) {
+    public static void setCategorias(ArrayList<Categoria> categorias) {
         CatalogosUsuario.categorias = categorias;
     }
 
@@ -66,9 +66,9 @@ public class CatalogosUsuario {
         JSONObject jsonObject = Files.getInstance().getJsonFromInputStream(context.getResources().openRawResource(R.raw.categorias));
         try{
             Gson gson = new Gson();
-            Categorias[] categoriasArreglo = gson.fromJson(jsonObject.get("categorias").toString(), Categorias[].class);
-            for(int i = 0; i < categoriasArreglo.length; i++) {
-                categorias.add(categoriasArreglo[i]);
+            Categoria[] categoriaArreglo = gson.fromJson(jsonObject.get("categorias").toString(), Categoria[].class);
+            for(int i = 0; i < categoriaArreglo.length; i++) {
+                categorias.add(categoriaArreglo[i]);
             }
         } catch(JSONException jsone) {
             Log.e(TAG, jsone.getMessage());
@@ -80,20 +80,12 @@ public class CatalogosUsuario {
         JSONObject jsonObject = Files.getInstance().getJsonFromInputStream(context.getResources().openRawResource(R.raw.cat_categorias));
         try{
             Gson gson = new Gson();
-            CatCategorias[] categoriasArreglo = gson.fromJson(jsonObject.get("categorias").toString(), CatCategorias[].class);
-            for(int i = 0; i < categoriasArreglo.length; i++) {
-                catCategorias.add(categoriasArreglo[i]);
+            Categoria[] categoriaArreglo = gson.fromJson(jsonObject.get("categorias").toString(), Categoria[].class);
+            for(int i = 0; i < categoriaArreglo.length; i++) {
+                catCategorias.add(categoriaArreglo[i]);
             }
         } catch(JSONException jsone) {
             Log.e(TAG, jsone.getMessage());
         }
-    }
-
-    public static ArrayList<Categorias> buscarCategoria(CatCategorias catCategorias){
-        ArrayList<Categorias> arrayList = new ArrayList<>();
-        for(int i = 0; i < categorias.size(); i++) {
-            if(categorias.get(i).getId_categoria() == catCategorias.getId())arrayList.add(categorias.get(i));
-        }
-        return arrayList;
     }
 }

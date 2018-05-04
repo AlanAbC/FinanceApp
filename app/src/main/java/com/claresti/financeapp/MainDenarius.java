@@ -1,13 +1,13 @@
 package com.claresti.financeapp;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -15,12 +15,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.claresti.financeapp.Fragments.FragmentAccount;
+import com.claresti.financeapp.Fragments.FragmentAccounts;
+import com.claresti.financeapp.Fragments.FragmentCategories;
+import com.claresti.financeapp.Fragments.FragmentMovimiento;
+import com.claresti.financeapp.Fragments.CategoryFragment;
 
 /**
  * Created by smp_3 on 04/09/2017.
@@ -31,7 +36,9 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         FragmentMovimientos.OnFragmentInteractionListener,
         FragmentCategories.OnFragmentInteractionListener,
         FragmentAccounts.OnFragmentInteractionListener,
-        FragmentAcerca.OnFragmentInteractionListener
+        FragmentAcerca.OnFragmentInteractionListener,
+        CategoryFragment.OnFragmentInteractionListener,
+        FragmentAccount.OnFragmentInteractionListener
 {
 
     private FragmentMovimiento fragmentMovimiento;
@@ -40,11 +47,22 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
     private FragmentCategories fragmentCategories;
     private FragmentAcerca fragmentAcerca;
     private UserSessionManager session;
+    private static final String TAGCAT = "CATEGORIA";
 
     //Identificador para los fragments
     private int id;
 
     private FloatingActionButton buttonAdds;
+
+    private FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+        @Override
+        public void onBackStackChanged() {
+            syncActionBarArrowState();
+        }
+    };
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private boolean mToolBarNavigationListenerIsRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,8 +83,8 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
             //window.setNavigationBarColor(ContextCompat.getColor(getApplicationContext(), R.color.top));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        drawer = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -74,7 +92,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        buttonAdds = (FloatingActionButton) findViewById(R.id.new_action);
+        buttonAdds = findViewById(R.id.new_action);
 
         agregarListeners();
 
@@ -90,7 +108,8 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         fragmentCategories = new FragmentCategories();
         fragmentAccounts = new FragmentAccounts();
         fragmentAcerca = new FragmentAcerca();
-        getSupportFragmentManager().beginTransaction().add(R.id.FragmentContent, fragmentMovimiento).commit();
+        getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
+        getSupportFragmentManager().beginTransaction().add(R.id.FragmentContent, fragmentMovimiento, "FragmentMovimiento").commit();
     }
 
 
@@ -117,7 +136,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         }
         else if (id == R.id.opcion3)
         {
-            transaction.replace(R.id.FragmentContent, fragmentCategories);
+            transaction.replace(R.id.FragmentContent, FragmentCategories.newInstance());
             buttonAdds.setVisibility(View.VISIBLE);
         }
         else if (id == R.id.opcion4)
@@ -155,7 +174,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
 
         transaction.commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -174,13 +193,11 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
 
                 if (id == R.id.opcion3)
                 {
-                    Intent newCategory = new Intent(MainDenarius.this, AgregarCategoria.class);
-                    startActivity(newCategory);
+                    replaceFragmentWithAnimationToBackStack(CategoryFragment.newInstance(), "CategoryFragment");
                 }
                 else if (id == R.id.opcion4)
                 {
-                    Intent newAccount = new Intent(MainDenarius.this, AgregarCuenta.class);
-                    startActivity(newAccount);
+                    replaceFragmentWithAnimationToBackStack(FragmentAccount.newInstance(), "FragmentAccount");
                 }
             }
         });
@@ -272,5 +289,44 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
     @Override
     protected void onPostResume() {
         super.onPostResume();
+    }
+
+    /**
+     * funcion para mostrar o no la flecha de atras o icono de hamburguesa
+     */
+    private void syncActionBarArrowState() {
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0){
+            buttonAdds.setVisibility(View.GONE);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            toggle.setDrawerIndicatorEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if(!mToolBarNavigationListenerIsRegistered) {
+                toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Doesn't have to be onBackPressed
+                        onBackPressed();
+                    }
+                });
+
+                mToolBarNavigationListenerIsRegistered = true;
+            }
+        }
+        else {
+            buttonAdds.setVisibility(View.VISIBLE);
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            toggle.setDrawerIndicatorEnabled(true);
+            toggle.setToolbarNavigationClickListener(null);
+            mToolBarNavigationListenerIsRegistered = false;
+        }
+    }//syncActionBarArrowState
+
+    public void replaceFragmentWithAnimationToBackStack(android.support.v4.app.Fragment fragment, String tag){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+        transaction.replace(R.id.FragmentContent, fragment);
+        transaction.addToBackStack(tag);
+        transaction.commit();
     }
 }

@@ -12,20 +12,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.claresti.financeapp.AdapterListSwipe;
 import com.claresti.financeapp.Modelos.Categoria;
+import com.claresti.financeapp.ObjMovimiento;
 import com.claresti.financeapp.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-/**
- * Created by CLARESTI on 04/08/2017..
- */
-
-public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.ViewHolderCategorias>{
+public class AdapterCategoriesDialog extends RecyclerView.Adapter<AdapterCategoriesDialog.ViewHolderCategorias> {
     private Context context;
     private ArrayList<Categoria> categorias;
+    public OnSelectedItem listener;
 
-    public AdapterCategories(Context context) {
+    public AdapterCategoriesDialog(Context context) {
         this.context = context;
         categorias = new ArrayList<>();
     }
@@ -35,14 +35,18 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         notifyDataSetChanged();
     }
 
+    public void setListener(OnSelectedItem listener) {
+        this.listener = listener;
+    }
+
     /**
      * Funcion que crea la vista
      * @return view - vista que se mostrara en el recycler view
      */
     @Override
-    public AdapterCategories.ViewHolderCategorias onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdapterCategoriesDialog.ViewHolderCategorias onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_categorias, null, false);
-        return new AdapterCategories.ViewHolderCategorias(view);
+        return new AdapterCategoriesDialog.ViewHolderCategorias(view);
     }
 
     /**
@@ -51,7 +55,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
      * @param position posicion de el objeto que se mostrara
      */
     @Override
-    public void onBindViewHolder(AdapterCategories.ViewHolderCategorias holder, int position) {
+    public void onBindViewHolder(AdapterCategoriesDialog.ViewHolderCategorias holder, int position) {
         holder.nombre.setText(categorias.get(position).getName());
         holder.description.setText(categorias.get(position).getDescription());
         Drawable drawable = context.getResources().getDrawable(R.drawable.circular_image_view);
@@ -74,7 +78,7 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
     /**
      * Clase que contiene la vista y conexion a el xml
      */
-    public class ViewHolderCategorias extends RecyclerView.ViewHolder{
+    public class ViewHolderCategorias extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView nombre;
         TextView description;
         ImageView icono;
@@ -84,6 +88,16 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
             icono = itemView.findViewById(R.id.categorias_icon);
             nombre = itemView.findViewById(R.id.categorias_nombre);
             description = itemView.findViewById(R.id.categorias_descripcion);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            listener.itemSelected(categorias.get(getAdapterPosition()));
+        }
+    }
+
+    public interface OnSelectedItem{
+        void itemSelected(Categoria item);
     }
 }

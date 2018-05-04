@@ -1,7 +1,5 @@
 package com.claresti.financeapp.Activities;
 
-import android.app.DialogFragment;
-import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
@@ -15,14 +13,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
 import android.widget.RadioGroup;
 
 import com.android.volley.Request;
 import com.claresti.financeapp.Dialogs.DialogProgress;
 import com.claresti.financeapp.R;
 import com.claresti.financeapp.Tools.Comunicaciones;
-import com.claresti.financeapp.Urls;
+import com.claresti.financeapp.Tools.Urls;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,14 +66,13 @@ public class Registro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_registro);
 
         //Cambiar el color en la barra de notificaciones (Solo funciona de lollipop hacia arriba)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
+            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.white_color));
         }
 
         // Asignacion de variables del layout

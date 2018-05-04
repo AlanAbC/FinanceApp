@@ -2,18 +2,17 @@ package com.claresti.financeapp;
 
 import android.animation.Animator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.claresti.financeapp.Fragments.FragmentAccount;
+import com.claresti.financeapp.Tools.Urls;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -72,7 +71,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
      */
     @Override
     public AdapterAccounts.ViewHolderAccounts onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.account, null, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.spinner_cuentas, null, false);
         return new AdapterAccounts.ViewHolderAccounts(view);
     }
 
@@ -112,7 +111,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
             @Override
             public void onClick(View view) {
                 addAnimation(holder.edit);
-                Intent newAccount = new Intent(context, AgregarCuenta.class);
+                Intent newAccount = new Intent(context, FragmentAccount.class);
                 newAccount.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 newAccount.putExtra("Account", accounts.get(position));
                 context.startActivity(newAccount);
@@ -154,7 +153,7 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
 
     /**
      * Funcion para sustituir el arrayList de la clase
-     * @param accounts - ArrayList de las Categorias
+     * @param accounts - ArrayList de las Categoria
      */
     public void setCategories(ArrayList<ObjCuenta> accounts)
     {
@@ -331,12 +330,9 @@ public class AdapterAccounts extends RecyclerView.Adapter<AdapterAccounts.ViewHo
 
         public ViewHolderAccounts(View itemView) {
             super(itemView);
-            imageType = itemView.findViewById(R.id.imgAccount);
             name = itemView.findViewById(R.id.txt_nameAccount);
             money = itemView.findViewById(R.id.txt_moneyAccount);
             description = itemView.findViewById(R.id.txt_descriptionAccount);
-            edit = itemView.findViewById(R.id.img_account_edit);
-            delete = itemView.findViewById(R.id.img_account_delete);
         }
     }
 }

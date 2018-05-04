@@ -37,6 +37,7 @@
     <string name="dialog_button_ok">Aceptar</string>
 
     <!-- Strings Registro -->
+    <string name="registro_titulo">Registro</string>
     <string name="registro_nombre">Nombre</string>
     <string name="registro_correo">Correo</string>
     <string name="registro_usuario">Nombre de Usuario</string>
@@ -67,16 +68,22 @@
 
 
     <!--Activity Agregar Categoria-->
-    <string name="titulo_menu_ACategoria">Agregar Categoria</string>
-    <string name="nombreCategoria_ACategoria">Nombre de la categoria</string>
-    <string name="descripcionCategoria_ACategoria">Descripción</string>
-    <string name="registrarCategoria_ACategoria">Registrar</string>
+    <string name="categoria_titulo">Nueva Categoria</string>
+    <string name="categoria_nombre">Nombre de la categoria</string>
+    <string name="categoria_descripcion">Descripción</string>
+    <string name="categoria_color">Selecciona un color para tu categoria</string>
+    <string name="categoria_guardar">Guardar</string>
+    <string name="categoria_guardar_ok">Categoria registrada con éxito</string>
+    <string name="categoria_guardar_error">No se ha podido registrar tu categoria</string>
 
     <!--Activity Agregar Cuenta-->
     <string name="titulo_menu_ACuenta">Agregar Cuenta</string>
     <string name="nombreCuenta_ACuenta">Nombre de la cuenta</string>
     <string name="descripcionCuenta_ACuenta">Descripción</string>
-    <string name="registrarCuenta_ACuenta">Registrar</string>
+    <string name="descripcionCuenta_money">Dinero inicial de la cuenta</string>
+    <string name="registrarCuenta_ACuenta">Guardar</string>
+    <string name="cuenta_guardar_ok">Cuenta registrada con éxito</string>
+    <string name="cuenta_guardar_error">No se ha podido registrar tu cuenta</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

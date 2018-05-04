@@ -4,6 +4,8 @@
     <dimen name="margin_important_forms">23dp</dimen>
     <dimen name="margin_horizontal_forms">20dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="margin_horizontal_dialog">15dp</dimen>
+    <dimen name="margin_vertical_dialog">30dp</dimen>
 
     <!-- Dimens Globales -->
     <dimen name="margin_forms">35dp</dimen>

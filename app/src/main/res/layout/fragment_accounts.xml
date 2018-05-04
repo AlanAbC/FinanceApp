@@ -2,15 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.claresti.financeapp.FragmentAccounts">
+    tools:context="com.claresti.financeapp.Fragments.FragmentAccounts">
 
     <RelativeLayout
+        android:id="@+id/layout_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
+
         <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayoutAccounts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/swipeRefreshLayoutAccounts">
+            >
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_accounts"
@@ -18,14 +22,15 @@
                 android:layout_height="wrap_content"/>
 
         </android.support.v4.widget.SwipeRefreshLayout>
-        <ProgressBar
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
+
+        <com.claresti.financeapp.Tools.ViewLoadingDotsGrow
             android:id="@+id/progress_center_accounts"
-            android:indeterminateDrawable="@drawable/custom_progressbar"
-            android:visibility="gone"/>
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:background="@color/colorPrimary"
+            android:visibility="gone"
+            />
 
         <ProgressBar
             android:layout_width="35dp"

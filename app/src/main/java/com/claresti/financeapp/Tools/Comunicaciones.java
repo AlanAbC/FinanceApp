@@ -78,12 +78,14 @@ public class Comunicaciones {
 
                         //Verificamos la respuesta que nos de el servidor
                         if(error.networkResponse != null){
-                            if(error.networkResponse.statusCode == 302)mListener.setError(context.getString(R.string.comunicaciones_error_302));//Existente
                             if(error.networkResponse.statusCode == 404)mListener.setError(context.getString(R.string.comunicaciones_error_404));//No se ha encontrado
                             if(error.networkResponse.statusCode == 403)mListener.setError(context.getString(R.string.comunicaciones_error_403));//No hay permisos para acceder a este elemento
                             if(error.networkResponse.statusCode == 401)mListener.setError(context.getString(R.string.comunicaciones_error_401));//No se han autentificado aún o la sesion ha caducado
                             if(error.networkResponse.statusCode == 400)mListener.setError(context.getString(R.string.comunicaciones_error_400));//La peticion es incorrecta
-                            if(error.networkResponse.statusCode == 500)mListener.setError(context.getString(R.string.comunicaciones_error_500));//Error en el servidor
+                            if(error.networkResponse.statusCode == 500)
+                                mListener.setError(context.getString(R.string.comunicaciones_error_500));//Error en el servidor
+                            else
+                                mListener.setError(context.getString(R.string.comunicaciones_error ));
                             return;
                         }
                         mListener.setError(context.getString(R.string.comunicaciones_error ));
@@ -102,13 +104,15 @@ public class Comunicaciones {
                 String responseString = "";
                 if (response != null) {
                     responseString = String.valueOf(response.statusCode);
-                    Log.i(TAG, new String(response.data));
-                    responseString = new String(response.data);
-                    if(responseString.length() > 0  || !TextUtils.isEmpty(responseString)){
-                        try{
-                            return Response.success(new JSONObject(responseString), HttpHeaderParser.parseCacheHeaders(response));
-                        } catch (Exception e) {
-                            Log.e(TAG, "Mal Parseo" +  e.getMessage());
+                    Log.i(TAG, responseString + new String(response.data).length());
+                    if(responseString.equals("201") || responseString.equals("200")){
+                        responseString = new String(response.data);
+                        if(responseString.length() > 0 || !TextUtils.isEmpty(responseString)) {
+                            try{
+                                return Response.success(new JSONObject(responseString), HttpHeaderParser.parseCacheHeaders(response));
+                            } catch (JSONException jsone) {
+                                Log.e(TAG, jsone.getMessage());
+                            }
                         }
                         return Response.success(new JSONObject(), HttpHeaderParser.parseCacheHeaders(response));
                     }

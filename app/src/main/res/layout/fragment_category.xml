@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.CategoryFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:scrollingCache="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_forms"
+            android:layout_marginStart="@dimen/margin_forms"
+            android:layout_marginRight="@dimen/margin_forms"
+            android:layout_marginEnd="@dimen/margin_forms"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                app:hintTextAppearance="@style/TextLabel"
+                >
+
+                <EditText
+                    android:id="@+id/input_nombre_categoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color"
+                    android:hint="@string/categoria_nombre"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                app:hintTextAppearance="@style/TextLabel"
+                >
+
+                <EditText
+                    android:id="@+id/input_descripcion_categoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color"
+                    android:hint="@string/categoria_descripcion"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_inputs_forms"
+                android:text="@string/categoria_color"
+                android:textSize="15sp"
+                android:paddingLeft="5dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                >
+
+                <View
+                    android:id="@+id/view_result"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/grey_40"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/view_result"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        android:layout_marginTop="@dimen/margin_inputs_forms"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="R"
+                            android:textSize="16sp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                        <android.support.v7.widget.AppCompatSeekBar
+                            android:id="@+id/seekbar_red"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="255"
+                            android:progress="127" />
+
+                        <TextView
+                            android:id="@+id/tv_red"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="127"
+                            android:textSize="16sp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        android:layout_marginTop="@dimen/margin_inputs_forms"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="G"
+                            android:textSize="16sp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                        <android.support.v7.widget.AppCompatSeekBar
+                            android:id="@+id/seekbar_green"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="255"
+                            android:progress="127" />
+
+                        <TextView
+                            android:id="@+id/tv_green"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="127"
+                            android:textSize="16sp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        android:layout_marginTop="@dimen/margin_inputs_forms"
+                        android:layout_marginBottom="@dimen/margin_inputs_forms"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="B"
+                            android:textSize="16sp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                        <android.support.v7.widget.AppCompatSeekBar
+                            android:id="@+id/seekbar_blue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:max="255"
+                            android:progress="210" />
+
+                        <TextView
+                            android:id="@+id/tv_blue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="127"
+                            android:textSize="16sp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/button_guardar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_buttons_submit"
+                android:layout_marginTop="@dimen/margin_important_forms"
+                android:layout_marginBottom="@dimen/margin_important_forms"
+                android:textColor="@color/white_color"
+                android:background="@drawable/background_buttons_colored"
+                android:text="@string/categoria_guardar"
+                android:textSize="@dimen/text_size_buttons_forms"
+                />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</FrameLayout>

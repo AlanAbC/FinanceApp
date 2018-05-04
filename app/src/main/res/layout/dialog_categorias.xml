@@ -3,20 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#44000000">
+    android:background="@android:color/transparent"
+    >
 
     <RelativeLayout
         android:id="@+id/ventana_dialog"
-        android:layout_width="300dp"
-        android:layout_height="450dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_horizontal_dialog"
+        android:layout_marginRight="@dimen/margin_horizontal_dialog"
+        android:layout_marginTop="@dimen/margin_vertical_dialog"
+        android:layout_marginBottom="@dimen/margin_vertical_dialog"
         android:layout_centerInParent="true"
-        android:background="#FFFFFF">
+        android:background="@drawable/dialog">
 
         <RelativeLayout
             android:id="@+id/dialog_categorias_titulo"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/title_dialog"
             >
 
             <TextView

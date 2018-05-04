@@ -1,4 +1,4 @@
-package com.claresti.financeapp;
+package com.claresti.financeapp.Tools;
 
 public class Urls {
 
@@ -20,6 +20,10 @@ public class Urls {
     public static final String HOST = "http://192.168.1.69:8000/api/";
     public static final String REGISTRO = HOST + "users/register_user/";
     public static final String NEWLOGIN = HOST + "users/login/";
+    public static final String REGISTERCATEGORY = HOST + "accounts/register_category/";
+    public static final String REGISTERACCOUNT = HOST + "accounts/register_account/";
+    public static final String VIEWUSERCATEGORIES = HOST + "accounts/view_user_categories/";
+    public static final String VIEWUSERACCOUNTS = HOST + "accounts/view_user_accounts/";
 
     private String login;
     private String registro;

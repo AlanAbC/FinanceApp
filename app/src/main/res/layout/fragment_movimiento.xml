@@ -1,63 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/movimiento_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_10"
-    android:fitsSystemWindows="true"
+    android:background="@color/grey_5"
     >
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_movimientos"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/grey_60"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/TextAppearance.Subhead.Bold"
+        app:theme="@style/Toolbar.Light"
+        android:elevation="5dp"
+        >
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_ingreso"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextColor="@color/grey_60"
-            app:tabIndicatorHeight="2dp"
-            app:tabMode="fixed"
-            app:tabTextAppearance="@style/TextAppearance.Subhead.Bold"
-            app:theme="@style/Toolbar.Light">
+            android:layout_height="wrap_content"
+            android:icon="@drawable/icono_ingreso"
+            android:text="@string/movimiento_ingreso" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tab_ingreso"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/icono_ingreso"
-                android:text="@string/movimiento_ingreso" />
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_egreso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/icono_egreso"
+            android:text="@string/movimiento_egreso" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tab_egreso"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/icono_egreso"
-                android:text="@string/movimiento_egreso" />
+        <android.support.design.widget.TabItem
+            android:id="@+id/tab_transferencia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/icono_transferencia"
+            android:text="@string/movimiento_transferencia" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/tab_transferencia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:icon="@drawable/icono_transferencia"
-                android:text="@string/movimiento_transferencia" />
+    </android.support.design.widget.TabLayout>
 
-        </android.support.design.widget.TabLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/white_color"
         >
 
         <LinearLayout
@@ -67,7 +61,6 @@
             android:layout_marginStart="@dimen/margin_horizontal_forms"
             android:layout_marginRight="@dimen/margin_horizontal_forms"
             android:layout_marginEnd="@dimen/margin_horizontal_forms"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
             >
@@ -228,12 +221,13 @@
             <Button
                 android:id="@+id/btn_registrar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_inputs_forms"
+                android:layout_height="@dimen/height_buttons_submit"
+                android:layout_marginTop="@dimen/margin_important_forms"
+                android:layout_marginBottom="@dimen/margin_important_forms"
                 android:text="@string/movimiento_button_registro"
-                android:background="@color/colorPrimary"
-                android:textColor="#fff"
-                android:textSize="16sp"
+                android:textColor="@color/white_color"
+                android:background="@drawable/background_buttons_colored"
+                android:textSize="@dimen/text_size_buttons_forms"
                 />
 
             <LinearLayout
@@ -245,6 +239,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>

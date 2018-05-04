@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.claresti.financeapp.R;
 import com.claresti.financeapp.Tools.Comunicaciones;
-import com.claresti.financeapp.Urls;
+import com.claresti.financeapp.Tools.Urls;
 import com.claresti.financeapp.UserSessionManager;
 
 import org.json.JSONException;

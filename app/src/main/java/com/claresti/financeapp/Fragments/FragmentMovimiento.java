@@ -1,39 +1,59 @@
-package com.claresti.financeapp;
+package com.claresti.financeapp.Fragments;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.claresti.financeapp.Adapters.AdapterCategories;
+import com.claresti.financeapp.Adapters.AdapterCategoriesDialog;
 import com.claresti.financeapp.Dialogs.DialogCategorias;
-import com.claresti.financeapp.Modelos.Categorias;
+import com.claresti.financeapp.Modelos.Categoria;
+import com.claresti.financeapp.R;
 import com.claresti.financeapp.Tools.Comunicaciones;
+import com.claresti.financeapp.Tools.Urls;
+import com.claresti.financeapp.UserSessionManager;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,13 +61,11 @@ import java.util.Map;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
-public class FragmentMovimiento extends Fragment {
+public class FragmentMovimiento extends Fragment implements AdapterCategoriesDialog.OnSelectedItem{
 
     private OnFragmentInteractionListener mListener;
 
-    private DialogCategorias dialogCategorias;
-    private Categorias categorias;
-
+    private Categoria categoria;
     // Declaracion de variables en el layout
     private Spinner spinerCuenta;
     private Spinner spinerAccountTransfer;
@@ -55,11 +73,15 @@ public class FragmentMovimiento extends Fragment {
     private EditText dateFechaMovimiento;
     private EditText conceptoMovimiento;
     private EditText categoriaMovimiento;
+    private ImageView iconoCategoria;
     private ImageButton calendarPicker;
     private Button btnRegistrarMovimiento;
     private TabLayout tabLayout;
     private TextView textTransfer;
     private static final String TAG = "MOVIMIENTO";
+
+    AdapterCategoriesDialog adapterCategories;
+    Dialog dialog;
 
     // Declaracion variables para el datapikerdialog
     private int ano;
@@ -75,15 +97,6 @@ public class FragmentMovimiento extends Fragment {
 
     private int flagMovimiento = 1;
 
-    private AdaptadorSpinnerCategorias.OnItemSelectedListener itemSelectedListener = new AdaptadorSpinnerCategorias.OnItemSelectedListener() {
-        @Override
-        public void itemSelected(Categorias categoria) {
-            categoriaMovimiento.setText(categoria.getNombre());
-            categorias = categoria;
-            dialogCategorias.dismiss();
-        }
-    };
-
     private Comunicaciones.ResultadosInterface resultadosInterfaceListener = new Comunicaciones.ResultadosInterface() {
         @Override
         public void mostrarDatos(JSONObject json) {
@@ -93,6 +106,36 @@ public class FragmentMovimiento extends Fragment {
         @Override
         public void setError(String mensaje) {
 
+        }
+    };
+
+    /**
+     * listener para actualizar categorias, solo los primeros resultados
+     */
+    private Comunicaciones.ResultadosInterface listenerComunicaciones = new Comunicaciones.ResultadosInterface() {
+        @Override
+        public void mostrarDatos(JSONObject json) {
+            if(json.has("categories")){
+                try {
+                    Gson gson = new Gson();
+                    final ArrayList<Categoria> categoriesArrayList = new ArrayList<Categoria>(Arrays.asList(gson.fromJson(json.getString("categories"), Categoria[].class)));
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapterCategories.setCategorias(categoriesArrayList);
+                        }
+                    });
+                } catch(JSONException jsone) {
+                    Log.e(TAG, jsone.getMessage());
+                    msg(getString(R.string.comunicaciones_error));
+                }
+            }
+        }
+
+        @Override
+        public void setError(String mensaje) {
+            Log.e(TAG, mensaje);
+            msg(mensaje);
         }
     };
 
@@ -117,6 +160,7 @@ public class FragmentMovimiento extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        session = new UserSessionManager(getActivity());
     }
 
     @Override
@@ -131,6 +175,7 @@ public class FragmentMovimiento extends Fragment {
         inputMonto = view.findViewById(R.id.input_monto);
         dateFechaMovimiento = view.findViewById(R.id.input_fecha);
         conceptoMovimiento = view.findViewById(R.id.input_concepto);
+        iconoCategoria = view.findViewById(R.id.movimiento_categoria_icono);
         btnRegistrarMovimiento = view.findViewById(R.id.btn_registrar);
         calendarPicker = view.findViewById(R.id.calendar);
         textTransfer = view.findViewById(R.id.text_cuenta_destino);
@@ -145,7 +190,6 @@ public class FragmentMovimiento extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         crearListeners();
-
     }
 
     @Override
@@ -215,33 +259,12 @@ public class FragmentMovimiento extends Fragment {
         // Llamada a funciones para llenar los spinners y crear los listenrs
         session = new UserSessionManager(getContext());
         user = session.getUserDetails();
-        Comunicaciones com = new Comunicaciones(getActivity(), resultadosInterfaceListener);
-
-        JSONObject parametro = new JSONObject();
-        try{
-            parametro.put("username",user.get(UserSessionManager.KEY_USER));
-        } catch (JSONException jsone) {
-            Log.e(TAG, jsone.getMessage());
-        }
-        Map<String, String> headersFake = new HashMap<String, String>();
-        com.peticionJSON(Urls.GETACCOUNTS, Request.Method.POST, parametro, headersFake);
-        //com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerCuenta, progreso, null);
-        //com.fillSpinnerAccount(Urls.GETACCOUNTS, paramsMovements, spinerAccountTransfer, progreso, null);
-
-        categoriaMovimiento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogCategorias = new DialogCategorias(getActivity());
-                dialogCategorias.show();
-                dialogCategorias.setOnItemSelectedListener(itemSelectedListener);
-            }
-        });
 
         //Agregamos listener para saber si el EditText de fecha tiene el focus
         dateFechaMovimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(dateFechaMovimiento.isFocused())
+                if(hasFocus)
                 {
                     setFechaMovimiento();
                 }
@@ -255,13 +278,19 @@ public class FragmentMovimiento extends Fragment {
             }
         });
 
-        //Agregamos listener para saber si el EditText de fecha tiene el focus
+        categoriaMovimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCategoriesDialog();
+            }
+        });
+
         categoriaMovimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                dialogCategorias = new DialogCategorias(getActivity());
-                dialogCategorias.show();
-                dialogCategorias.setOnItemSelectedListener(itemSelectedListener);
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    showCategoriesDialog();
+                }
             }
         });
 
@@ -284,6 +313,18 @@ public class FragmentMovimiento extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void itemSelected(Categoria item) {
+        categoria = item;
+        categoriaMovimiento.setText(categoria.getName());
+        Drawable drawable = getActivity().getResources().getDrawable(R.drawable.circular_image_view);
+        drawable.clearColorFilter();
+        ColorFilter filter = new LightingColorFilter( Color.parseColor(categoria.getCategory_color()), Color.parseColor(categoria.getCategory_color()));
+        drawable.setColorFilter(filter);
+        iconoCategoria.setBackground(drawable);
+        dialog.dismiss();
     }
 
     /**
@@ -325,7 +366,7 @@ public class FragmentMovimiento extends Fragment {
         }
         int monto = Integer.parseInt(inputMonto.getText().toString());
 
-        if(categorias == null){
+        if(categoria == null){
             categoriaMovimiento.setError(getString(R.string.error_input_vacio));
             return false;
         }
@@ -333,7 +374,7 @@ public class FragmentMovimiento extends Fragment {
         try{
             json.put("monto", monto);
             json.put("concepto", concepto);
-            json.put("categoria", categorias.getId());
+            json.put("categoria", categoria.getId());
             json.put("fecha", fecha);
         } catch(JSONException jsone) {
             Log.e(TAG, jsone.getMessage());
@@ -350,6 +391,53 @@ public class FragmentMovimiento extends Fragment {
 
             }
         }).show();
+    }
+
+    public void updateCategories(){
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+
+        Comunicaciones com = new Comunicaciones(getActivity(), listenerComunicaciones);
+
+        com.peticionJSON(
+                Urls.VIEWUSERCATEGORIES + session.getUserDetails().get(UserSessionManager.KEY_ID) + "/1",
+                Request.Method.GET,
+                new JSONObject(),
+                headers
+        );
+    }
+
+    private void showCategoriesDialog() {
+        dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_categorias);
+        if(dialog.getWindow() != null)
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+
+
+
+        RecyclerView contenido = dialog.findViewById(R.id.dialog_recycler_categorias);
+        Button buttonCancel = dialog.findViewById(R.id.dialog_categorias_button);
+        adapterCategories = new AdapterCategoriesDialog(dialog.getContext());
+        adapterCategories.setListener(this);
+        contenido.setAdapter(adapterCategories);
+        contenido.setLayoutManager(new LinearLayoutManager(getActivity()));
+        updateCategories();
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     public interface OnFragmentInteractionListener {
