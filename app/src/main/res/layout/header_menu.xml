@@ -6,7 +6,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical"
     android:gravity="bottom"
-    android:background="#216c2a"
+    android:background="@color/colorPrimary"
     android:id="@+id/l_imgFondo">
 
     <ImageView

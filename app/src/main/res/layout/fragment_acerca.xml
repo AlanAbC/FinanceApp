@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.claresti.financeapp.FragmentAcerca">
+    tools:context="com.claresti.financeapp.Fragments.FragmentAcerca">
 
     <RelativeLayout
+        android:id="@+id/contenedor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/contenedor">
+        android:background="@color/white_color"
+        >
 
         <TextView
             android:layout_width="match_parent"

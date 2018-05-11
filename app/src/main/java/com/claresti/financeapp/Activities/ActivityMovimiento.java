@@ -1,8 +1,7 @@
-package com.claresti.financeapp.Fragments;
+package com.claresti.financeapp.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -11,19 +10,16 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -56,12 +52,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
-
-
-public class FragmentMovimiento extends Fragment implements AdapterCategoriesDialog.OnSelectedItem{
-
-    private OnFragmentInteractionListener mListener;
+public class ActivityMovimiento extends AppCompatActivity implements AdapterCategoriesDialog.OnSelectedItem {
 
     private Categoria categoria;
     // Declaracion de variables en el layout
@@ -125,7 +116,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
                 try {
                     Gson gson = new Gson();
                     final ArrayList<Categoria> categoriesArrayList = new ArrayList<Categoria>(Arrays.asList(gson.fromJson(json.getString("categories"), Categoria[].class)));
-                    getActivity().runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             adapterCategories.setCategorias(categoriesArrayList);
@@ -153,7 +144,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
                     Gson gson = new Gson();
                     final ArrayList<Cuenta> arrayCuenta = new ArrayList<Cuenta>(Arrays.asList(gson.fromJson(json.getString("accounts"), Cuenta[].class)));
                     final ArrayList<Cuenta> arrayCuentaTransfer = new ArrayList<Cuenta>(Arrays.asList(gson.fromJson(json.getString("accounts"), Cuenta[].class)));
-                    getActivity().runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             adapterAccounts.setElementos(arrayCuenta);
@@ -173,74 +164,32 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         }
     };
 
-
-    public FragmentMovimiento() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment FragmentMovimiento.
-     */
-    public static FragmentMovimiento newInstance() {
-        FragmentMovimiento fragment = new FragmentMovimiento();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        session = new UserSessionManager(getActivity());
-    }
+        setContentView(R.layout.activity_movimiento);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_movimiento, container, false);
+        session = new UserSessionManager(this);
 
         // Asignacion variables layout
-        spinerCuenta = view.findViewById(R.id.spin_cuenta);
-        spinerAccountTransfer = view.findViewById(R.id.spin_accountTransfer);
-        inputMonto = view.findViewById(R.id.input_monto);
-        dateFechaMovimiento = view.findViewById(R.id.input_fecha);
-        conceptoMovimiento = view.findViewById(R.id.input_concepto);
-        iconoCategoria = view.findViewById(R.id.movimiento_categoria_icono);
-        btnRegistrarMovimiento = view.findViewById(R.id.btn_registrar);
-        calendarPicker = view.findViewById(R.id.calendar);
-        textTransfer = view.findViewById(R.id.text_cuenta_destino);
-        tabLayout = view.findViewById(R.id.tab_layout);
-        categoriaMovimiento = view.findViewById(R.id.input_categoria);
-        vista = view.findViewById(R.id.movimiento_content);
+        spinerCuenta = findViewById(R.id.spin_cuenta);
+        spinerAccountTransfer = findViewById(R.id.spin_accountTransfer);
+        inputMonto = findViewById(R.id.input_monto);
+        dateFechaMovimiento = findViewById(R.id.input_fecha);
+        conceptoMovimiento = findViewById(R.id.input_concepto);
+        iconoCategoria = findViewById(R.id.movimiento_categoria_icono);
+        btnRegistrarMovimiento = findViewById(R.id.btn_registrar);
+        calendarPicker = findViewById(R.id.calendar);
+        textTransfer = findViewById(R.id.text_cuenta_destino);
+        tabLayout = findViewById(R.id.tab_layout);
+        categoriaMovimiento = findViewById(R.id.input_categoria);
+        vista = findViewById(R.id.movimiento_content);
 
-        return view;
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         crearListeners();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /**
@@ -291,7 +240,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         dateFechaMovimiento.setText(fecha);
 
         // Llamada a funciones para llenar los spinners y crear los listenrs
-        session = new UserSessionManager(getContext());
+        session = new UserSessionManager(this);
         user = session.getUserDetails();
 
         //Agregamos listener para saber si el EditText de fecha tiene el focus
@@ -336,7 +285,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         });
 
         //Ocultar teclado al iniciar el fragment
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
 
@@ -345,11 +294,11 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
             public void onClick(View view) {
                 if(validarFormulario()){
                     progress = new DialogProgress();
-                    progress.show(getActivity().getFragmentManager(), "DialogProgress");
+                    progress.show(ActivityMovimiento.this.getFragmentManager(), "DialogProgress");
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Content-Type", "application/json");
 
-                    Comunicaciones com = new Comunicaciones(getActivity(), resultadosInterfaceListener);
+                    Comunicaciones com = new Comunicaciones(ActivityMovimiento.this, resultadosInterfaceListener);
 
                     com.peticionJSON(
                             Urls.REGISTERMOVEMENT,
@@ -361,8 +310,8 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
             }
         });
 
-        adapterAccounts = new AdaptadorSpinnerAccounts(getActivity());
-        adapterAccountsTransfer = new AdaptadorSpinnerAccounts(getActivity());
+        adapterAccounts = new AdaptadorSpinnerAccounts(this);
+        adapterAccountsTransfer = new AdaptadorSpinnerAccounts(this);
         spinerCuenta.setAdapter(adapterAccounts);
         spinerAccountTransfer.setAdapter(adapterAccountsTransfer);
 
@@ -374,7 +323,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
     public void itemSelected(Categoria item) {
         categoria = item;
         categoriaMovimiento.setText(categoria.getName());
-        Drawable drawable = getActivity().getResources().getDrawable(R.drawable.circular_image_view);
+        Drawable drawable = this.getResources().getDrawable(R.drawable.circular_image_view);
         drawable.clearColorFilter();
         ColorFilter filter = new LightingColorFilter( Color.parseColor(categoria.getCategory_color()), Color.parseColor(categoria.getCategory_color()));
         drawable.setColorFilter(filter);
@@ -388,10 +337,10 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
     private void setFechaMovimiento() {
         //Ocultamos el Teclado
         dateFechaMovimiento.setInputType(InputType.TYPE_NULL);
-        InputMethodManager inputMethodManager =  (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager =  (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(dateFechaMovimiento.getWindowToken(), 0);
 
-        DatePickerDialog dpd = new DatePickerDialog(getContext(), R.style.Calendar, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dpd = new DatePickerDialog(this, R.style.Calendar, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 if(year <= ano && month <= mes && dayOfMonth <= dia) {
@@ -467,7 +416,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
-        Comunicaciones com = new Comunicaciones(getActivity(), listenerComunicaciones);
+        Comunicaciones com = new Comunicaciones(this, listenerComunicaciones);
 
         com.peticionJSON(
                 Urls.VIEWUSERCATEGORIES + session.getUserDetails().get(UserSessionManager.KEY_ID) + "/1",
@@ -481,7 +430,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
-        Comunicaciones com = new Comunicaciones(getActivity(), listenerMovements);
+        Comunicaciones com = new Comunicaciones(this, listenerMovements);
 
         com.peticionJSON(
                 Urls.VIEWUSERACCOUNTS + session.getUserDetails().get(UserSessionManager.KEY_ID),
@@ -492,7 +441,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
     }
 
     private void showCategoriesDialog() {
-        dialog = new Dialog(getActivity());
+        dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_categorias);
         if(dialog.getWindow() != null)
@@ -506,7 +455,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         adapterCategories = new AdapterCategoriesDialog(dialog.getContext());
         adapterCategories.setListener(this);
         contenido.setAdapter(adapterCategories);
-        contenido.setLayoutManager(new LinearLayoutManager(getActivity()));
+        contenido.setLayoutManager(new LinearLayoutManager(this));
         updateCategories();
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -535,7 +484,4 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
 
     }
 
-    public interface OnFragmentInteractionListener {
-
-    }
 }

@@ -23,6 +23,7 @@ import android.view.WindowManager;
 
 import com.claresti.financeapp.Fragments.FragmentAccount;
 import com.claresti.financeapp.Fragments.FragmentAccounts;
+import com.claresti.financeapp.Fragments.FragmentAcerca;
 import com.claresti.financeapp.Fragments.FragmentCategories;
 import com.claresti.financeapp.Fragments.FragmentMovimiento;
 import com.claresti.financeapp.Fragments.CategoryFragment;

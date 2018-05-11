@@ -1,36 +1,20 @@
 package com.claresti.financeapp.Fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.claresti.financeapp.Comunications;
 import com.claresti.financeapp.Dialogs.DialogProgress;
-import com.claresti.financeapp.ObjCuenta;
-import com.claresti.financeapp.ProgressDialogDenarius;
 import com.claresti.financeapp.R;
 import com.claresti.financeapp.Tools.Comunicaciones;
 import com.claresti.financeapp.Tools.Urls;

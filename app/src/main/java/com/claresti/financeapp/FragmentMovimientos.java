@@ -24,27 +24,64 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.claresti.financeapp.Modelos.Movimiento;
+import com.claresti.financeapp.Tools.Comunicaciones;
+import com.claresti.financeapp.Tools.Urls;
+import com.claresti.financeapp.Tools.ViewLoadingDotsGrow;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FragmentMovimientos extends Fragment implements InterfaceDataTransfer, DialogAlert.DialogAlertInterface{
+public class FragmentMovimientos extends Fragment{
 
     private OnFragmentInteractionListener mListener;
 
-    //RecyclerView
-    private View parent_view;
-    //variables para carga de items y actualizaciones
-    private int lastVisibleItem, totalItemCount;
-
-    private ProgressBar centerProgress, bottomProgress;
-
+    private UserSessionManager sessionManager;
+    private static final String TAG = "MOVEMENTS";
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
-    private AdapterListSwipe mAdapter;
-    private ItemTouchHelper mItemTouchHelper;
-    private LinearLayoutManager linearLayout;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private AdapterListSwipe adapterMovimientos;
+    private ViewLoadingDotsGrow progress;
+    private View layoutContent;
 
-    private boolean showNotes = false;
+    /**
+     * listener para actualizar categorias, solo los primeros resultados
+     */
+    private Comunicaciones.ResultadosInterface listenerComunicaciones = new Comunicaciones.ResultadosInterface() {
+        @Override
+        public void mostrarDatos(JSONObject json) {
+            if(json.has("movements")){
+                try {
+                    Gson gson = new Gson();
+                    final ArrayList<Movimiento> movimientosArrayList = new ArrayList<Movimiento>(Arrays.asList(gson.fromJson(json.getString("movements"), Movimiento[].class)));
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapterMovimientos.setMovimientos(movimientosArrayList);
+                        }
+                    });
+                } catch(JSONException jsone) {
+                    Log.e(TAG, jsone.getMessage());
+                    showMessage(getString(R.string.comunicaciones_error));
+                }
+            }
+            progress.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void setError(String mensaje) {
+            Log.e(TAG, mensaje);
+            progress.setVisibility(View.GONE);
+            showMessage(mensaje);
+        }
+    };
 
     public FragmentMovimientos() {
         // Required empty public constructor
@@ -66,6 +103,7 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sessionManager = new UserSessionManager(getActivity());
     }
 
     @Override
@@ -75,17 +113,9 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
         View view = inflater.inflate(R.layout.fragment_movimientos, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_movements);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        linearLayout = (LinearLayoutManager) recyclerView.getLayoutManager();
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayoutMovements);
-        centerProgress = view.findViewById(R.id.progress_center_movements);
-        bottomProgress = view.findViewById(R.id.progress_bottom_movements);
-
-        /*//eliminamos las animaciones del recycler view
-        NoAnimationItemAnimator noAnimationItemAnimator = new NoAnimationItemAnimator();
-        recyclerView.setItemAnimator(noAnimationItemAnimator);*/
-
-
+        layoutContent = view.findViewById(R.id.layout_content);
+        progress = view.findViewById(R.id.progress_center_movements);
+        refreshLayout = view.findViewById(R.id.swipeRefreshLayoutMovements);
 
         return view;
     }
@@ -98,17 +128,19 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new AdapterListSwipe(getActivity());
-        mAdapter.setInterfaceDataTransfer(this);
-        mAdapter.updateContent();
-        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapterMovimientos = new AdapterListSwipe(getActivity());
+        recyclerView.setAdapter(adapterMovimientos);
 
-        ItemTouchHelper.Callback callback = new SwipeItemTouchHelper(mAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                updateMovements();
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
-        asignarListeners();
-        showNotes = true;
+        updateMovements();
     }
 
     @Override
@@ -128,279 +160,28 @@ public class FragmentMovimientos extends Fragment implements InterfaceDataTransf
         mListener = null;
     }
 
+    public void updateMovements(){
+        progress.setVisibility(View.VISIBLE);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
 
-    /**
-     * Interface de AdapterMovements para mostrar dialogs y asi evitar errores
-     * @param position
-     */
-    @Override
-    public void showDeleteAlert(int position, String titulo, String mensaje) {
-        DialogAlert dialogAlert = new DialogAlert(getActivity(), this);
-        dialogAlert.show();
-        dialogAlert.setTitulo(titulo);
-        dialogAlert.setMessage(mensaje);
-        dialogAlert.setId(position);
+        Comunicaciones com = new Comunicaciones(getActivity(), listenerComunicaciones);
+
+        com.peticionJSON(
+                Urls.VIEWUSERMOVEMENTS + sessionManager.getUserDetails().get(UserSessionManager.KEY_ID),
+                Request.Method.GET,
+                new JSONObject(),
+                headers
+        );
     }
 
-    @Override
-    public void showProgressBar(int state) {
-        switch (state){
-            case 0:{
-                break;
-            }
-            case 1:{
-                centerProgress.setVisibility(View.VISIBLE);
-                break;
-            }
-            case 2:{
-                bottomProgress.setVisibility(View.VISIBLE);
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void hideProgressBar(int state) {
-        switch (state){
-            case 0:{
-                break;
-            }
-            case 1:{
-                centerProgress.setVisibility(View.GONE);
-                break;
-            }
-            case 2:{
-                bottomProgress.setVisibility(View.GONE);
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void acceptDialog(int position) {
-        AdapterMovements.getInstance(getActivity(), this).deleteItem(position);
-    }
-
-    @Override
-    public void cancelDialog() {
-
-    }
-
-    @Override
-    public void showSnackbar(String mensaje) {
-        if(showNotes)Snackbar.make(getView(), mensaje, Snackbar.LENGTH_SHORT).show();
+    public void showMessage(String mensaje){
+        Snackbar.make(layoutContent, mensaje, Snackbar.LENGTH_SHORT).show();
     }
 
     /**
      * Interface de Comunicaciones, todas las vistas las maneja el Fragment, asi evitamos pasar vistas entre clases
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
-
-    /**
-     * Funcion en la que se asignaran los listener a os objetos que se requieran
-     */
-    private void asignarListeners()
-    {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayout.getItemCount();
-                lastVisibleItem = linearLayout.findLastCompletelyVisibleItemPosition();
-                if(!mAdapter.isLoading && totalItemCount == (lastVisibleItem + 1))
-                {
-                    mAdapter.loadMoreItems();
-                }
-            }
-        });
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if(!mAdapter.isLoading)
-                {
-                    mAdapter.updateContent();
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
-
-    /**
-     * Funcion que implementa la animacion del swipe to dismiss
-     *
-    public void setUpRecyclerSwipe(final View view)
-    {
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)
-        {
-            Drawable background = new ColorDrawable(getActivity().getResources().getColor(R.color.colorPrimary));
-
-            boolean isSwiped = false;
-
-            public void drawSwipedColor()
-            {
-                background = new ColorDrawable(getActivity().getResources().getColor(R.color.colorPrimary));
-            }
-
-            public void drawWhiteColor()
-            {
-                background = new ColorDrawable(Color.WHITE);
-            }
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                Log.i("MOV", viewHolder.itemView.getRight() + "");
-                return super.getSwipeDirs(recyclerView, viewHolder);
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                if(isSwiped)
-                {
-                    if(position == adapterMovements.getSwipedPosition())//se hace swipe a un movimiento swipeado :v
-                    {
-                        isSwiped = false;
-                        adapterMovements.setSwipedPosition(-1);
-                    }
-                    else//se hace swipe a un movimiento diferente al ya swipeado
-                    {
-                        adapterMovements.setSwipedPosition(position);
-                    }
-                }
-                else//Primera vez que se hace swipe a un movimiento
-                {
-                    isSwiped = true;
-                    adapterMovements.setSwipedPosition(position);
-                }
-
-            }
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                View itemView = viewHolder.itemView;
-                int position = viewHolder.getAdapterPosition();
-
-                // not sure why, but this method get's called for viewholder that are already swiped away
-                if (viewHolder.getAdapterPosition() == -1) {
-                    Toast.makeText(getActivity(), "lel", Toast.LENGTH_SHORT).show();
-                }
-
-                if(isSwiped)
-                {
-                    if(position == adapterMovements.getSwipedPosition())//se hace swipe a un movimiento swipeado :v
-                    {
-                        drawWhiteColor();
-                    }
-                    else//se hace swipe a un movimiento diferente al ya swipeado
-                    {
-                        drawSwipedColor();
-                    }
-                }
-                else//Primera vez que se hace swipe a un movimiento
-                {
-                    drawSwipedColor();
-                }
-
-
-                // draw red background
-                if(((int) dX) < 0)
-                {
-                    background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                    background.draw(c);
-                }
-                else
-                {
-                    background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + (int) dX, itemView.getBottom());
-                    background.draw(c);
-                }
-
-
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        };
-        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    /**
-     * Funcion que dibuja un fondo de color cuando un item del recycler view es deslizado
-     *
-    private void setUpAnimationDecoratorHelper() {
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-
-            // we want to cache this and not allocate anything repeatedly in the onDraw method
-            Drawable background = new ColorDrawable(Color.RED);
-
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-
-                // only if animation is in progress
-                if (parent.getItemAnimator().isRunning()) {
-
-                    // some items might be animating down and some items might be animating up to close the gap left by the removed item
-                    // this is not exclusive, both movement can be happening at the same time
-                    // to reproduce this leave just enough items so the first one and the last one would be just a little off screen
-                    // then remove one from the middle
-
-                    // find first child with translationY > 0
-                    // and last one with translationY < 0
-                    // we're after a rect that is not covered in recycler-view views at this point in time
-                    View lastViewComingDown = null;
-                    View firstViewComingUp = null;
-
-                    // this is fixed
-                    int left = 0;
-                    int right = parent.getWidth();
-
-                    // this we need to find out
-                    int top = 0;
-                    int bottom = 0;
-
-                    // find relevant translating views
-                    int childCount = parent.getLayoutManager().getChildCount();
-                    for (int i = 0; i < childCount; i++) {
-                        View child = parent.getLayoutManager().getChildAt(i);
-                        if (child.getTranslationY() < 0) {
-                            // view is coming down
-                            lastViewComingDown = child;
-                        } else if (child.getTranslationY() > 0) {
-                            // view is coming up
-                            if (firstViewComingUp == null) {
-                                firstViewComingUp = child;
-                            }
-                        }
-                    }
-
-                    if (lastViewComingDown != null && firstViewComingUp != null) {
-                        // views are coming down AND going up to fill the void
-                        top = lastViewComingDown.getBottom() + (int) lastViewComingDown.getTranslationY();
-                        bottom = firstViewComingUp.getTop() + (int) firstViewComingUp.getTranslationY();
-                    } else if (lastViewComingDown != null) {
-                        // views are going down to fill the void
-                        top = lastViewComingDown.getBottom() + (int) lastViewComingDown.getTranslationY();
-                        bottom = lastViewComingDown.getBottom();
-                    } else if (firstViewComingUp != null) {
-                        // views are coming up to fill the void
-                        top = firstViewComingUp.getTop();
-                        bottom = firstViewComingUp.getTop() + (int) firstViewComingUp.getTranslationY();
-                    }
-
-                    background.setBounds(left, top, right, bottom);
-                    background.draw(c);
-
-                }
-                super.onDraw(c, parent, state);
-            }
-
-        });
-    }
-            */
 }

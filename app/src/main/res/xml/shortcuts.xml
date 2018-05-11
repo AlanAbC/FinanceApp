@@ -1,0 +1,19 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="movement"
+        android:enabled="true"
+        android:icon="@drawable/icon_add_shortcut"
+        android:shortcutShortLabel="@string/shortLabelMovement"
+        android:shortcutLongLabel="@string/longLabelMovement"
+        android:shortcutDisabledMessage="@string/messageMovement">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.claresti.financeapp"
+            android:targetClass="com.claresti.financeapp.Activities.ActivityMovimiento" />
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <!-- Specify more shortcuts here. -->
+</shortcuts>

@@ -68,13 +68,6 @@ public class Registro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
-        //Cambiar el color en la barra de notificaciones (Solo funciona de lollipop hacia arriba)
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.white_color));
-        }
-
         // Asignacion de variables del layout
         ventana = (View)findViewById(R.id.lay_principal);
         inputNombre = findViewById(R.id.input_name);
