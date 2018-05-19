@@ -18,7 +18,7 @@ import com.claresti.financeapp.Dialogs.DialogProgress;
 import com.claresti.financeapp.R;
 import com.claresti.financeapp.Tools.Comunicaciones;
 import com.claresti.financeapp.Tools.Urls;
-import com.claresti.financeapp.UserSessionManager;
+import com.claresti.financeapp.Tools.UserSessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;

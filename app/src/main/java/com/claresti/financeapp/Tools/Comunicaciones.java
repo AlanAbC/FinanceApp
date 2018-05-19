@@ -13,9 +13,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.claresti.financeapp.R;
-import com.claresti.financeapp.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -27,6 +27,7 @@ import com.claresti.financeapp.Fragments.FragmentAcerca;
 import com.claresti.financeapp.Fragments.FragmentCategories;
 import com.claresti.financeapp.Fragments.FragmentMovimiento;
 import com.claresti.financeapp.Fragments.CategoryFragment;
+import com.claresti.financeapp.Tools.UserSessionManager;
 
 /**
  * Created by smp_3 on 04/09/2017.

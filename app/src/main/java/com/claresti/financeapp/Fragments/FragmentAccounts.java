@@ -22,7 +22,7 @@ import com.claresti.financeapp.Tools.Comunicaciones;
 import com.claresti.financeapp.Tools.Urls;
 import com.claresti.financeapp.Tools.ViewLoadingDotsGrow;
 import com.claresti.financeapp.Adapters.AdapterAccounts;
-import com.claresti.financeapp.UserSessionManager;
+import com.claresti.financeapp.Tools.UserSessionManager;
 import com.google.gson.Gson;
 
 import org.json.JSONException;

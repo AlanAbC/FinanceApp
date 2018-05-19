@@ -43,7 +43,7 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder implements SwipeItemTouchHelper.TouchViewHolder {
-        public TextView account, date, amount, concept, undo;
+        public TextView account, date, amount, concept, undo, category;
         public ImageView imageType, edit, delete;
         public View lyt_parent;
 
@@ -51,6 +51,7 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             imageType = itemView.findViewById(R.id.tipoMovimiento);
             account = itemView.findViewById(R.id.txt_cuentaMovimiento);
+            category = itemView.findViewById(R.id.txt_categoriaMovimiento);
             date = itemView.findViewById(R.id.txt_fechaMovimiento);
             amount = itemView.findViewById(R.id.txt_MontoMovimiento);
             concept = itemView.findViewById(R.id.txt_ConceptoMovimiento);
@@ -86,6 +87,7 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof OriginalViewHolder) {
             final OriginalViewHolder view = (OriginalViewHolder) holder;
             final Movimiento p = movimientos.get(position);
+
             if (p.getType() == 1) {
                 view.imageType.setImageResource(R.drawable.icono_ingreso);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color_ingreso));
@@ -96,7 +98,8 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
                 view.imageType.setImageResource(R.drawable.icono_transferencia);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color));
             }
-            view.account.setText(p.getAccount() + "");
+            view.account.setText(String.format("%d", p.getAccount()));
+            view.category.setText(String.format("%d", p.getCategory()));
             view.date.setText(p.getDate());
             view.amount.setText(String.format("$%d", p.getAmount()));
             view.concept.setText(p.getConcept());
