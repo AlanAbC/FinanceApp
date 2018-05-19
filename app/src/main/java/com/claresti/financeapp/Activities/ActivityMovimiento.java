@@ -419,7 +419,7 @@ public class ActivityMovimiento extends AppCompatActivity implements AdapterCate
         Comunicaciones com = new Comunicaciones(this, listenerComunicaciones);
 
         com.peticionJSON(
-                Urls.VIEWUSERCATEGORIES + session.getUserDetails().get(UserSessionManager.KEY_ID) + "/1",
+                Urls.VIEWUSERCATEGORIES + session.getUserDetails().get(UserSessionManager.KEY_ID),
                 Request.Method.GET,
                 new JSONObject(),
                 headers

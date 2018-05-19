@@ -171,23 +171,4 @@ public class FragmentAccounts extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
-
-    /**
-     * Funcion en la que se asignaran los listener a os objetos que se requieran
-     */
-    private void asignarListeners()
-    {
-        /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayout.getItemCount();
-                lastVisibleItem = linearLayout.findLastCompletelyVisibleItemPosition();
-                if(!AdapterMovements.isLoading && totalItemCount == (lastVisibleItem + 1))
-                {
-                    adapterMovements.loadMoreItems(bottomProgress);
-                }
-            }
-        });*/
-    }
 }

@@ -1,6 +1,11 @@
 package com.claresti.financeapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +32,9 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
     private ArrayList<Movimiento> movimientosSwiped;
 
     public AdapterListSwipe(Context context) {
-        context = context;
+        this.context = context;
         movimientos = new ArrayList<>();
+        movimientosSwiped = new ArrayList<>();
     }
 
     public void setMovimientos(ArrayList<Movimiento> movimientos){
@@ -37,14 +43,14 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder implements SwipeItemTouchHelper.TouchViewHolder {
-        public TextView type, date, amount, concept, undo;
+        public TextView account, date, amount, concept, undo;
         public ImageView imageType, edit, delete;
         public View lyt_parent;
 
         public OriginalViewHolder(View itemView) {
             super(itemView);
             imageType = itemView.findViewById(R.id.tipoMovimiento);
-            type = itemView.findViewById(R.id.txt_tipoMovimiento);
+            account = itemView.findViewById(R.id.txt_cuentaMovimiento);
             date = itemView.findViewById(R.id.txt_fechaMovimiento);
             amount = itemView.findViewById(R.id.txt_MontoMovimiento);
             concept = itemView.findViewById(R.id.txt_ConceptoMovimiento);
@@ -74,23 +80,25 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof OriginalViewHolder) {
             final OriginalViewHolder view = (OriginalViewHolder) holder;
             final Movimiento p = movimientos.get(position);
             if (p.getType() == 1) {
-                view.imageType.setImageResource(R.drawable.arrow_up);
-                view.type.setText("Ingreso");
+                view.imageType.setImageResource(R.drawable.icono_ingreso);
+                view.amount.setTextColor(context.getResources().getColor(R.color.text_color_ingreso));
             } else if(p.getType() == 2) {
-                view.imageType.setImageResource(R.drawable.arrow_down);
-                view.type.setText("Egreso");
+                view.imageType.setImageResource(R.drawable.icono_egreso);
+                view.amount.setTextColor(context.getResources().getColor(R.color.text_color_egreso));
             } else {
-                view.imageType.setImageResource(R.drawable.icon_transfer);
-                view.type.setText("Transferencia");
+                view.imageType.setImageResource(R.drawable.icono_transferencia);
+                view.amount.setTextColor(context.getResources().getColor(R.color.text_color));
             }
+            view.account.setText(p.getAccount() + "");
             view.date.setText(p.getDate());
-            view.amount.setText(p.getAmount());
+            view.amount.setText(String.format("$%d", p.getAmount()));
             view.concept.setText(p.getConcept());
 
             view.undo.setOnClickListener(new View.OnClickListener() {

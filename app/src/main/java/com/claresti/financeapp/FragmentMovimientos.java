@@ -50,6 +50,7 @@ public class FragmentMovimientos extends Fragment{
     private AdapterListSwipe adapterMovimientos;
     private ViewLoadingDotsGrow progress;
     private View layoutContent;
+    private LinearLayoutManager linearLayout;
 
     /**
      * listener para actualizar categorias, solo los primeros resultados
@@ -128,7 +129,8 @@ public class FragmentMovimientos extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayout = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayout);
         adapterMovimientos = new AdapterListSwipe(getActivity());
         recyclerView.setAdapter(adapterMovimientos);
 
@@ -137,6 +139,27 @@ public class FragmentMovimientos extends Fragment{
             public void onRefresh() {
                 updateMovements();
                 refreshLayout.setRefreshing(false);
+            }
+        });
+        /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalItemCount = linearLayout.getItemCount();
+                lastVisibleItem = linearLayout.findLastCompletelyVisibleItemPosition();
+                if(!AdapterMovements.isLoading && totalItemCount == (lastVisibleItem + 1))
+                {
+                    adapterMovements.loadMoreItems(bottomProgress);
+                }
+            }
+        });*/
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int numeroDeItems = linearLayout.getItemCount();
+                Log.i(TAG, numeroDeItems + "");
             }
         });
 

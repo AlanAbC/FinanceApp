@@ -470,7 +470,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         Comunicaciones com = new Comunicaciones(getActivity(), listenerComunicaciones);
 
         com.peticionJSON(
-                Urls.VIEWUSERCATEGORIES + session.getUserDetails().get(UserSessionManager.KEY_ID) + "/1",
+                Urls.VIEWUSERCATEGORIES + session.getUserDetails().get(UserSessionManager.KEY_ID),
                 Request.Method.GET,
                 new JSONObject(),
                 headers

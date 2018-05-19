@@ -151,7 +151,7 @@ public class FragmentCategories extends Fragment{
         Comunicaciones com = new Comunicaciones(getActivity(), listenerComunicaciones);
 
         com.peticionJSON(
-                Urls.VIEWUSERCATEGORIES + sessionManager.getUserDetails().get(UserSessionManager.KEY_ID) + "/1",
+                Urls.VIEWUSERCATEGORIES + sessionManager.getUserDetails().get(UserSessionManager.KEY_ID),
                 Request.Method.GET,
                 new JSONObject(),
                 headers

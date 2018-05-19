@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#003f00</color>
     <color name="colorPrimaryLight">#519a54</color>
     <color name="colorAccent">#003f00</color>
-    <color name="text_color">#000000</color>
+    <color name="text_color">#101010</color>
+    <color name="text_color_ingreso">#2f8b22</color>
+    <color name="text_color_egreso">#c21f1f</color>
     <color name="hint_color">#9a000000</color>
     <color name="white_color">#ffffff</color>
     <color name="red">#ff0000</color>
