@@ -1,26 +1,21 @@
 package com.claresti.financeapp.Modelos;
 
+import com.orm.SugarRecord;
+
 /**
  * Created by smp_3 on 04/04/2018.
  */
 
-public class Categoria {
-    private int id;
+public class Categoria extends SugarRecord{
+
     private String description, name, category_color;
 
-    public Categoria(int id, String description, String name, String category_color) {
-        this.id = id;
+    public Categoria(){}
+
+    public Categoria(String description, String name, String category_color) {
         this.description = description;
         this.name = name;
         this.category_color = category_color;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDescription() {

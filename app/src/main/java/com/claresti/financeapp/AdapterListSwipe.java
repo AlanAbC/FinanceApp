@@ -13,9 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.claresti.financeapp.Modelos.Categoria;
+import com.claresti.financeapp.Modelos.Cuenta;
 import com.claresti.financeapp.Modelos.Movimiento;
 import com.claresti.financeapp.Tools.Urls;
 import com.google.gson.Gson;
+import com.orm.SugarRecord;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +90,13 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof OriginalViewHolder) {
             final OriginalViewHolder view = (OriginalViewHolder) holder;
             final Movimiento p = movimientos.get(position);
-
+            Cuenta cuenta = SugarRecord.findById(Cuenta.class, p.getAccount());
+            Categoria categoria = SugarRecord.findById(Categoria.class, p.getCategory());
+            Drawable drawable = context.getResources().getDrawable(R.drawable.circular_image_view);
+            drawable.clearColorFilter();
+            ColorFilter filter = new LightingColorFilter( Color.parseColor(categoria.getCategory_color()), Color.parseColor(categoria.getCategory_color()));
+            drawable.setColorFilter(filter);
+            view.imageType.setBackground(drawable);
             if (p.getType() == 1) {
                 view.imageType.setImageResource(R.drawable.icono_ingreso);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color_ingreso));
@@ -98,8 +107,8 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
                 view.imageType.setImageResource(R.drawable.icono_transferencia);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color));
             }
-            view.account.setText(String.format("%d", p.getAccount()));
-            view.category.setText(String.format("%d", p.getCategory()));
+            view.account.setText(cuenta.getName());
+            view.category.setText(categoria.getName());
             view.date.setText(p.getDate());
             view.amount.setText(String.format("$%d", p.getAmount()));
             view.concept.setText(p.getConcept());

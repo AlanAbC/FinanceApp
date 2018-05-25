@@ -1,24 +1,18 @@
 package com.claresti.financeapp.Modelos;
 
-public class Cuenta {
-    private int id;
+import com.orm.SugarRecord;
+
+public class Cuenta extends SugarRecord{
     private String description, name, register_date;
     private double money;
 
-    public Cuenta(int id, String description, String name, String register_date, double money) {
-        this.id = id;
+    public Cuenta(){}
+
+    public Cuenta(String description, String name, String register_date, double money) {
         this.description = description;
         this.name = name;
         this.register_date = register_date;
         this.money = money;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDescription() {

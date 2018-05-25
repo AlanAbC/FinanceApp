@@ -12,13 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.claresti.financeapp.AdapterListSwipe;
 import com.claresti.financeapp.Modelos.Categoria;
-import com.claresti.financeapp.ObjMovimiento;
 import com.claresti.financeapp.R;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class AdapterCategoriesDialog extends RecyclerView.Adapter<AdapterCategoriesDialog.ViewHolderCategorias> {
     private Context context;
