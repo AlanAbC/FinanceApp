@@ -1,17 +1,23 @@
 package com.claresti.financeapp.Activities;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
@@ -24,6 +30,7 @@ import com.claresti.financeapp.Tools.Urls;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +49,11 @@ public class Registro extends AppCompatActivity {
     private JSONObject jsonObject;
     private static final String TAG = "REGISTRO";
     private DialogProgress progress;
+
+    // Declaracion variables para el datapikerdialog
+    private int ano;
+    private int mes;
+    private int dia;
 
     // Declaracion de variables bandera
     private String flagSexo;
@@ -79,6 +91,12 @@ public class Registro extends AppCompatActivity {
         radioSexo = findViewById(R.id.rg_sex);
         registrar = findViewById(R.id.btn_registrar);
 
+        // Datos para el datepikerdialog
+        Calendar c = Calendar.getInstance();
+        ano = c.get(Calendar.YEAR);
+        mes = c.get(Calendar.MONTH);
+        dia = c.get(Calendar.DAY_OF_MONTH);
+
         // Asignacion de variables bandera
         flagSexo = "1";
 
@@ -106,6 +124,24 @@ public class Registro extends AppCompatActivity {
                     Comunicaciones com = new Comunicaciones(Registro.this, resultadosListener);
                     com.peticionJSON(Urls.REGISTRO, Request.Method.POST, jsonObject, headers);
                 }
+            }
+        });
+
+        //Agregamos listener para saber si el EditText de fecha tiene el focus
+        inputFecha.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    setFechaMovimiento();
+                }
+            }
+        });
+
+        inputFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFechaMovimiento();
             }
         });
 
@@ -173,6 +209,30 @@ public class Registro extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    /**
+     * funcion encargada de establecer la fecha en el campo de fecha de movimiento y ocultar el teclado al mostrar el dialog
+     */
+    private void setFechaMovimiento() {
+        //Ocultamos el Teclado
+        inputFecha.setInputType(InputType.TYPE_NULL);
+        InputMethodManager inputMethodManager =  (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(inputFecha.getWindowToken(), 0);
+
+        DatePickerDialog dpd = new DatePickerDialog(this, R.style.Calendar, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                if(year <= ano && month <= mes && dayOfMonth <= dia) {
+                    inputFecha.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                }
+            }
+        }, ano, mes, dia);
+        dpd.show();
+        Button ok = dpd.getButton(DialogInterface.BUTTON_POSITIVE);
+        ok.setTextColor(getResources().getColor(R.color.colorAccent));
+        Button cancel = dpd.getButton(DialogInterface.BUTTON_NEGATIVE);
+        cancel.setTextColor(getResources().getColor(R.color.grey_40));
     }
 
     /**

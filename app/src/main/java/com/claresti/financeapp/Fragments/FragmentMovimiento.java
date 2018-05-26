@@ -379,6 +379,11 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         ColorFilter filter = new LightingColorFilter( Color.parseColor(categoria.getCategory_color()), Color.parseColor(categoria.getCategory_color()));
         drawable.setColorFilter(filter);
         iconoCategoria.setBackground(drawable);
+        Drawable icono = getResources().getDrawable(R.drawable.icon_categories);
+        filter = new LightingColorFilter( getComplimentColor(Color.parseColor(categoria.getCategory_color())),
+                getComplimentColor(Color.parseColor(categoria.getCategory_color())));
+        icono.setColorFilter(filter);
+        iconoCategoria.setColorFilter(filter);
         dialog.dismiss();
     }
 
@@ -534,6 +539,27 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         spinerAccountTransfer.setSelection(0);
 
     }
+
+    public static int getContrastColor(int color) {
+        double y = (299 * Color.red(color) + 587 * Color.green(color) + 114 * Color.blue(color)) / 1000;
+        return y >= 128 ? Color.BLACK : Color.WHITE;
+    }
+
+    public static int getComplimentColor(int color) {
+        // get existing colors
+        int alpha = Color.alpha(color);
+        int red = Color.red(color);
+        int blue = Color.blue(color);
+        int green = Color.green(color);
+
+        // find compliments
+        red = (~red) & 0xff;
+        blue = (~blue) & 0xff;
+        green = (~green) & 0xff;
+
+        return Color.argb(alpha, red, green, blue);
+    }
+
 
     public interface OnFragmentInteractionListener {
 

@@ -25,6 +25,8 @@
             android:layout_marginRight="8dp"
             android:layout_centerVertical="true"
             android:background="@drawable/circular_image_view"
+            android:src="@drawable/ic_add"
+            android:padding="4dp"
             />
 
         <LinearLayout

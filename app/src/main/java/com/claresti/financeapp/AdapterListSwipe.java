@@ -92,19 +92,35 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Movimiento p = movimientos.get(position);
             Cuenta cuenta = SugarRecord.findById(Cuenta.class, p.getAccount());
             Categoria categoria = SugarRecord.findById(Categoria.class, p.getCategory());
+            //color de fondo del circulo
             Drawable drawable = context.getResources().getDrawable(R.drawable.circular_image_view);
             drawable.clearColorFilter();
             ColorFilter filter = new LightingColorFilter( Color.parseColor(categoria.getCategory_color()), Color.parseColor(categoria.getCategory_color()));
             drawable.setColorFilter(filter);
             view.imageType.setBackground(drawable);
+
             if (p.getType() == 1) {
-                view.imageType.setImageResource(R.drawable.icono_ingreso);
+                Drawable icono = context.getResources().getDrawable(R.drawable.icono_categoria);
+                filter = new LightingColorFilter( getContrastColor(Color.parseColor(categoria.getCategory_color())),
+                        getContrastColor(Color.parseColor(categoria.getCategory_color())));
+                icono.setColorFilter(filter);
+                view.imageType.setColorFilter(filter);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color_ingreso));
             } else if(p.getType() == 2) {
-                view.imageType.setImageResource(R.drawable.icono_egreso);
+                Drawable icono = context.getResources().getDrawable(R.drawable.icono_egreso);
+                icono.clearColorFilter();
+                filter = new LightingColorFilter( getContrastColor(Color.parseColor(categoria.getCategory_color())),
+                        getContrastColor(Color.parseColor(categoria.getCategory_color())));
+                icono.setColorFilter(filter);
+                view.imageType.setColorFilter(filter);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color_egreso));
             } else {
-                view.imageType.setImageResource(R.drawable.icono_transferencia);
+                Drawable icono = context.getResources().getDrawable(R.drawable.icono_transferencia);
+                icono.clearColorFilter();
+                filter = new LightingColorFilter( getContrastColor(Color.parseColor(categoria.getCategory_color())),
+                        getContrastColor(Color.parseColor(categoria.getCategory_color())));
+                icono.setColorFilter(filter);
+                view.imageType.setColorFilter(filter);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color));
             }
             view.account.setText(cuenta.getName());
@@ -174,6 +190,11 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
     {
         movimientos.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public static int getContrastColor(int color) {
+        double y = (299 * Color.red(color) + 587 * Color.green(color) + 114 * Color.blue(color)) / 1000;
+        return y >= 128 ? Color.BLACK : Color.WHITE;
     }
 
 }

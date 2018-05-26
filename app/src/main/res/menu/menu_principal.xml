@@ -7,7 +7,7 @@
         <item
             android:id="@+id/opcion1"
             android:title="Nuevo Movimiento"
-            android:icon="@drawable/movimientos"/>
+            android:icon="@drawable/add_movement"/>
 
         <item
             android:id="@+id/opcion2"
@@ -17,7 +17,7 @@
         <item
             android:id="@+id/opcion3"
             android:title="Categorias"
-            android:icon="@drawable/acategoria"/>
+            android:icon="@drawable/icon_categories"/>
 
         <item
             android:id="@+id/opcion4"

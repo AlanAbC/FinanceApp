@@ -126,9 +126,11 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/icono_categoria"
-                    android:src="@drawable/calendar"
-                    android:padding="7dp"
-                    android:scaleType="centerInside"/>
+                    android:src="@drawable/icon_categories"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:tint="@color/white_color"
+                    />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_categoria"
@@ -247,8 +249,10 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/calendario"
                     android:src="@drawable/calendar"
-                    android:padding="5dp"
-                    android:scaleType="centerInside"/>
+                    android:padding="6dp"
+                    android:scaleType="centerInside"
+                    android:tint="@color/white_color"
+                    />
 
             </RelativeLayout>
 
