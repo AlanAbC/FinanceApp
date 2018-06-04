@@ -1,7 +1,8 @@
 package com.claresti.financeapp.Modelos;
 
-public class Movimiento {
-    private int id;
+import com.orm.SugarRecord;
+
+public class Movimiento extends SugarRecord{
     private int amount;
     private String concept;
     private int category;
@@ -11,8 +12,9 @@ public class Movimiento {
     private int account;
     private boolean inSwiped = false;
 
-    public Movimiento(int id, int amount, String concept, int category, int account_transfer, String date, int type, int account) {
-        this.id = id;
+    public Movimiento(){}
+
+    public Movimiento(int amount, String concept, int category, int account_transfer, String date, int type, int account) {
         this.amount = amount;
         this.concept = concept;
         this.category = category;
@@ -20,14 +22,6 @@ public class Movimiento {
         this.date = date;
         this.type = type;
         this.account = account;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getAmount() {

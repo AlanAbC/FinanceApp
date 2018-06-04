@@ -59,6 +59,10 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
         ColorFilter filter = new LightingColorFilter( Color.parseColor(categorias.get(position).getCategory_color()), Color.parseColor(categorias.get(position).getCategory_color()));
         drawable.setColorFilter(filter);
         holder.icono.setBackground(drawable);
+        filter = new LightingColorFilter( getContrastColor(Color.parseColor(categorias.get(position).getCategory_color())),
+                getContrastColor(Color.parseColor(categorias.get(position).getCategory_color())));
+        holder.icono.setColorFilter(filter);
+        holder.icono.setImageResource(R.drawable.icon_categories);
     }
 
     /**
@@ -85,5 +89,10 @@ public class AdapterCategories extends RecyclerView.Adapter<AdapterCategories.Vi
             nombre = itemView.findViewById(R.id.categorias_nombre);
             description = itemView.findViewById(R.id.categorias_descripcion);
         }
+    }
+
+    public static int getContrastColor(int color) {
+        double y = (299 * Color.red(color) + 587 * Color.green(color) + 114 * Color.blue(color)) / 1000;
+        return y >= 128 ? Color.BLACK : Color.WHITE;
     }
 }

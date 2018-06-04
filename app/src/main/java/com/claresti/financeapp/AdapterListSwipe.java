@@ -100,27 +100,22 @@ public class AdapterListSwipe extends RecyclerView.Adapter<RecyclerView.ViewHold
             view.imageType.setBackground(drawable);
 
             if (p.getType() == 1) {
-                Drawable icono = context.getResources().getDrawable(R.drawable.icono_categoria);
                 filter = new LightingColorFilter( getContrastColor(Color.parseColor(categoria.getCategory_color())),
                         getContrastColor(Color.parseColor(categoria.getCategory_color())));
-                icono.setColorFilter(filter);
                 view.imageType.setColorFilter(filter);
+                view.imageType.setImageResource(R.drawable.icono_ingreso);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color_ingreso));
             } else if(p.getType() == 2) {
-                Drawable icono = context.getResources().getDrawable(R.drawable.icono_egreso);
-                icono.clearColorFilter();
                 filter = new LightingColorFilter( getContrastColor(Color.parseColor(categoria.getCategory_color())),
                         getContrastColor(Color.parseColor(categoria.getCategory_color())));
-                icono.setColorFilter(filter);
                 view.imageType.setColorFilter(filter);
+                view.imageType.setImageResource(R.drawable.icono_egreso);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color_egreso));
             } else {
-                Drawable icono = context.getResources().getDrawable(R.drawable.icono_transferencia);
-                icono.clearColorFilter();
                 filter = new LightingColorFilter( getContrastColor(Color.parseColor(categoria.getCategory_color())),
                         getContrastColor(Color.parseColor(categoria.getCategory_color())));
-                icono.setColorFilter(filter);
                 view.imageType.setColorFilter(filter);
+                view.imageType.setImageResource(R.drawable.icono_transferencia);
                 view.amount.setTextColor(context.getResources().getColor(R.color.text_color));
             }
             view.account.setText(cuenta.getName());

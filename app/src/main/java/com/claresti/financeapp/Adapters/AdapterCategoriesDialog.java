@@ -17,6 +17,8 @@ import com.claresti.financeapp.R;
 
 import java.util.ArrayList;
 
+import static com.claresti.financeapp.Adapters.AdapterCategories.getContrastColor;
+
 public class AdapterCategoriesDialog extends RecyclerView.Adapter<AdapterCategoriesDialog.ViewHolderCategorias> {
     private Context context;
     private ArrayList<Categoria> categorias;
@@ -60,6 +62,10 @@ public class AdapterCategoriesDialog extends RecyclerView.Adapter<AdapterCategor
         ColorFilter filter = new LightingColorFilter( Color.parseColor(categorias.get(position).getCategory_color()), Color.parseColor(categorias.get(position).getCategory_color()));
         drawable.setColorFilter(filter);
         holder.icono.setBackground(drawable);
+        filter = new LightingColorFilter( getContrastColor(Color.parseColor(categorias.get(position).getCategory_color())),
+                getContrastColor(Color.parseColor(categorias.get(position).getCategory_color())));
+        holder.icono.setColorFilter(filter);
+        holder.icono.setImageResource(R.drawable.icon_categories);
     }
 
     /**

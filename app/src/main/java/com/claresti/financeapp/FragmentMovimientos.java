@@ -21,6 +21,7 @@ import com.claresti.financeapp.Tools.Urls;
 import com.claresti.financeapp.Tools.UserSessionManager;
 import com.claresti.financeapp.Tools.ViewLoadingDotsGrow;
 import com.google.gson.Gson;
+import com.orm.SugarRecord;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,12 +54,10 @@ public class FragmentMovimientos extends Fragment{
                 try {
                     Gson gson = new Gson();
                     final ArrayList<Movimiento> movimientosArrayList = new ArrayList<Movimiento>(Arrays.asList(gson.fromJson(json.getString("movements"), Movimiento[].class)));
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapterMovimientos.setMovimientos(movimientosArrayList);
-                        }
-                    });
+                    for(Movimiento movement: movimientosArrayList) {
+                        movement.save();
+                    }
+                    getLocalMovements();
                 } catch(JSONException jsone) {
                     Log.e(TAG, jsone.getMessage());
                     showMessage(getString(R.string.comunicaciones_error));
@@ -154,7 +153,7 @@ public class FragmentMovimientos extends Fragment{
             }
         });
 
-        updateMovements();
+        getLocalMovements();
     }
 
     @Override
@@ -187,6 +186,18 @@ public class FragmentMovimientos extends Fragment{
                 new JSONObject(),
                 headers
         );
+    }
+
+    public void getLocalMovements() {
+        progress.setVisibility(View.VISIBLE);
+        final ArrayList<Movimiento> movements = new ArrayList<>(SugarRecord.find(Movimiento.class, null, null, null, null, "20"));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapterMovimientos.setMovimientos(movements);
+                progress.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void showMessage(String mensaje){

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.Request;
+import com.claresti.financeapp.Modelos.Categoria;
 import com.claresti.financeapp.Modelos.Cuenta;
 import com.claresti.financeapp.R;
 import com.claresti.financeapp.Tools.Comunicaciones;
@@ -24,6 +25,7 @@ import com.claresti.financeapp.Tools.ViewLoadingDotsGrow;
 import com.claresti.financeapp.Adapters.AdapterAccounts;
 import com.claresti.financeapp.Tools.UserSessionManager;
 import com.google.gson.Gson;
+import com.orm.SugarRecord;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FragmentAccounts extends Fragment {
@@ -55,13 +58,11 @@ public class FragmentAccounts extends Fragment {
             if(json.has("accounts")){
                 try {
                     Gson gson = new Gson();
-                    final ArrayList<Cuenta> accountysArrayList = new ArrayList<Cuenta>(Arrays.asList(gson.fromJson(json.getString("accounts"), Cuenta[].class)));
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapterAccounts.setCategorias(accountysArrayList);
-                        }
-                    });
+                    final ArrayList<Cuenta> accountsArrayList = new ArrayList<Cuenta>(Arrays.asList(gson.fromJson(json.getString("accounts"), Cuenta[].class)));
+                    for(Cuenta cuenta: accountsArrayList) {
+                        cuenta.save();
+                    }
+                    getLocalAccounts();
                 } catch(JSONException jsone) {
                     Log.e(TAG, jsone.getMessage());
                     showMessage(getString(R.string.comunicaciones_error));
@@ -124,12 +125,12 @@ public class FragmentAccounts extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                updateCategories();
+                updateAccounts();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        updateCategories();
+        getLocalAccounts();
     }
 
     @Override
@@ -149,7 +150,7 @@ public class FragmentAccounts extends Fragment {
         mListener = null;
     }
 
-    public void updateCategories(){
+    public void updateAccounts(){
         progress.setVisibility(View.VISIBLE);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -162,6 +163,19 @@ public class FragmentAccounts extends Fragment {
                 new JSONObject(),
                 headers
         );
+    }
+
+    public void getLocalAccounts() {
+        progress.setVisibility(View.VISIBLE);
+        final ArrayList<Cuenta> cuentas = new ArrayList<>(SugarRecord.listAll(Cuenta.class));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapterAccounts.setCategorias(cuentas);
+                progress.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     public void showMessage(String mensaje) {

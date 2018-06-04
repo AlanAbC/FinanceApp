@@ -25,6 +25,7 @@ import com.claresti.financeapp.Fragments.FragmentAccount;
 import com.claresti.financeapp.Fragments.FragmentAccounts;
 import com.claresti.financeapp.Fragments.FragmentAcerca;
 import com.claresti.financeapp.Fragments.FragmentCategories;
+import com.claresti.financeapp.Fragments.FragmentEstadisticas;
 import com.claresti.financeapp.Fragments.FragmentMovimiento;
 import com.claresti.financeapp.Fragments.CategoryFragment;
 import com.claresti.financeapp.Tools.UserSessionManager;
@@ -40,7 +41,8 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         FragmentAccounts.OnFragmentInteractionListener,
         FragmentAcerca.OnFragmentInteractionListener,
         CategoryFragment.OnFragmentInteractionListener,
-        FragmentAccount.OnFragmentInteractionListener
+        FragmentAccount.OnFragmentInteractionListener,
+        FragmentEstadisticas.OnFragmentInteractionListener
 {
 
     private FragmentMovimiento fragmentMovimiento;
@@ -48,6 +50,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
     private FragmentAccounts fragmentAccounts;
     private FragmentCategories fragmentCategories;
     private FragmentAcerca fragmentAcerca;
+    private FragmentEstadisticas fragmentEstadisticas;
     private UserSessionManager session;
     private static final String TAGCAT = "CATEGORIA";
 
@@ -110,6 +113,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         fragmentCategories = new FragmentCategories();
         fragmentAccounts = new FragmentAccounts();
         fragmentAcerca = new FragmentAcerca();
+        fragmentEstadisticas = new FragmentEstadisticas();
         getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
         getSupportFragmentManager().beginTransaction().add(R.id.FragmentContent, fragmentMovimiento, "FragmentMovimiento").commit();
     }
@@ -148,6 +152,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         }
         else if (id == R.id.opcion5)
         {
+            transaction.replace(R.id.FragmentContent, fragmentEstadisticas);
         }
         else if (id == R.id.opcion6)
         {
@@ -241,6 +246,7 @@ public class MainDenarius  extends AppCompatActivity implements NavigationView.O
         }
         else if (id == R.id.opcion5)
         {
+            transaction.replace(R.id.FragmentContent, fragmentEstadisticas);
         }
         else if (id == R.id.opcion6)
         {

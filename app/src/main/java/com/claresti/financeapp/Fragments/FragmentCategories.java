@@ -23,6 +23,7 @@ import com.claresti.financeapp.Tools.Urls;
 import com.claresti.financeapp.Tools.ViewLoadingDotsGrow;
 import com.claresti.financeapp.Tools.UserSessionManager;
 import com.google.gson.Gson;
+import com.orm.SugarRecord;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,12 +58,10 @@ public class FragmentCategories extends Fragment{
                 try {
                     Gson gson = new Gson();
                     final ArrayList<Categoria> categoriesArrayList = new ArrayList<Categoria>(Arrays.asList(gson.fromJson(json.getString("categories"), Categoria[].class)));
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapterCategories.setCategorias(categoriesArrayList);
-                        }
-                    });
+                    for(Categoria cat: categoriesArrayList) {
+                        cat.save();
+                    }
+                    getLocalCategories();
                 } catch(JSONException jsone) {
                     Log.e(TAG, jsone.getMessage());
                     showMessage(getString(R.string.comunicaciones_error));
@@ -123,7 +122,7 @@ public class FragmentCategories extends Fragment{
             }
         });
 
-        updateCategories();
+        getLocalCategories();
     }
 
     @Override
@@ -156,6 +155,18 @@ public class FragmentCategories extends Fragment{
                 new JSONObject(),
                 headers
         );
+    }
+
+    public void getLocalCategories(){
+        progress.setVisibility(View.VISIBLE);
+        final ArrayList<Categoria> categories = new ArrayList<>(SugarRecord.listAll(Categoria.class));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapterCategories.setCategorias(categories);
+                progress.setVisibility(View.GONE);
+            }
+        });
     }
 
     public void showMessage(String mensaje){

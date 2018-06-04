@@ -46,6 +46,7 @@ import com.claresti.financeapp.Tools.Comunicaciones;
 import com.claresti.financeapp.Tools.Urls;
 import com.claresti.financeapp.Tools.UserSessionManager;
 import com.google.gson.Gson;
+import com.orm.SugarRecord;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -366,7 +367,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         spinerCuenta.setAdapter(adapterAccounts);
         spinerAccountTransfer.setAdapter(adapterAccountsTransfer);
 
-        updateMovements();
+        getLocalAccounts();
 
     }
 
@@ -482,7 +483,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         );
     }
 
-    public void updateMovements(){
+    public void updateAccounts(){
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
@@ -494,6 +495,27 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
                 new JSONObject(),
                 headers
         );
+    }
+
+    public void getLocalCategories() {
+        final ArrayList<Categoria> categories = new ArrayList<>(SugarRecord.listAll(Categoria.class));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapterCategories.setCategorias(categories);
+            }
+        });
+    }
+
+    private void getLocalAccounts() {
+        final ArrayList<Cuenta> accounts = new ArrayList<>(SugarRecord.listAll(Cuenta.class));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapterAccounts.setElementos(accounts);
+                adapterAccountsTransfer.setElementos(accounts);
+            }
+        });
     }
 
     private void showCategoriesDialog() {
@@ -512,7 +534,7 @@ public class FragmentMovimiento extends Fragment implements AdapterCategoriesDia
         adapterCategories.setListener(this);
         contenido.setAdapter(adapterCategories);
         contenido.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateCategories();
+        getLocalCategories();
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

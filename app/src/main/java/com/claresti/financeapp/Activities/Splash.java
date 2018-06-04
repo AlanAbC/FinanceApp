@@ -33,7 +33,7 @@ import java.util.Map;
 public class Splash extends AppCompatActivity {
 
     private UserSessionManager sessionManager;
-    private boolean flagAccounts = false, flagCategories = false;
+    private boolean flagAccounts = false, flagCategories = false, flagMovements = false;
 
     private final static String TAG = "Splash";
 
@@ -89,6 +89,32 @@ public class Splash extends AppCompatActivity {
         }
     };
 
+    private Comunicaciones.ResultadosInterface listenerComunicacionesMovements = new Comunicaciones.ResultadosInterface() {
+        @Override
+        public void mostrarDatos(JSONObject json) {
+            if(json.has("movements")){
+                try {
+                    Gson gson = new Gson();
+                    final ArrayList<Movimiento> movementsArrayList = new ArrayList<Movimiento>(Arrays.asList(gson.fromJson(json.getString("movements"), Movimiento[].class)));
+                    for(Movimiento movimiento: movementsArrayList) {
+                        movimiento.save();
+                    }
+                } catch(JSONException jsone) {
+                    Log.e(TAG, jsone.getMessage());
+                }
+            }
+            flagMovements = true;
+            terminado();
+        }
+
+        @Override
+        public void setError(String mensaje) {
+            Log.e(TAG, mensaje);
+            flagMovements = true;
+            terminado();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +122,7 @@ public class Splash extends AppCompatActivity {
         sessionManager = new UserSessionManager(this);
         Comunicaciones comAcc = new Comunicaciones(this, listenerComunicacionesAccounts);
         Comunicaciones comCat = new Comunicaciones(this, listenerComunicacionesCategories);
+        Comunicaciones comMov = new Comunicaciones(this, listenerComunicacionesMovements);
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         comAcc.peticionJSON(
@@ -110,10 +137,17 @@ public class Splash extends AppCompatActivity {
                 new JSONObject(),
                 headers
         );
+
+        comMov.peticionJSON(
+                Urls.VIEWUSERMOVEMENTS + sessionManager.getUserDetails().get(UserSessionManager.KEY_ID),
+                Request.Method.GET,
+                new JSONObject(),
+                headers
+        );
     }
 
     private void terminado(){
-        if(flagAccounts && flagCategories){
+        if(flagAccounts && flagCategories && flagMovements){
             CatalogosUsuario.getInstance(Splash.this);
             Intent i = new Intent(getApplicationContext(), MainDenarius.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

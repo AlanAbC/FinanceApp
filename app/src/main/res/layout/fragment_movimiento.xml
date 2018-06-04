@@ -247,9 +247,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/calendario"
-                    android:src="@drawable/calendar"
-                    android:padding="6dp"
+                    android:background="@drawable/icono_categoria"
+                    android:src="@drawable/icon_calendar"
+                    android:padding="4dp"
                     android:scaleType="centerInside"
                     android:tint="@color/white_color"
                     />

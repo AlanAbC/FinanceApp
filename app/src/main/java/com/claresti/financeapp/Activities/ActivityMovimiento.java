@@ -69,8 +69,8 @@ public class ActivityMovimiento extends AppCompatActivity implements AdapterCate
     private TextView textTransfer;
     private static final String TAG = "MOVIMIENTO";
 
-    AdapterCategoriesDialog adapterCategories;
-    Dialog dialog;
+    private AdapterCategoriesDialog adapterCategories;
+    private Dialog dialog;
 
     // Declaracion variables para el datapikerdialog
     private int ano;
@@ -172,6 +172,13 @@ public class ActivityMovimiento extends AppCompatActivity implements AdapterCate
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         session = new UserSessionManager(this);
 
         // Asignacion variables layout
@@ -188,6 +195,10 @@ public class ActivityMovimiento extends AppCompatActivity implements AdapterCate
         categoriaMovimiento = findViewById(R.id.input_categoria);
         vista = findViewById(R.id.movimiento_content);
 
+        //comprobamos que el usuario tenga una sesion iniciada
+        if(session.checkLogin()) {
+            finish();
+        }
 
         crearListeners();
     }
@@ -310,6 +321,8 @@ public class ActivityMovimiento extends AppCompatActivity implements AdapterCate
             }
         });
 
+
+
         adapterAccounts = new AdaptadorSpinnerAccounts(this);
         adapterAccountsTransfer = new AdaptadorSpinnerAccounts(this);
         spinerCuenta.setAdapter(adapterAccounts);
@@ -317,6 +330,11 @@ public class ActivityMovimiento extends AppCompatActivity implements AdapterCate
 
         updateMovements();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     @Override
